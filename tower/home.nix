@@ -3,6 +3,10 @@
   home.homeDirectory = "/home/kozko";
   home.stateVersion = "23.05";
 
+  home.sessionVariables = rec {
+    EDITOR = "nvim";
+  };
+
 ## fonts
   fonts.fontconfig.enable = true;
   
@@ -24,6 +28,9 @@
       jq
       ripgrep
       pre-commit
+      swaylock
+      (pkgs.discord.override { withOpenASAR = true; withVencord = true; })
+      qmk
   ];
 
   programs.home-manager.enable = true;
@@ -47,11 +54,13 @@
     recursive = true;
   };
 
+  home.file."${config.xdg.configHome}/nvim" = {
+    source = ./../apps/nvim;
+    recursive = true;
+  };
+
   services.syncthing = {
     enable = true;
-    # user = "kozko";
-    # dataDir = "/home/kozko/syncthing";
-    # configDir = "/home/kozko/syncthing/.config/syncthing";
   };
 
   programs.direnv = {
