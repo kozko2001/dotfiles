@@ -8,10 +8,8 @@
   
   home.packages = with pkgs; [
     (pkgs.nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
-      kitty
       syncthing
       neovim      
-      # logseq
       jq
       ripgrep
       pre-commit

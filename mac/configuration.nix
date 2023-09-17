@@ -29,13 +29,18 @@
     enable = true;
     onActivation.upgrade = false;
     onActivation.autoUpdate = false;
+    taps = ["homebrew/cask-versions"];
 # upates homebrew packages on activation,
 # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
     casks = [
       "hammerspoon"
         "logseq"
         "zoom"
+        "kitty"
         "firefox"
+        "firefox-developer-edition"
+        "keepassxc"
+        "vincelwt-chatgpt"
     ];
   };
 
@@ -50,7 +55,6 @@
   system.defaults = {
     dock = {
       autohide = true;
-      orientation = "right";
       showhidden = true;
       mineffect = "scale";
       launchanim = false;

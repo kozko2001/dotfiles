@@ -118,10 +118,11 @@ end
 -- Applications
 
 local apps = {
-  c = 'Google Chrome',
+  c = 'Firefox Developer Edition',
+  w = 'Firefox',
   -- c = 'Arc',
   f = 'Finder',
-  t = 'wezterm',
+  t = 'kitty',
   p = 'KeePassXC',
   -- s = 'Slack',
   z = 'Zoom.us',
