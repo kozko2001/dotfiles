@@ -15,3 +15,7 @@ vim.opt.rtp:prepend(lazypath)
 require("user.remap")
 require("user.config")
 require("lazy").setup("plugins")
+require("user.project").setup({debug = true})
+local term = require("user.terminal")
+term.setup({debug = true})
+
