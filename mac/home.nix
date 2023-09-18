@@ -1,4 +1,3 @@
-
 { config, pkgs, ... }: {
 
   home.stateVersion = "23.05";
@@ -84,6 +83,11 @@
 
   home.file.".hammerspoon/" = {
     source = ./../apps/hammerspoon;
+    recursive = true;
+  };
+
+  home.file.".config/kitty/" = {
+    source = ./../apps/kitty;
     recursive = true;
   };
 

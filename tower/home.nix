@@ -59,6 +59,12 @@
     recursive = true;
   };
 
+  home.file."${config.xdg.configHome}/kitty/" = {
+    source = ./../apps/kitty;
+    recursive = true;
+  };
+
+
   services.syncthing = {
     enable = true;
   };
