@@ -27,5 +27,8 @@ keepassxc-cli attachment-export ~/keepass/keepass.kdbx "digital ocean" "Oceans_i
 keepassxc-cli attachment-export ~/keepass/keepass.kdbx "digital ocean" "Oceans_id_rsa" ~/.ssh/id_rsa
 ````
 
+## test nvim config 
 
-
+```
+XDG_CONFIG_HOME=/home/kozko/tmp/dotfiles/apps  nvim .
+```

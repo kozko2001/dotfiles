@@ -2,16 +2,17 @@
 
   home.stateVersion = "23.05";
 
-## fonts
+  ## fonts
   fonts.fontconfig.enable = true;
-  
+
   home.packages = with pkgs; [
     (pkgs.nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
-      syncthing
-      neovim      
-      jq
-      ripgrep
-      pre-commit
+    syncthing
+    neovim
+    jq
+    ripgrep
+    pre-commit
+    vale
   ];
 
   programs.home-manager.enable = true;
@@ -29,7 +30,7 @@
       "*.swp"
     ];
   };
-  
+
   services.syncthing = {
     enable = true;
     # user = "kozko";
@@ -51,26 +52,26 @@
       enable = true;
       plugins = [
         "git"
-          "npm"
-          "docker"
-          "command-not-found"
-          "z"
-          "history-substring-search"
-          "rust"
-          "cargo"
+        "npm"
+        "docker"
+        "command-not-found"
+        "z"
+        "history-substring-search"
+        "rust"
+        "cargo"
       ];
     };
   };
 
   programs.starship = {
-      enable = true;
-      enableZshIntegration = true;
-      settings = {
-        aws = {
-          disabled = true;
-        };
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      aws = {
+        disabled = true;
       };
     };
+  };
   programs.bat.enable = true;
   programs.fzf.enable = true;
   programs.fzf.enableZshIntegration = true;
@@ -94,21 +95,21 @@
 
   programs.firefox.profiles =
     let settings = {
-        "browser.ctrlTab.recentlyUsedOrder" = false;
-        "browser.uidensity" = 1;
-        "browser.urlbar.update1" = true;
-        "privacy.trackingprotection.enabled" = true;
-        "privacy.trackingprotection.socialtracking.enabled" = true;
-        "privacy.trackingprotection.socialtracking.annotate.enabled" = true;
-        "services.sync.declinedEngines" = "addons,prefs";
-        "services.sync.engine.addons" = false;
-        "services.sync.engineStatusChanged.addons" = true;
-        "services.sync.engine.prefs" = false;
-        "services.sync.engineStatusChanged.prefs" = true;
-        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-        "gfx.webrender.all" = true;
-        "general.smoothScroll" = true;
-      };
+      "browser.ctrlTab.recentlyUsedOrder" = false;
+      "browser.uidensity" = 1;
+      "browser.urlbar.update1" = true;
+      "privacy.trackingprotection.enabled" = true;
+      "privacy.trackingprotection.socialtracking.enabled" = true;
+      "privacy.trackingprotection.socialtracking.annotate.enabled" = true;
+      "services.sync.declinedEngines" = "addons,prefs";
+      "services.sync.engine.addons" = false;
+      "services.sync.engineStatusChanged.addons" = true;
+      "services.sync.engine.prefs" = false;
+      "services.sync.engineStatusChanged.prefs" = true;
+      "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+      "gfx.webrender.all" = true;
+      "general.smoothScroll" = true;
+    };
     in
     {
       home = {

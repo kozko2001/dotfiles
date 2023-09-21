@@ -1,7 +1,7 @@
 return {
   {
     "ggandor/flit.nvim",
-    enabled = true,
+    enabled = false,
     dependencies = { { "ggandor/leap.nvim"} },
     keys = function()
       ---@type LazyKeys[]
@@ -16,7 +16,7 @@ return {
   {
     "folke/flash.nvim",
     event = "VeryLazy",
-    enabled = false,
+    enabled = true,
     opts = {},
     -- stylua: ignore
     keys = {

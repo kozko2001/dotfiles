@@ -7,30 +7,31 @@
     EDITOR = "nvim";
   };
 
-## fonts
+  ## fonts
   fonts.fontconfig.enable = true;
-  
+
   home.packages = with pkgs; [
     (pkgs.nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
-      firefox-wayland
-      wezterm
-      kitty
-      keepassxc
-      logseq
-      syncthing
-      neovim      
-      logseq
-      hyprland
-      wofi
-      waybar
-      mako
-      vscodium
-      jq
-      ripgrep
-      pre-commit
-      swaylock
-      (pkgs.discord.override { withOpenASAR = true; withVencord = true; })
-      qmk
+    firefox-wayland
+    wezterm
+    kitty
+    keepassxc
+    logseq
+    syncthing
+    neovim
+    logseq
+    hyprland
+    wofi
+    waybar
+    mako
+    vscodium
+    jq
+    ripgrep
+    pre-commit
+    swaylock
+    (pkgs.discord.override { withOpenASAR = true; withVencord = true; })
+    qmk
+    vale
   ];
 
   programs.home-manager.enable = true;
@@ -47,7 +48,7 @@
       "*.swp"
     ];
   };
-  
+
   ## hyprland config
   home.file."${config.xdg.configHome}/hypr" = {
     source = ./../apps/hyprland;
@@ -83,26 +84,26 @@
       enable = true;
       plugins = [
         "git"
-          "npm"
-          "docker"
-          "command-not-found"
-          "z"
-          "history-substring-search"
-          "rust"
-          "cargo"
+        "npm"
+        "docker"
+        "command-not-found"
+        "z"
+        "history-substring-search"
+        "rust"
+        "cargo"
       ];
     };
   };
 
   programs.starship = {
-      enable = true;
-      enableZshIntegration = true;
-      settings = {
-        aws = {
-          disabled = true;
-        };
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      aws = {
+        disabled = true;
       };
     };
+  };
   programs.bat.enable = true;
   programs.fzf.enable = true;
   programs.fzf.enableZshIntegration = true;
