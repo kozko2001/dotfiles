@@ -8,6 +8,7 @@
     [
       neovim
       syncthing
+      gcc
     ];
 
   # Use a custom configuration.nix location.
