@@ -32,6 +32,7 @@
     (pkgs.discord.override { withOpenASAR = true; withVencord = true; })
     qmk
     vale
+    calibre
   ];
 
   programs.home-manager.enable = true;

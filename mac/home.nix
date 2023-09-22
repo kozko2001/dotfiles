@@ -59,6 +59,7 @@
         "history-substring-search"
         "rust"
         "cargo"
+        "calibre"
       ];
     };
   };
