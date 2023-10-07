@@ -16,7 +16,7 @@ return {
   {
     "folke/flash.nvim",
     event = "VeryLazy",
-    enabled = true,
+    enabled = false,
     opts = {},
     -- stylua: ignore
     keys = {

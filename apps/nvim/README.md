@@ -40,18 +40,18 @@ Keymaps
   - `-` to go to the parent
   - by cutting and yanking you can move files between folders
 
-TreeSitter text objects
+TreeSitter with tree-surfer plugin
 =======================
-Use treesitter to make selection and movement on the code
 
-in `v` or `V` mode 
-- `af`: select outter function (around function)
-- `if`: select inner function (inside function)
+- `vn` select current node of tree sitter
+- `vx` select root node 
 
-in `n` mode - to move arround
-- `]m`/`[m` - start of next function/method
-- `]s` / `[s` - start of next scope
-- 
+- `K` and `J`: go to next and previous sibling
+- `H` and `L`: go deeper to one child, or go to the parent
+
+- `gf` `gp` `gii`: go to function, go to parameters, go to import
+- `gj`: go to all jumps
+- `Alt-n` `alt-p`: go to next previous
 
 LSP Keymaps
 ===========
