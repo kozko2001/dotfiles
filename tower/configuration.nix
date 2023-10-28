@@ -6,12 +6,13 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
   # Bootloader.
-#  boot.loader.systemd-boot.enable = true;
+  #  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "nodev";
@@ -54,10 +55,10 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.displayManager.setupCommands = ''
-      ${pkgs.xorg.xrandr}/bin/xrandr --output HDMI-A-1 --left-of DP-3
+    ${pkgs.xorg.xrandr}/bin/xrandr --output HDMI-A-1 --left-of DP-3
   '';
   # services.xserver.desktopManager.gnome.enable = true;
- # services.xserver.displayManager.sddm.enable = true;
+  # services.xserver.displayManager.sddm.enable = true;
   programs.hyprland = {
     enable = true;
   };
@@ -75,17 +76,17 @@
   sound = {
     enable = true;
     extraConfig = ''
-      pcm.!default {
-        type hw
-        card NVidia
-        device 1
-      }
-	
-      ctl.!default {
-        type hw
-        card NVidia
-        device 1
-      }
+            pcm.!default {
+              type hw
+              card NVidia
+              device 1
+            }
+      	
+            ctl.!default {
+              type hw
+              card NVidia
+              device 1
+            }
     '';
   };
   hardware.pulseaudio.enable = false;
@@ -103,22 +104,22 @@
     #media-session.enable = true;
   };
   xdg = {
-    portal = { 
+    portal = {
       enable = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-wlr
-          xdg-desktop-portal-gtk
+        xdg-desktop-portal-gtk
       ];
     };
   };
-# Enable touchpad support (enabled default in most desktopManager).
-# services.xserver.libinput.enable = true;
+  # Enable touchpad support (enabled default in most desktopManager).
+  # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kozko = {
     isNormalUser = true;
     description = "kozko";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     shell = pkgs.zsh;
   };
 
@@ -142,22 +143,23 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-     neovim
-     git
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-     gcc
-     clang
-     rustup
-  #  wget
-     rnix-lsp
-     swayidle
+    neovim
+    git
+    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    gcc
+    clang
+    rustup
+    #  wget
+    rnix-lsp
+    swayidle
+    tailscale
   ];
 
   environment.sessionVariables = rec {
     MOZ_ENABLE_WAYLAND = "1";
     NIXOS_OZONE_WL = "1";
     WLR_NO_HARDWARE_CURSORS = "1";
-    };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -196,7 +198,7 @@
   };
 
   # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
 
@@ -217,13 +219,13 @@
     open = false;
 
     # Enable the Nvidia settings menu,
-	# accessible via `nvidia-settings`.
+    # accessible via `nvidia-settings`.
     nvidiaSettings = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.latest;
   };
-  
+
   nix.gc = {
     automatic = true;
     dates = "weekly";
@@ -235,4 +237,9 @@
   };
 
   programs.zsh.enable = true;
+
+  services.tailscale.enable = true;
+  virtualisation.docker.enable = true;
+
+
 }

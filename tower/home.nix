@@ -108,4 +108,5 @@
   programs.bat.enable = true;
   programs.fzf.enable = true;
   programs.fzf.enableZshIntegration = true;
+
 }
