@@ -1,0 +1,13 @@
+[1mdiff --git a/tower/home.nix b/tower/home.nix[m
+[1mindex 3f4de5c..99e095c 100644[m
+[1m--- a/tower/home.nix[m
+[1m+++ b/tower/home.nix[m
+[36m@@ -33,6 +33,8 @@[m
+     qmk[m
+     vale[m
+     calibre[m
+[32m+[m[32m    k9s[m
+[32m+[m[32m    ollama[m
+   ];[m
+ [m
+   programs.home-manager.enable = true;[m

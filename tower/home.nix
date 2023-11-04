@@ -33,6 +33,8 @@
     qmk
     vale
     calibre
+    k9s
+    ollama
   ];
 
   programs.home-manager.enable = true;
