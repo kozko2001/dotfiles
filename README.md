@@ -32,3 +32,17 @@ keepassxc-cli attachment-export ~/keepass/keepass.kdbx "digital ocean" "Oceans_i
 ```
 XDG_CONFIG_HOME=/home/kozko/tmp/dotfiles/apps  nvim .
 ```
+## update channels
+
+since we are using flake, we need to say we want to update our flake commit to the channels
+
+```
+nix flake update
+```
+
+then we can use the normal `nixos-rebuild` but with the `--upgrade` flag added
+
+```
+sudo nixos-rebuild --flake .#tower switch --upgrade
+```
+

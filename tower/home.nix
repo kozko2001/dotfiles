@@ -1,6 +1,6 @@
 { config, pkgs, ... }: {
   imports = [
-    ./home/tmux.nix
+    ./../home/tmux.nix
   ];
 
   home.username = "kozko";

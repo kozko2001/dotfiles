@@ -9,7 +9,7 @@
     enable = true;
   };
   home.file."${config.xdg.configHome}/tmux" = {
-    source = ./../../apps/tmux;
+    source = ./../apps/tmux;
     recursive = true;
   };
 }
