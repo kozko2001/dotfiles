@@ -34,7 +34,7 @@
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.kozko = import ./tower/home.nix;
+            home-manager.users.kozko = import ./mate/home.nix;
           }
         ];
       };

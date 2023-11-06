@@ -114,6 +114,20 @@
     '';
   };
 
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+#        xdg-desktop-portal-gtk
+      ];
+    };
+  };
+
+  programs.hyprland = {
+    enable = true;
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -125,6 +139,8 @@
     rustup
     swayidle
     tailscale
+    gcc
+    rustup
   ];
 
   environment.sessionVariables = rec {
