@@ -1,4 +1,8 @@
 { config, pkgs, ... }: {
+  imports = [
+    ./home/tmux.nix
+  ];
+
   home.username = "kozko";
   home.homeDirectory = "/home/kozko";
   home.stateVersion = "23.05";
@@ -35,6 +39,7 @@
     calibre
     k9s
     ollama
+    killall
   ];
 
   programs.home-manager.enable = true;
