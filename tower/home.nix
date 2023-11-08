@@ -13,7 +13,6 @@
 
   ## fonts
   fonts.fontconfig.enable = true;
-
   home.packages = with pkgs; [
     (pkgs.nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
     firefox-wayland
@@ -38,8 +37,14 @@
     vale
     calibre
     k9s
-    ollama
     killall
+    xfce.thunar
+    unzip
+    cura
+    udiskie
+    mate.engrampa
+    htop
+    myollama
   ];
 
   programs.home-manager.enable = true;
@@ -116,4 +121,7 @@
   programs.fzf.enable = true;
   programs.fzf.enableZshIntegration = true;
 
+  services.udiskie = {
+    enable = true;
+  };
 }

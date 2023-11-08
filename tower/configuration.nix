@@ -254,5 +254,6 @@
   services.tailscale.enable = true;
   virtualisation.docker.enable = true;
 
+  services.udisks2.enable = true;
 
 }

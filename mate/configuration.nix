@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -16,7 +17,7 @@
   boot.extraModprobeConfig = ''
     options snd-intel-dspcfg dsp_driver=0
   '';
-#  boot.blacklistedKernelModules = [ "snd_hda_intel" "snd_soc_skl" ];
+  #  boot.blacklistedKernelModules = [ "snd_hda_intel" "snd_soc_skl" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "mate-laptop"; # Define your hostname.
@@ -92,7 +93,7 @@
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       firefox
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
@@ -131,11 +132,11 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    #  wget
     neovim
     git
- #   sof-firmware
+    #   sof-firmware
     rustup
     swayidle
     tailscale
@@ -186,4 +187,5 @@
   services.tailscale.enable = true;
   virtualisation.docker.enable = true;
 
+  services.udisks2.enable = true;
 }

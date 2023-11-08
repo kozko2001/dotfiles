@@ -14,41 +14,46 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, darwin}: {
+  outputs = inputs@{ self, nixpkgs, home-manager, darwin }: {
     nixosConfigurations = {
       tower = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./tower/configuration.nix
-          home-manager.nixosModules.home-manager {
+          home-manager.nixosModules.home-manager
+          {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.kozko = import ./tower/home.nix;
           }
+          { nixpkgs.overlays = [ (import ./home/overlays.nix) ]; }
         ];
       };
       mate = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./mate/configuration.nix
-          home-manager.nixosModules.home-manager {
+          home-manager.nixosModules.home-manager
+          {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.kozko = import ./mate/home.nix;
           }
+          { nixpkgs.overlays = [ (import ./home/overlays.nix) ]; }
         ];
       };
     };
     darwinConfigurations = {
-      mac = darwin.lib.darwinSystem  {
+      mac = darwin.lib.darwinSystem {
         system = "x86_64-darwin";
         modules = [
           ./mac/configuration.nix
-            home-manager.darwinModules.home-manager {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.jcoscolla = import ./mac/home.nix;
-            }
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.jcoscolla = import ./mac/home.nix;
+          }
         ];
       };
     };
