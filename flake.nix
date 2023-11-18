@@ -45,14 +45,15 @@
     };
     darwinConfigurations = {
       mac = darwin.lib.darwinSystem {
-        system = "x86_64-darwin";
+        # system = "aarch64-darwin";
+        system = "aarch64-darwin";
         modules = [
           ./mac/configuration.nix
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.jcoscolla = import ./mac/home.nix;
+            home-manager.users.jordi = import ./mac/home.nix;
           }
         ];
       };

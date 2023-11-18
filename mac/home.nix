@@ -1,5 +1,8 @@
 { config, pkgs, ... }: {
 
+  imports = [
+    ./../home/tmux.nix
+  ];
   home.stateVersion = "23.05";
 
   ## fonts
@@ -13,6 +16,9 @@
     ripgrep
     pre-commit
     vale
+    tmux
+    ripgrep
+
   ];
 
   programs.home-manager.enable = true;
@@ -21,13 +27,26 @@
   programs.git = {
     enable = true;
     userName = "Jordi Coscolla";
-    userEmail = "jordi@coscolla.net";
+    userEmail = "jordi.coscolla@spartacommodities.com";
+    includes = [
+      {
+      condition = "gitdir:~/tmp/";
+      contents = {
+        user = {
+          email = "kozko2001@gmail.com";
+        };
+        core = {
+          sshCommand = "ssh -i ~/.ssh/id_rsa";
+        };
+      };
+    }];
     ignores = [
       "target"
       ".vscode"
       ".direnv"
       "*~"
       "*.swp"
+      "shell.nix"
     ];
   };
 
@@ -48,6 +67,11 @@
     enable = true;
     enableAutosuggestions = true;
     enableVteIntegration = true;
+    initExtra = ''
+    source "$HOME/.sdkman/bin/sdkman-init.sh"
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    '';
     oh-my-zsh = {
       enable = true;
       plugins = [
@@ -60,8 +84,18 @@
         "rust"
         "cargo"
         "calibre"
+        "tmux"
       ];
     };
+
+    sessionVariables = {
+      ZSH_TMUX_AUTOSTART = "true";
+      ZSH_TMUX_AUTOCONNECT = "true";
+      ZSH_TMUX_CONFIG = "/Users/jordi/.config/tmux/tmux.conf";
+
+      NIX_AUTO_RUN = "true";
+    };
+
   };
 
   programs.starship = {
@@ -92,7 +126,6 @@
     source = ./../apps/kitty;
     recursive = true;
   };
-
 
   programs.firefox.profiles =
     let settings = {

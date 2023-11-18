@@ -33,6 +33,7 @@
     taps = [ "homebrew/cask-versions" ];
     # upates homebrew packages on activation,
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
+    brews = [ "python3" "pyenv" "docker-compose" ];
     casks = [
       "hammerspoon"
       "logseq"
@@ -41,11 +42,16 @@
       "firefox"
       "firefox-developer-edition"
       "keepassxc"
-      "vincelwt-chatgpt"
+      "dbeaver-community"
+      "pgadmin4"
+      "intellij-idea"
+      "spotify"
+      "docker"
+      "sublime-text"
     ];
   };
 
-  users.users.jcoscolla.home = "/Users/jcoscolla/";
+  users.users.jordi.home = "/Users/jordi/";
 
   # Add ability to used TouchID for sudo authentication
   security.pam.enableSudoTouchIdAuth = true;
