@@ -44,7 +44,8 @@
     udiskie
     mate.engrampa
     htop
-    myollama
+    age
+    sox
   ];
 
   programs.home-manager.enable = true;
@@ -104,8 +105,16 @@
         "history-substring-search"
         "rust"
         "cargo"
+        "tmux"
       ];
     };
+    sessionVariables = {
+      ZSH_TMUX_AUTOSTART = "true";
+      ZSH_TMUX_AUTOCONNECT = "true";
+      ZSH_TMUX_CONFIG = "/home/kozko/.config/tmux/tmux.conf";
+
+    };
+
   };
 
   programs.starship = {

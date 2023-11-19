@@ -46,3 +46,20 @@ then we can use the normal `nixos-rebuild` but with the `--upgrade` flag added
 sudo nixos-rebuild --flake .#tower switch --upgrade
 ```
 
+## Secrets
+
+I don't use secrets for the nix configuration (yet :P)
+
+But for some external programs that I want them to have access to certain API tokens etc... I do.
+
+You can encrypt with
+
+```
+age -R ~/.ssh/id_rsa.pub > apps/nvim/openai.age
+```
+
+and decrypt with...
+
+```
+age -d -i ~/.ssh/id_rsa apps/nvim/openai.age
+```

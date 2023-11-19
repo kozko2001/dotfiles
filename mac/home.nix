@@ -18,7 +18,8 @@
     vale
     tmux
     ripgrep
-
+    age
+    sox
   ];
 
   programs.home-manager.enable = true;
@@ -30,16 +31,17 @@
     userEmail = "jordi.coscolla@spartacommodities.com";
     includes = [
       {
-      condition = "gitdir:~/tmp/";
-      contents = {
-        user = {
-          email = "kozko2001@gmail.com";
+        condition = "gitdir:~/tmp/";
+        contents = {
+          user = {
+            email = "kozko2001@gmail.com";
+          };
+          core = {
+            sshCommand = "ssh -i ~/.ssh/id_rsa";
+          };
         };
-        core = {
-          sshCommand = "ssh -i ~/.ssh/id_rsa";
-        };
-      };
-    }];
+      }
+    ];
     ignores = [
       "target"
       ".vscode"
@@ -68,9 +70,9 @@
     enableAutosuggestions = true;
     enableVteIntegration = true;
     initExtra = ''
-    source "$HOME/.sdkman/bin/sdkman-init.sh"
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+      source "$HOME/.sdkman/bin/sdkman-init.sh"
+      export NVM_DIR="$HOME/.nvm"
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
     '';
     oh-my-zsh = {
       enable = true;

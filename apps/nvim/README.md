@@ -78,3 +78,13 @@ Windows
 ========
 - C-w h/j/k/l: move to pane in that direction
 - C-w w: move to previous pane
+
+Chat GPT
+========
+
+`GpExplain` explain the selection 
+`<leader> cc` toggle chat
+`<leader> co` open other chat
+`<leader> cn` create a new chat
+`GpImplement` implements the code, based on the visual selection and the comment in it
+`GpUnitTest` implements unit test of the selected code
