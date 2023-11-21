@@ -33,7 +33,7 @@
     taps = [ "homebrew/cask-versions" ];
     # upates homebrew packages on activation,
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
-    brews = [ "python3" "pyenv" "docker-compose" ];
+    brews = [ "python3" "pyenv" "docker-compose" "awscli" ];
     casks = [
       "hammerspoon"
       "logseq"
@@ -48,6 +48,7 @@
       "spotify"
       "docker"
       "sublime-text"
+      "cloudflare-warp"
     ];
   };
 
