@@ -183,6 +183,7 @@ return {
 				"yaml",
 				"rust",
 				"clojure",
+				"kotlin",
 			},
 			-- incremental_selection = {
 			--   enable = true,

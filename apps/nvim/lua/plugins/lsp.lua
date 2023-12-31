@@ -116,6 +116,7 @@ return {
 			-- (Optional) Configure lua language server for neovim
 			require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
 			require("lspconfig").tsserver.setup({})
+			require("lspconfig").kotlin_language_server.setup({})
 
 			lsp.set_server_config({
 				capabilities = {

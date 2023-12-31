@@ -45,7 +45,6 @@
     mate.engrampa
     htop
     age
-    sox
   ];
 
   programs.home-manager.enable = true;

@@ -56,6 +56,6 @@ return {
 		vim.api.nvim_set_keymap("n", "<leader>cc", ":GpChatToggle<CR>", { noremap = true, silent = true })
 
 		vim.api.nvim_set_keymap("n", "<leader>co", ":GpChatFinder<CR>", { noremap = true, silent = true })
-		vim.api.nvim_set_keymap("n", "<leader>cn", ":GpBetterChatNew popup<CR>", { noremap = true, silent = true })
+		vim.api.nvim_set_keymap("n", "<leader>cn", ":GpChatNew popup<CR>", { noremap = true, silent = true })
 	end,
 }
