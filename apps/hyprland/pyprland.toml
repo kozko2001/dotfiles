@@ -1,0 +1,33 @@
+[pyprland]
+plugins = [
+  "scratchpads",
+]
+
+[scratchpads.term]
+command = "kitty --class kitty-dropterm"
+animation = "fromTop"
+size = "75% 60%"
+max_size = "1920px 100%"
+
+[scratchpads.gpt]
+command = "firefox --name=chatgpt --no-remote -P chatgpt https://chat.openai.com/"
+animation = "fromTop"
+size = "75% 60%"
+max_size = "1920px 100%"
+lazy = true
+
+
+[scratchpads.password]
+command = "keepassxc"
+animation = "fromTop"
+size = "75% 60%"
+max_size = "1920px 100%"
+lazy = true
+
+[scratchpads.notes]
+command = "obsidian --disable-gpu"
+animation = "fromTop"
+size = "75% 60%"
+max_size = "1920px 100%"
+lazy = true
+

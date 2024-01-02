@@ -19,7 +19,6 @@
     wezterm
     kitty
     keepassxc
-    logseq
     syncthing
     neovim
     logseq
@@ -45,6 +44,12 @@
     mate.engrampa
     htop
     age
+    cliphist
+    wl-clipboard
+    hyprpaper
+    pavucontrol
+    obsidian
+    pyprland
   ];
 
   programs.home-manager.enable = true;
@@ -65,6 +70,14 @@
   ## hyprland config
   home.file."${config.xdg.configHome}/hypr" = {
     source = ./../apps/hyprland;
+    recursive = true;
+  };
+  home.file."${config.xdg.configHome}/waybar" = {
+    source = ./../apps/waybar;
+    recursive = true;
+  };
+  home.file."${config.xdg.configHome}/wofi" = {
+    source = ./../apps/wofi;
     recursive = true;
   };
 
