@@ -29,6 +29,9 @@
     enable = true;
     userName = "Jordi Coscolla";
     userEmail = "jordi.coscolla@spartacommodities.com";
+    aliases = {
+      "cbranch" = "!f() { branch_name=$(echo $1 | sed 's/[^a-zA-Z0-9_]/_/g'); git checkout -b $branch_name; }; f";
+    };
     includes = [
       {
         condition = "gitdir:~/tmp/";
@@ -74,6 +77,10 @@
       export NVM_DIR="$HOME/.nvm"
       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
       export PATH="$PATH;/Applications/IntelliJ IDEA.app/Contents/MacOS"
+
+      export PYENV_ROOT="$HOME/.pyenv"
+      [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+      eval "$(pyenv init -)"
     '';
     oh-my-zsh = {
       enable = true;
