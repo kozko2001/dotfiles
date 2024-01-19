@@ -91,6 +91,9 @@
     '';
   };
   hardware.pulseaudio.enable = false;
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.settings.General.Experimental = true;
+  hardware.bluetooth.powerOnBoot = true;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -259,5 +262,7 @@
   virtualisation.docker.enable = true;
 
   services.udisks2.enable = true;
+
+  services.blueman.enable = true;
 
 }
