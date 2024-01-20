@@ -18,8 +18,20 @@
   boot.loader.grub.device = "nodev";
   boot.loader.grub.useOSProber = true;
   boot.loader.grub.efiSupport = true;
-  networking.hostName = "kzk-tower-nixos"; # Define your hostname.
-  networking.nameservers = [ "8.8.8.8" "4.4.4.4" ];
+  networking = {
+    hostName = "kzk-tower-nixos";
+    nameservers = [ "8.8.8.8" "4.4.4.4" ];
+    defaultGateway = "192.168.1.1";
+    interfaces = {
+      enp6s0 = {
+        useDHCP = false;
+        ipv4.addresses = [{
+          address = "192.168.1.45";
+          prefixLength = 24;
+        }];
+      };
+    };
+  };
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
