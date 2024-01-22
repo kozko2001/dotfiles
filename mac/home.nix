@@ -20,6 +20,7 @@
     ripgrep
     age
     sox
+    atuin
   ];
 
   programs.home-manager.enable = true;
@@ -45,6 +46,9 @@
         };
       }
     ];
+    extraConfig = {
+      push = { autoSetupRemote = true; };
+    };
     ignores = [
       "target"
       ".vscode"
@@ -52,6 +56,7 @@
       "*~"
       "*.swp"
       "shell.nix"
+      "http-client.env.json"
     ];
   };
 
