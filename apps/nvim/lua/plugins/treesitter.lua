@@ -183,6 +183,7 @@ return {
 				"yaml",
 				"rust",
 				"clojure",
+        "svelte", 
 				"kotlin",
 			},
 			-- incremental_selection = {

@@ -67,6 +67,7 @@
     ];
   };
 
+  programs.git.difftastic.enable = true;
   ## hyprland config
   home.file."${config.xdg.configHome}/hypr" = {
     source = ./../apps/hyprland;

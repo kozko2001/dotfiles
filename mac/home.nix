@@ -60,6 +60,7 @@
     ];
   };
 
+  programs.git.difftastic.enable = true;
   services.syncthing = {
     enable = true;
     # user = "kozko";
@@ -116,8 +117,7 @@
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
-    settings = {
-    };
+    settings = { };
   };
   programs.bat.enable = true;
   programs.fzf.enable = true;
