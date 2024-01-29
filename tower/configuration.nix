@@ -284,5 +284,5 @@
   services.udisks2.enable = true;
 
   services.blueman.enable = true;
-
+  programs.ns-usbloader.enable = true;
 }

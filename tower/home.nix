@@ -52,6 +52,7 @@
     pyprland
     nodePackages.jsonlint
     p7zip
+    ns-usbloader
   ];
 
   programs.home-manager.enable = true;
