@@ -50,6 +50,8 @@
     pavucontrol
     obsidian
     pyprland
+    nodePackages.jsonlint
+    p7zip
   ];
 
   programs.home-manager.enable = true;

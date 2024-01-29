@@ -4,10 +4,8 @@ return {
 	config = function()
 		require("gp").setup({
 			openai_api_key = vim.fn.system("age -d -i ~/.ssh/id_rsa ~/.config/nvim/openai.age"),
-			chat_model = { model = "gpt-4-1106-preview", temperature = 1.1, top_p = 1 },
-			command_model = { model = "gpt-4-1106-preview", temperature = 1.1, top_p = 1 },
 			hooks = {
-				-- example of adding a custom chat command with non-default parameters
+
 				-- (configured default might be gpt-3 and sometimes you might want to use gpt-4)
 				BetterChatNew = function(gp, params)
 					local chat_model = { model = "gpt-4-1106-preview", temperature = 0.7, top_p = 1 }
@@ -56,6 +54,8 @@ return {
 		vim.api.nvim_set_keymap("n", "<leader>cc", ":GpChatToggle<CR>", { noremap = true, silent = true })
 
 		vim.api.nvim_set_keymap("n", "<leader>co", ":GpChatFinder<CR>", { noremap = true, silent = true })
-		vim.api.nvim_set_keymap("n", "<leader>cn", ":GpChatNew popup<CR>", { noremap = true, silent = true })
+		vim.api.nvim_set_keymap("n", "<leader>cn", ":GpChatNew vsplit<CR>", { noremap = true, silent = true })
+		vim.api.nvim_set_keymap("n", "<leader>ct", ":GpChatToggle<CR>", { noremap = true, silent = true })
+		vim.api.nvim_set_keymap("n", "<leader>cy", ":GpChatPaste<CR>", { noremap = true, silent = true })
 	end,
 }

@@ -175,6 +175,14 @@
     rnix-lsp
     swayidle
     tailscale
+    (retroarch.override {
+      cores = with libretro; [
+        genesis-plus-gx
+        snes9x
+        beetle-psx-hw
+        swanstation
+      ];
+    })
   ];
 
   environment.sessionVariables = rec {
