@@ -10,6 +10,8 @@
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
+  powerManagement.enable = true;
+  powerManagement.cpuFreqGovernor = "powersave";
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -19,6 +21,26 @@
   '';
   #  boot.blacklistedKernelModules = [ "snd_hda_intel" "snd_soc_skl" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  services.tlp = {
+    enable = true;
+    extraConfig = ''
+      CPU_SCALING_GOVERNOR_ON_AC=performance
+      CPU_SCALING_GOVERNOR_ON_BAT=powersave
+      SOUND_POWER_SAVE_ON_AC=0
+      SOUND_POWER_SAVE_ON_BAT=1
+
+# Runtime Power Management for PCI(e) bus devices: on=disable, auto=enable.
+# Default: on (AC), auto (BAT)
+      RUNTIME_PM_ON_AC=on
+      RUNTIME_PM_ON_BAT=auto
+
+# Battery feature drivers: 0=disable, 1=enable
+# Default: 1 (all)
+      NATACPI_ENABLE=1
+      TPACPI_ENABLE=1
+      TPSMAPI_ENABLE=1
+      '';
+  };
 
   networking.hostName = "mate-laptop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -64,6 +86,10 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.settings.General.Experimental = true;
+  hardware.bluetooth.powerOnBoot = true;
+
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -95,6 +121,10 @@
       firefox
       #  thunderbird
     ];
+    shell = pkgs.zsh;
+    openssh.authorizedKeys.keys = [
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDbP8q6UqeDNa36mnG0NfZMRks0W4N1ZxNLkDVwkw2NTJQBbwmlsEo0DZ2L13E2eiIT6dEi0f0rfDH4oYgp/z/PUg3uUp+jbS33zTcdseyxX5TapDKNxEuGL9f5rqQrsQL4snZaMAq+URy9kOIZ0oO5Br00jfdio1UWegMkIe49EAGTID5wmKgat/6ISyCzyK1fEMHETNqIEkF6Rzmw7NIB9/1hBwEP7++9X2eyILmTfUkbr5GldQJCYLH3cIT1hNqA7didwhSKeK8mLKFKuWDZG5Tw12QJsMg5mtM4ms+78WJs+kTHnZXazHlUhv1suz0ibt5bVaz1wyHw9bcjsnJoCdqvAnvrrNyKwnyH6nqfi7sGSK4sdAxZJVbwUQppAORSbrSTG7EGZVcy8Uk4qnfgm+u/uOF5oy5w5nf6Z7IBV0myVgemokvCaRn1dFlO82ZP2OpWMAWULLCN28Y8bHrWc/U1zRX3wQvHlcbHT9woFK37OkwMm6dNOvr45PNheik20Zsm0Fl1FNlUEbewrlPPJCGj+t1XQlaSUDbWzcTkUxtB6BwsKcRfy/hcRGc5oMnCUVWrkLBT/awE2zpsDX1INKaJOxt8yH+fUTdvZSkW5UaBfGcnyDBI43Jee5UTU61PgOhD8CSYYIJ1RsYU0Q0IwdVO1vXIRcZaUC6aj/gbZw== kozko@MacBook-Pro-de-Jordi.local"
+    ];
   };
 
   # Enable automatic login for the user.
@@ -107,6 +137,9 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-25.9.0"
+  ];
 
   nix = {
     package = pkgs.nixFlakes;
@@ -188,4 +221,6 @@
   virtualisation.docker.enable = true;
 
   services.udisks2.enable = true;
+  services.blueman.enable = true;
+  programs.ns-usbloader.enable = true;
 }

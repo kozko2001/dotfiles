@@ -53,6 +53,7 @@
     nodePackages.jsonlint
     p7zip
     ns-usbloader
+    fuzzel
   ];
 
   programs.home-manager.enable = true;
