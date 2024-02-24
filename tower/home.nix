@@ -54,6 +54,7 @@
     p7zip
     ns-usbloader
     fuzzel
+    lazygit
   ];
 
   programs.home-manager.enable = true;
