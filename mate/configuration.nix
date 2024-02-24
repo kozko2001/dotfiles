@@ -175,6 +175,7 @@
     tailscale
     gcc
     rustup
+    brightnessctl
   ];
 
   environment.sessionVariables = rec {
