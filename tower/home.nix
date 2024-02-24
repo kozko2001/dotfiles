@@ -97,6 +97,11 @@
     recursive = true;
   };
 
+  home.file."${config.xdg.configHome}/mako/" = {
+    source = ./../apps/mako;
+    recursive = true;
+  };
+
 
   services.syncthing = {
     enable = true;
