@@ -126,8 +126,6 @@
         "command-not-found"
         "z"
         "history-substring-search"
-        "rust"
-        "cargo"
         "tmux"
       ];
     };

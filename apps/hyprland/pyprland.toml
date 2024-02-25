@@ -1,6 +1,6 @@
 [pyprland]
 plugins = [
-  "scratchpads",
+  "scratchpads", "layout_center", "fetch_client_menu"
 ]
 
 [scratchpads.term]
@@ -31,3 +31,12 @@ size = "75% 60%"
 max_size = "1920px 100%"
 lazy = true
 
+[layout_center]
+margin = 120
+next = "movefocus r"
+prev = "movefocus l"
+next2 = "movefocus d"
+prev2 = "movefocus u"
+
+[fetch_client_menu]
+separator = " | "
