@@ -92,16 +92,11 @@
     '';
     oh-my-zsh = {
       enable = true;
+      theme = "terminalparty";
       plugins = [
         "git"
-        "npm"
-        "docker"
-        "command-not-found"
         "z"
         "history-substring-search"
-        "rust"
-        "cargo"
-        "calibre"
         "tmux"
       ];
     };
@@ -114,6 +109,21 @@
       NIX_AUTO_RUN = "true";
     };
 
+  };
+
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      window = {
+        decorations = "none";
+      };
+    	font = {
+        size = 13;
+      };
+      cursor = {
+        style = "Beam";
+      };
+    };
   };
 
   programs.starship = {
