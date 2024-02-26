@@ -17,7 +17,6 @@
     (pkgs.nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
     firefox-wayland
     wezterm
-    kitty
     keepassxc
     syncthing
     neovim

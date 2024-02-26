@@ -20,7 +20,9 @@
     ripgrep
     age
     sox
-    atuin
+    htop
+    lazygit
+    wezterm
   ];
 
   programs.home-manager.enable = true;
