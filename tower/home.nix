@@ -16,7 +16,6 @@
   home.packages = with pkgs; [
     (pkgs.nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
     firefox-wayland
-    wezterm
     keepassxc
     syncthing
     neovim
@@ -91,10 +90,6 @@
     recursive = true;
   };
 
-  home.file."${config.xdg.configHome}/kitty/" = {
-    source = ./../apps/kitty;
-    recursive = true;
-  };
 
   home.file."${config.xdg.configHome}/mako/" = {
     source = ./../apps/mako;
@@ -112,19 +107,16 @@
     enableZshIntegration = true;
   };
 
+
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
-    enableVteIntegration = true;
     oh-my-zsh = {
       enable = true;
       plugins = [
         "git"
-        "npm"
-        "docker"
         "command-not-found"
         "z"
-        "history-substring-search"
         "tmux"
       ];
     };
@@ -132,7 +124,6 @@
       ZSH_TMUX_AUTOSTART = "true";
       ZSH_TMUX_AUTOCONNECT = "true";
       ZSH_TMUX_CONFIG = "/home/kozko/.config/tmux/tmux.conf";
-
     };
 
   };

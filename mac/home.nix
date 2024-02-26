@@ -22,7 +22,6 @@
     sox
     htop
     lazygit
-    wezterm
   ];
 
   programs.home-manager.enable = true;
@@ -145,6 +144,7 @@
     source = ./../apps/hammerspoon;
     recursive = true;
   };
+
 
   home.file.".config/kitty/" = {
     source = ./../apps/kitty;
