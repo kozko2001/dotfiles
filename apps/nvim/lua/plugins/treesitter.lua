@@ -8,17 +8,6 @@ return {
 			local optsWithDescription = function(desc)
 				return { noremap = true, silent = true, desc = desc }
 			end
-			-- Normal Mode Swapping:
-			-- Swap The Master Node relative to the cursor with it's siblings, Dot Repeatable
-			vim.keymap.set("n", "vU", function()
-				vim.opt.opfunc = "v:lua.STSSwapUpNormal_Dot"
-				return "g@l"
-			end, { silent = true, expr = true })
-
-			vim.keymap.set("n", "vD", function()
-				vim.opt.opfunc = "v:lua.STSSwapDownNormal_Dot"
-				return "g@l"
-			end, { silent = true, expr = true })
 
 			-- -- Swap Current Node at the Cursor with it's siblings, Dot Repeatable
 			-- vim.keymap.set("n", "vd", function()
@@ -47,8 +36,8 @@ return {
 			vim.keymap.set("x", "L", "<cmd>STSSelectChildNode<cr>", opts)
 
 			-- Swapping Nodes in Visual Mode
-			vim.keymap.set("x", "<A-j>", "<cmd>STSSwapNextVisual<cr>", opts)
 			vim.keymap.set("x", "<A-k>", "<cmd>STSSwapPrevVisual<cr>", opts)
+			vim.keymap.set("x", "<A-j>", "<cmd>STSSwapNextVisual<cr>", opts)
 
 			-- Syntax Tree Surfer V2 Mappings
 			-- Targeted Jump with virtual_text

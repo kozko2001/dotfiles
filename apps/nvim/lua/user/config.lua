@@ -44,3 +44,9 @@ vim.opt.laststatus = 3
 vim.opt.completeopt = "menuone,preview"
 
 vim.g.maplocalleader = ","
+
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+
+-- Show which line your cursor is on
+vim.opt.cursorline = true

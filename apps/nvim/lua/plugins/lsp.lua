@@ -27,6 +27,10 @@ return {
 			},
 			{ "hrsh7th/cmp-buffer" },
 			{ "hrsh7th/cmp-path" },
+			{ "hrsh7th/cmp-nvim-lsp" },
+      {
+            'saadparwaiz1/cmp_luasnip',
+      }
 		},
 		config = function()
 			-- Here is where you configure the autocompletion settings.
@@ -40,6 +44,7 @@ return {
 			local cmp_action = require("lsp-zero.cmp").action()
 
 			cmp.setup({
+        completion = { completeopt = 'menu,menuone,noinsert' },
 				sources = {
 					{ name = "path" },
 					{ name = "nvim_lsp" },
