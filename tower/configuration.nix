@@ -278,7 +278,7 @@
 
   programs.zsh.enable = true;
 
-  services.tailscale.enable = true;
+  services.tailscale.enable = false;
   virtualisation.docker.enable = true;
 
   services.udisks2.enable = true;
