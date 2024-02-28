@@ -107,6 +107,21 @@
     enableZshIntegration = true;
   };
 
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      window = {
+        decorations = "none";
+      };
+      font = {
+        size = 13;
+      };
+      cursor = {
+        style = "Beam";
+      };
+    };
+  };
+
 
   programs.zsh = {
     enable = true;
