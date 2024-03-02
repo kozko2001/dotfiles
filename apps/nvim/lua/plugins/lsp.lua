@@ -28,9 +28,9 @@ return {
 			{ "hrsh7th/cmp-buffer" },
 			{ "hrsh7th/cmp-path" },
 			{ "hrsh7th/cmp-nvim-lsp" },
-      {
-            'saadparwaiz1/cmp_luasnip',
-      }
+			{
+				"saadparwaiz1/cmp_luasnip",
+			},
 		},
 		config = function()
 			-- Here is where you configure the autocompletion settings.
@@ -44,7 +44,7 @@ return {
 			local cmp_action = require("lsp-zero.cmp").action()
 
 			cmp.setup({
-        completion = { completeopt = 'menu,menuone,noinsert' },
+				completion = { completeopt = "menu,menuone,noinsert" },
 				sources = {
 					{ name = "path" },
 					{ name = "nvim_lsp" },
@@ -122,6 +122,7 @@ return {
 			require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
 			require("lspconfig").tsserver.setup({})
 			require("lspconfig").svelte.setup({})
+			require("lspconfig").pyright.setup({})
 			require("lspconfig").kotlin_language_server.setup({})
 
 			lsp.set_server_config({

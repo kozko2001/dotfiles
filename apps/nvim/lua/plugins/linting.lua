@@ -2,7 +2,7 @@ return {
 	"mfussenegger/nvim-lint",
 	config = function()
 		require("lint").linters_by_ft = {
-			python = { "mypy", "flake8" },
+			python = { "mypy", "ruff" },
 			nix = { "nix" },
 			json = { "jsonlint" },
 		}
