@@ -25,6 +25,7 @@
     interfaces = {
       enp6s0 = {
         useDHCP = false;
+        mtu = 1400;
         ipv4.addresses = [{
           address = "192.168.1.45";
           prefixLength = 24;
@@ -66,12 +67,12 @@
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.displayManager.setupCommands = ''
-    ${pkgs.xorg.xrandr}/bin/xrandr --output HDMI-A-1 --left-of DP-3
-  '';
-  # services.xserver.desktopManager.gnome.enable = true;
-  # services.xserver.displayManager.sddm.enable = true;
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.displayManager.setupCommands = ''
+  #   ${pkgs.xorg.xrandr}/bin/xrandr --output HDMI-A-1 --left-of DP-3
+  # '';
+  # services.xserver.desktopManager.plasma6.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
   programs.hyprland = {
     enable = true;
   };
@@ -152,9 +153,6 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-25.9.0"
-  ];
   nix = {
     package = pkgs.nixFlakes;
     extraOptions = ''
@@ -183,6 +181,8 @@
         swanstation
       ];
     })
+    vivaldi
+    vivaldi-ffmpeg-codecs
   ];
 
   environment.sessionVariables = rec {
