@@ -126,12 +126,14 @@
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
+    initExtra = ''
+      eval "$(zoxide init zsh)"
+    '';
     oh-my-zsh = {
       enable = true;
       plugins = [
         "git"
         "command-not-found"
-        "z"
         "tmux"
       ];
     };

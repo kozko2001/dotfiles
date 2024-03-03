@@ -88,13 +88,13 @@
       export PYENV_ROOT="$HOME/.pyenv"
       [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
       eval "$(pyenv init -)"
+      eval "$(zoxide init zsh)"
     '';
     oh-my-zsh = {
       enable = true;
       theme = "terminalparty";
       plugins = [
         "git"
-        "z"
         "history-substring-search"
         "tmux"
       ];
@@ -116,7 +116,7 @@
       window = {
         decorations = "none";
       };
-    	font = {
+      font = {
         size = 13;
       };
       cursor = {
