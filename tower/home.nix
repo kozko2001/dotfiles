@@ -1,6 +1,7 @@
 { config, pkgs, ... }: {
   imports = [
     ./../home/tmux.nix
+    ./../home/alacritty.nix
   ];
 
   home.username = "kozko";
@@ -14,7 +15,6 @@
   ## fonts
   fonts.fontconfig.enable = true;
   home.packages = with pkgs; [
-    (pkgs.nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
     firefox-wayland
     keepassxc
     syncthing
@@ -105,21 +105,6 @@
     enable = true;
     nix-direnv.enable = true;
     enableZshIntegration = true;
-  };
-
-  programs.alacritty = {
-    enable = true;
-    settings = {
-      window = {
-        decorations = "none";
-      };
-      font = {
-        size = 13;
-      };
-      cursor = {
-        style = "Beam";
-      };
-    };
   };
 
 
