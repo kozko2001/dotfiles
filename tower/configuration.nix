@@ -170,7 +170,7 @@
     clang
     rustup
     #  wget
-    rnix-lsp
+    # rnix-lsp
     swayidle
     tailscale
     (retroarch.override {
@@ -274,6 +274,7 @@
 
   programs.steam = {
     enable = true;
+    gamescopeSession.enable = true;
   };
 
   programs.zsh.enable = true;
