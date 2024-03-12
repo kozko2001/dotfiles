@@ -1,6 +1,6 @@
 { pkgs, config, ... }: {
   home.packages = with pkgs; [
-    (pkgs.nerdfonts.override { fonts = [ "Iosevka" ]; })
+    (pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })
     ];
   programs.alacritty = {
     enable = true;
@@ -10,9 +10,11 @@
       };
       font = {
         size = 13;
-        normal.family = "Iosevka NF";
-        bold.family = "Iosevka NF";
-        italic.family = "Iosevka NF";
+        normal.family = "FiraCode Nerd Font Propo";
+        normal.style = "Regular";
+        bold.family = "FiraCode Nerd Font Propo";
+        bold.style = "Bold";
+        italic.family = "FiraCode Nerd Font Propo";
       };
       cursor = {
         style = "Beam";
