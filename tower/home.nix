@@ -53,6 +53,7 @@
     ns-usbloader
     fuzzel
     lazygit
+    floorp
   ];
 
   programs.home-manager.enable = true;

@@ -230,4 +230,9 @@
   services.udisks2.enable = true;
   services.blueman.enable = true;
   programs.ns-usbloader.enable = true;
+  programs.steam = {
+    enable = true;
+    gamescopeSession.enable = true;
+  };
+
 }
