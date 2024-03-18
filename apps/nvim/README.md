@@ -61,7 +61,7 @@ LSP Keymaps
 - `gD`: jump to declaration -- not all servers implements this
 - `gi`: list all implementation for the symbol in cursor
 - `go`: jump to the definition of the type of the symbol under cursor
-- `gr`: list references
+- `gr`: listeferences
 - `gs`: display signature
 - `F2`: rename references
 - `F3`: format current buffer
@@ -88,3 +88,9 @@ Chat GPT
 `<leader> cn` create a new chat
 `GpImplement` implements the code, based on the visual selection and the comment in it
 `GpUnitTest` implements unit test of the selected code
+`GpBetterChatBetter` uses chat gpt4 
+
+Undo
+====
+
+- `<Space> u` -> undo tree
