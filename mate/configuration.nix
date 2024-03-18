@@ -12,12 +12,10 @@
     ];
   powerManagement.enable = true;
   powerManagement.cpuFreqGovernor = "powersave";
-
-  swapDevices = [ 
-  {
-    device = "/var/lib/swapfile";
-    size = 16 * 1024;
-  }];
+services.logind.lidSwitch = "hibernate";
+services.logind.extraConfig = ''
+  HandleLidSwitchDocked=ignore
+'';
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
