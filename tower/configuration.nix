@@ -181,8 +181,6 @@
         swanstation
       ];
     })
-    vivaldi
-    vivaldi-ffmpeg-codecs
   ];
 
   environment.sessionVariables = rec {

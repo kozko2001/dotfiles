@@ -54,6 +54,7 @@
     fuzzel
     lazygit
     floorp
+    heroic
   ];
 
   programs.home-manager.enable = true;
