@@ -32,7 +32,6 @@
     (pkgs.discord.override { withOpenASAR = true; withVencord = true; })
     qmk
     vale
-    calibre
     k9s
     killall
     xfce.thunar
@@ -55,6 +54,8 @@
     lazygit
     floorp
     heroic
+    (pkgs.ollama.override
+      { acceleration = "cuda"; })
   ];
 
   programs.home-manager.enable = true;
