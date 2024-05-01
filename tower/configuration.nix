@@ -173,14 +173,16 @@
     # rnix-lsp
     swayidle
     tailscale
-    (retroarch.override {
-      cores = with libretro; [
-        genesis-plus-gx
-        snes9x
-        beetle-psx-hw
-        swanstation
-      ];
-    })
+    # (retroarch.override {
+    #   cores = with libretro; [
+    #     genesis-plus-gx
+    #     snes9x
+    #     beetle-psx-hw
+    #     swanstation
+    #   ];
+    # })
+    mangohud
+    protonup
   ];
 
   environment.sessionVariables = rec {
@@ -274,6 +276,7 @@
     enable = true;
     gamescopeSession.enable = true;
   };
+  programs.gamemode.enable = true;
 
   programs.zsh.enable = true;
 
