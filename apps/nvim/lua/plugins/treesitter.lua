@@ -171,8 +171,9 @@ return {
 				"vimdoc",
 				"yaml",
 				"rust",
+				"elixir",
 				"clojure",
-        "svelte", 
+				"svelte",
 				"kotlin",
 			},
 			-- incremental_selection = {

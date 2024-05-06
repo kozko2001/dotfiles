@@ -123,7 +123,9 @@ return {
 			require("lspconfig").tsserver.setup({})
 			require("lspconfig").svelte.setup({})
 			require("lspconfig").pyright.setup({})
-			require("lspconfig").kotlin_language_server.setup({})
+			require("lspconfig").elixirls.setup({
+				cmd = { "elixir-ls" },
+			})
 
 			lsp.set_server_config({
 				capabilities = {
