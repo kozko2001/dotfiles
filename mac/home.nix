@@ -26,6 +26,9 @@
 
   programs.home-manager.enable = true;
 
+  home.sessionVariables = rec {
+    EDITOR = "nvim";
+  };
 
   programs.git = {
     enable = true;
