@@ -20,7 +20,6 @@
     syncthing
     neovim
     logseq
-    hyprland
     wofi
     waybar
     mako
@@ -36,7 +35,7 @@
     killall
     xfce.thunar
     unzip
-    cura
+    # cura
     udiskie
     mate.engrampa
     htop
@@ -54,8 +53,8 @@
     lazygit
     floorp
     heroic
-    (pkgs.ollama.override
-      { acceleration = "cuda"; })
+    # (pkgs.ollama.override
+    #   { acceleration = "cuda"; })
   ];
 
   programs.home-manager.enable = true;
@@ -148,5 +147,11 @@
 
   services.udiskie = {
     enable = true;
+  };
+  dconf.settings = {
+    "org/virt-manager/virt-manager/connections" = {
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
+    };
   };
 }

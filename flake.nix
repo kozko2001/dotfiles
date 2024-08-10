@@ -12,9 +12,16 @@
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    # hyprland.inputs.nixpkgs.follows = "nixpkgs-unstable";
+# # hypridle.url = "github:hyprwm/hypridle";
+# # hypridle.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    waybar.url = "github:Alexays/Waybar";
+#     waybar.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, darwin }: {
+  # outputs = inputs@{ self, nixpkgs, home-manager, darwin, hyprland, waybar }: {
+  outputs = {nixpkgs, home-manager, darwin, ...} @ inputs: {
     nixosConfigurations = {
       tower = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -31,6 +38,7 @@
       };
       mate = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit inputs; }; # this is the important part
         modules = [
           ./mate/configuration.nix
           home-manager.nixosModules.home-manager

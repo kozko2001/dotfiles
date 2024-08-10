@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, input, ... }:
 
 {
   imports =
@@ -74,6 +74,7 @@
   # services.xserver.desktopManager.plasma6.enable = true;
   services.xserver.displayManager.sddm.enable = true;
   programs.hyprland = {
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     enable = true;
   };
 

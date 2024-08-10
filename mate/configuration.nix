@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports =
@@ -21,8 +21,9 @@ services.logind.extraConfig = ''
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.extraModprobeConfig = ''
-    options snd-intel-dspcfg dsp_driver=0
+options snd_soc_sof_es8336 quirk=0x20
   '';
+# other quirks 0xe0 0xb0 0xa0 0x40 080 0x81 0x82
   #  boot.blacklistedKernelModules = [ "snd_hda_intel" "snd_soc_skl" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   services.tlp = {
@@ -95,15 +96,15 @@ services.logind.extraConfig = ''
   hardware.bluetooth.powerOnBoot = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
-  #hardware.pulseaudio.package = pkgs.pulseaudioFull;
+  # sound.enable = true;
+  # hardware.pulseaudio.enable = true;
+  # hardware.pulseaudio.package = pkgs.pulseaudioFull;
   hardware.enableAllFirmware = true;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
+    alsa.enable = false;
+    # alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
@@ -120,7 +121,7 @@ services.logind.extraConfig = ''
   users.users.kozko = {
     isNormalUser = true;
     description = "kozko";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" ];
     packages = with pkgs; [
       firefox
       #  thunderbird
@@ -142,7 +143,7 @@ services.logind.extraConfig = ''
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
-    "electron-25.9.0"
+    "electron-27.3.11"
   ];
 
   nix = {
@@ -164,6 +165,7 @@ services.logind.extraConfig = ''
 
   programs.hyprland = {
     enable = true;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
   };
 
   # List packages installed in system profile. To search, run:
@@ -173,13 +175,14 @@ services.logind.extraConfig = ''
     #  wget
     neovim
     git
-    #   sof-firmware
+    sof-firmware
     rustup
     swayidle
     tailscale
     gcc
     rustup
     brightnessctl
+    alsa-utils
   ];
 
   environment.sessionVariables = rec {
@@ -225,12 +228,33 @@ services.logind.extraConfig = ''
   services.tailscale.enable = true;
   virtualisation.docker.enable = true;
 
+  ## virt-manager https://nixos.wiki/wiki/Virt-manager
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
+
   services.udisks2.enable = true;
   services.blueman.enable = true;
   programs.ns-usbloader.enable = true;
   programs.steam = {
     enable = true;
     gamescopeSession.enable = true;
+  };
+  systemd.user.services.kzkaudio= {
+    description = "configure audio correctly";
+    serviceConfig.PassEnvironment = "DISPLAY";
+    script = ''
+      ${pkgs.alsaUtils}/bin/amixer cset name='Headphone Switch' on
+      ${pkgs.alsaUtils}/bin/amixer cset name='Speaker Switch' on
+      ${pkgs.alsaUtils}/bin/amixer cset name='Headphone Playback Volume' 10,10
+      ${pkgs.alsaUtils}/bin/amixer cset name='Right Headphone Mixer Right DAC Switch' on
+      ${pkgs.alsaUtils}/bin/amixer cset name='Left Headphone Mixer Left DAC Switch' on
+      ${pkgs.alsaUtils}/bin/amixer cset name='DAC Playback Volume' 999,999
+      ${pkgs.alsaUtils}/bin/amixer cset name='Headphone Mixer Volume' 999,999
+
+      ${pkgs.alsaUtils}/bin/amixer sset "Dmic0" 70
+      ${pkgs.alsaUtils}/bin/amixer sset "Dmic1 2nd" 70
+    '';
+    wantedBy = [ "default.target" ]; # starts after login
   };
 
 }
