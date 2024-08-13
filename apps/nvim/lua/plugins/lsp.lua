@@ -126,6 +126,11 @@ return {
 			require("lspconfig").elixirls.setup({
 				cmd = { "elixir-ls" },
 			})
+			require("lspconfig").clojure_lsp.setup({
+				cmd = { "clojure-lsp" },
+			})
+
+			require("lspconfig").ocamllsp.setup({})
 
 			lsp.set_server_config({
 				capabilities = {

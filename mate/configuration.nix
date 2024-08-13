@@ -12,10 +12,11 @@
     ];
   powerManagement.enable = true;
   powerManagement.cpuFreqGovernor = "powersave";
-services.logind.lidSwitch = "hibernate";
-services.logind.extraConfig = ''
-  HandleLidSwitchDocked=ignore
-'';
+  services.logind.lidSwitch = "hibernate";
+  services.logind.extraConfig = ''
+    HandleLidSwitchDocked=ignore
+  '';
+  services.upower.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -26,6 +27,12 @@ options snd_soc_sof_es8336 quirk=0x20
 # other quirks 0xe0 0xb0 0xa0 0x40 080 0x81 0x82
   #  boot.blacklistedKernelModules = [ "snd_hda_intel" "snd_soc_skl" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernel.sysctl = {
+    "vm.dirty_writeback_centisecs" =  1500;
+    "vm.laptop_mode" =  5;
+    "vm.swappiness" = 1;
+  };
+
   services.tlp = {
     enable = true;
     extraConfig = ''
