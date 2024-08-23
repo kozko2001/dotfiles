@@ -66,7 +66,6 @@ return {
 		dependencies = {
 			{ "hrsh7th/cmp-nvim-lsp" },
 			{ "williamboman/mason-lspconfig.nvim" },
-			{ "simrat39/rust-tools.nvim" },
 			{
 				"williamboman/mason.nvim",
 				build = function()
@@ -116,8 +115,6 @@ return {
 				lsp.default_keymaps({ buffer = bufnr })
 			end)
 
-			lsp.skip_server_setup({ "rust_analyzer" })
-
 			-- (Optional) Configure lua language server for neovim
 			require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
 			require("lspconfig").tsserver.setup({})
@@ -143,16 +140,6 @@ return {
 				},
 			})
 			lsp.setup()
-
-			local rt = require("rust-tools")
-			rt.setup({
-				server = {
-					on_attach = function(_, bufnr)
-						-- Code action groups
-						vim.keymap.set("n", "<Leader>ca", rt.code_action_group.code_action_group, { buffer = bufnr })
-					end,
-				},
-			})
 		end,
 	},
 }

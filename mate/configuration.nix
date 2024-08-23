@@ -12,7 +12,10 @@
     ];
   powerManagement.enable = true;
   powerManagement.cpuFreqGovernor = "powersave";
-  services.logind.lidSwitch = "hibernate";
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=300
+  '';
+  services.logind.lidSwitch = "suspend-then-hibernate";
   services.logind.extraConfig = ''
     HandleLidSwitchDocked=ignore
   '';
@@ -33,26 +36,26 @@ options snd_soc_sof_es8336 quirk=0x20
     "vm.swappiness" = 1;
   };
 
-  services.tlp = {
-    enable = true;
-    extraConfig = ''
-      CPU_SCALING_GOVERNOR_ON_AC=performance
-      CPU_SCALING_GOVERNOR_ON_BAT=powersave
-      SOUND_POWER_SAVE_ON_AC=0
-      SOUND_POWER_SAVE_ON_BAT=1
-
-# Runtime Power Management for PCI(e) bus devices: on=disable, auto=enable.
-# Default: on (AC), auto (BAT)
-      RUNTIME_PM_ON_AC=on
-      RUNTIME_PM_ON_BAT=auto
-
-# Battery feature drivers: 0=disable, 1=enable
-# Default: 1 (all)
-      NATACPI_ENABLE=1
-      TPACPI_ENABLE=1
-      TPSMAPI_ENABLE=1
-      '';
-  };
+#   services.tlp = {
+#     enable = true;
+#     extraConfig = ''
+#       CPU_SCALING_GOVERNOR_ON_AC=performance
+#       CPU_SCALING_GOVERNOR_ON_BAT=powersave
+#       SOUND_POWER_SAVE_ON_AC=0
+#       SOUND_POWER_SAVE_ON_BAT=1
+#
+# # Runtime Power Management for PCI(e) bus devices: on=disable, auto=enable.
+# # Default: on (AC), auto (BAT)
+#       RUNTIME_PM_ON_AC=on
+#       RUNTIME_PM_ON_BAT=auto
+#
+# # Battery feature drivers: 0=disable, 1=enable
+# # Default: 1 (all)
+#       NATACPI_ENABLE=1
+#       TPACPI_ENABLE=1
+#       TPSMAPI_ENABLE=1
+#       '';
+#   };
 
   networking.hostName = "mate-laptop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -88,6 +91,8 @@ options snd_soc_sof_es8336 quirk=0x20
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
+  services.desktopManager.cosmic.enable = true;
+  services.displayManager.cosmic-greeter.enable = true;
 
   # Configure keymap in X11
   services.xserver = {

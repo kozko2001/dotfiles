@@ -55,6 +55,7 @@
     heroic
     # (pkgs.ollama.override
     #   { acceleration = "cuda"; })
+    devbox
   ];
 
   programs.home-manager.enable = true;
