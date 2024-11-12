@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs,... }:
 
 {
   environment.shells = with pkgs; [ zsh ];
@@ -9,6 +9,8 @@
       neovim
       syncthing
       gcc
+      nixd
+      alejandra
     ];
 
   # Use a custom configuration.nix location.
