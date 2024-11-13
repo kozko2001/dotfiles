@@ -141,7 +141,6 @@ return {
 		event = { "BufReadPost", "BufNewFile" },
 		dependencies = {
 			"nvim-treesitter/playground",
-			"JoosepAlviste/nvim-ts-context-commentstring",
 		},
 		-- keys = {
 		--   { "<c-up>", desc = "Incremental selection" },
@@ -150,7 +149,6 @@ return {
 		opts = {
 			highlight = { enable = true },
 			indent = { enable = true },
-			context_commentstring = { enable = true, enable_autocmd = false },
 			ensure_installed = {
 				"bash",
 				"c",
