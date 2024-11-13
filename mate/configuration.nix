@@ -159,7 +159,7 @@ options snd_soc_sof_es8336 quirk=0x20
   ];
 
   nix = {
-    package = pkgs.nixFlakes;
+    package = pkgs.nix;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
@@ -255,16 +255,16 @@ options snd_soc_sof_es8336 quirk=0x20
     description = "configure audio correctly";
     serviceConfig.PassEnvironment = "DISPLAY";
     script = ''
-      ${pkgs.alsaUtils}/bin/amixer cset name='Headphone Switch' on
-      ${pkgs.alsaUtils}/bin/amixer cset name='Speaker Switch' on
-      ${pkgs.alsaUtils}/bin/amixer cset name='Headphone Playback Volume' 10,10
-      ${pkgs.alsaUtils}/bin/amixer cset name='Right Headphone Mixer Right DAC Switch' on
-      ${pkgs.alsaUtils}/bin/amixer cset name='Left Headphone Mixer Left DAC Switch' on
-      ${pkgs.alsaUtils}/bin/amixer cset name='DAC Playback Volume' 999,999
-      ${pkgs.alsaUtils}/bin/amixer cset name='Headphone Mixer Volume' 999,999
+      ${pkgs.alsa-utils}/bin/amixer cset name='Headphone Switch' on
+      ${pkgs.alsa-utils}/bin/amixer cset name='Speaker Switch' on
+      ${pkgs.alsa-utils}/bin/amixer cset name='Headphone Playback Volume' 10,10
+      ${pkgs.alsa-utils}/bin/amixer cset name='Right Headphone Mixer Right DAC Switch' on
+      ${pkgs.alsa-utils}/bin/amixer cset name='Left Headphone Mixer Left DAC Switch' on
+      ${pkgs.alsa-utils}/bin/amixer cset name='DAC Playback Volume' 999,999
+      ${pkgs.alsa-utils}/bin/amixer cset name='Headphone Mixer Volume' 999,999
 
-      ${pkgs.alsaUtils}/bin/amixer sset "Dmic0" 70
-      ${pkgs.alsaUtils}/bin/amixer sset "Dmic1 2nd" 70
+      ${pkgs.alsa-utils}/bin/amixer sset "Dmic0" 70
+      ${pkgs.alsa-utils}/bin/amixer sset "Dmic1 2nd" 70
     '';
     wantedBy = [ "default.target" ]; # starts after login
   };
