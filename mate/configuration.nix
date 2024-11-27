@@ -89,10 +89,13 @@ options snd_soc_sof_es8336 quirk=0x20
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.displayManager.gdm.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
-  services.desktopManager.cosmic.enable = true;
-  services.displayManager.cosmic-greeter.enable = true;
+  services.xserver.displayManager.sddm.wayland.enable = true;
+  # services.xserver.displayManager.sddm.enable = true;
+  # services.xserver.desktopManager.plasma6.enable = true;
+  # services.desktopManager.cosmic.enable = true;
+  # services.displayManager.cosmic-greeter.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -127,7 +130,7 @@ options snd_soc_sof_es8336 quirk=0x20
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kozko = {
@@ -195,8 +198,48 @@ options snd_soc_sof_es8336 quirk=0x20
     rustup
     brightnessctl
     alsa-utils
-  ];
+    gnomeExtensions.paperwm
+    gnomeExtensions.run-or-raise
+    gnomeExtensions.pop-shell 
+    gnome.adwaita-icon-theme
+    pop-launcher
+    gnome-pomodoro
+    gnome-tweaks
+    adwaita-icon-theme
+    fusee-nano
 
+    inputs.zen-browser.packages."${system}".default
+  ];
+  environment.gnome.excludePackages = with pkgs; [
+    gedit
+    gnome-connections
+    gnome-console
+    gnome-photos
+    gnome-tour
+    snapshot
+    atomix # puzzle game
+    cheese # webcam tool
+    epiphany # web browser
+    evince # document viewer
+    geary # email reader
+    gnome-calendar
+    gnome-characters
+    gnome-clocks
+    gnome-contacts
+    gnome-disk-utility
+    gnome-font-viewer
+    gnome-logs
+    gnome-maps
+    gnome-music
+    gnome-system-monitor
+    gnome-terminal
+    gnome-weather
+    hitori # sudoku game
+    iagno # go game
+    simple-scan
+    tali # poker game
+    yelp # help viewer
+  ];
   environment.sessionVariables = rec {
     MOZ_ENABLE_WAYLAND = "1";
     NIXOS_OZONE_WL = "1";
@@ -269,4 +312,8 @@ options snd_soc_sof_es8336 quirk=0x20
     wantedBy = [ "default.target" ]; # starts after login
   };
 
+
+  programs.kdeconnect = {
+    enable = true;
+  };
 }

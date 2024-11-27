@@ -184,6 +184,7 @@
     # })
     mangohud
     protonup
+    input.zen-browser.packages."${system}".default
   ];
 
   environment.sessionVariables = rec {

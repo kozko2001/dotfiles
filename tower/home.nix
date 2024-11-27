@@ -1,7 +1,7 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   imports = [
     ./../home/tmux.nix
-    ./../home/alacritty.nix
+      ./../home/alacritty.nix
   ];
 
   home.username = "kozko";
@@ -12,51 +12,51 @@
     EDITOR = "nvim";
   };
 
-  ## fonts
+## fonts
   fonts.fontconfig.enable = true;
   home.packages = with pkgs; [
     firefox-wayland
-    keepassxc
-    syncthing
-    neovim
-    logseq
-    wofi
-    waybar
-    mako
-    vscodium
-    jq
-    ripgrep
-    pre-commit
-    swaylock
-    (pkgs.discord.override { withOpenASAR = true; withVencord = true; })
-    qmk
-    vale
-    k9s
-    killall
-    xfce.thunar
-    unzip
-    # cura
-    udiskie
-    mate.engrampa
-    htop
-    age
-    cliphist
-    wl-clipboard
-    hyprpaper
-    pavucontrol
-    obsidian
-    pyprland
-    nodePackages.jsonlint
-    p7zip
-    ns-usbloader
-    fuzzel
-    lazygit
-    floorp
-    heroic
-    # (pkgs.ollama.override
-    #   { acceleration = "cuda"; })
-    devbox
-  ];
+      keepassxc
+      syncthing
+      neovim
+      logseq
+      wofi
+      waybar
+      mako
+      vscodium
+      jq
+      ripgrep
+      pre-commit
+      swaylock
+      (pkgs.discord.override { withOpenASAR = true; withVencord = true; })
+      qmk
+      vale
+      k9s
+      killall
+      xfce.thunar
+      unzip
+# cura
+      udiskie
+      mate.engrampa
+      htop
+      age
+      cliphist
+      wl-clipboard
+      hyprpaper
+      pavucontrol
+      obsidian
+      pyprland
+      nodePackages.jsonlint
+      p7zip
+      ns-usbloader
+      fuzzel
+      lazygit
+      floorp
+      heroic
+# (pkgs.ollama.override
+#   { acceleration = "cuda"; })
+      kubectl
+      ];
 
   programs.home-manager.enable = true;
 
@@ -66,15 +66,15 @@
     userEmail = "jordi@coscolla.net";
     ignores = [
       "target"
-      ".vscode"
-      ".direnv"
-      "*~"
-      "*.swp"
+        ".vscode"
+        ".direnv"
+        "*~"
+        "*.swp"
     ];
   };
 
   programs.git.difftastic.enable = true;
-  ## hyprland config
+## hyprland config
   home.file."${config.xdg.configHome}/hypr" = {
     source = ./../apps/hyprland;
     recursive = true;
@@ -116,13 +116,13 @@
     enableAutosuggestions = true;
     initExtra = ''
       eval "$(zoxide init zsh)"
-    '';
+      '';
     oh-my-zsh = {
       enable = true;
       plugins = [
         "git"
-        "command-not-found"
-        "tmux"
+          "command-not-found"
+          "tmux"
       ];
     };
     sessionVariables = {
@@ -154,5 +154,40 @@
       autoconnect = ["qemu:///system"];
       uris = ["qemu:///system"];
     };
+    "org/gnome/desktop/interface" = {
+      enable-hot-corners = false;
+    };
+    "org/gnome/shell/extensions/paperwm" = {
+      show-window-position-bar = false;
+      show-workspace-indicator = false;
+      gesture-workspace-fingers = 4;
+      window-gap = 10;
+      default-focus-mode = 1;
+      show-focus-mode-icon = true;
+    };
+
+    "org/gnome/shell/extensions/paperwm/keybindings" = {
+      close-window = ["<Super>q"];
+      move-down = ["<Shift><Super>j"];
+      move-left = ["<Shift><Super>h"];
+      move-right = ["<Shift><Super>l"];
+      move-up = ["<Shift><Super>k"];
+      new-window = [""];
+      switch-down = ["<Super>j"];
+      switch-left = ["<Super>h"];
+      switch-right = ["<Super>l"];
+      switch-up = ["<Super>k"];
+
+      slurp-in = [ "<Super>i" ];
+      barf-out = [ "<Super>o" ];
+        move-to-workspace-1 = ["<Shift><Super>1"];
+        move-to-workspace-2 = ["<Shift><Super>2"];
+        move-to-workspace-3 = ["<Shift><Super>3"];
+        move-to-workspace-4 = ["<Shift><Super>4"];
+        switch-to-workspace-1 = ["<Super>1"];
+        switch-to-workspace-2 = ["<Super>2"];
+        switch-to-workspace-3 = ["<Super>3"];
+        switch-to-workspace-4 = ["<Super>4"];
+    };
   };
-}
+                            }
