@@ -28,7 +28,6 @@
       ripgrep
       pre-commit
       swaylock
-      (pkgs.discord.override { withOpenASAR = true; withVencord = true; })
       qmk
       vale
       k9s

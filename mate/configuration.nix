@@ -201,7 +201,7 @@ options snd_soc_sof_es8336 quirk=0x20
     gnomeExtensions.paperwm
     gnomeExtensions.run-or-raise
     gnomeExtensions.pop-shell 
-    gnome.adwaita-icon-theme
+    adwaita-icon-theme
     pop-launcher
     gnome-pomodoro
     gnome-tweaks
@@ -209,6 +209,8 @@ options snd_soc_sof_es8336 quirk=0x20
     fusee-nano
 
     inputs.zen-browser.packages."${system}".default
+
+    inputs.raise
   ];
   environment.gnome.excludePackages = with pkgs; [
     gedit

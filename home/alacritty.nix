@@ -1,6 +1,6 @@
 { pkgs, config, ... }: {
   home.packages = with pkgs; [
-    (pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })
+    pkgs.nerd-fonts.fira-code
     ];
   programs.alacritty = {
     enable = true;

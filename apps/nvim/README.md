@@ -10,13 +10,18 @@ Keymaps
 - <space> fp: find projects
 - C-v: in telescope open file in vertical split
 - C-x: in telescope open file in horizontal split
+- C-q: all entries in quick fix
 
 - [b => previous buffer 
 - ]b => next buffer
-- C-6 => alternate 
+- [u => undo
+- ]u => redo
+- [q => cnext (next quickfix)
+- ]q => cprev (next quickfix)
+- [y => yank previous 
+- ]y => yank next
 
-- <control+Up/Dpwm>: incremental selection
-- <bs>: decrement selection
+- C-6 => alternate 
 
 - zR/zC: close/open recursively all folds
 - K: to preview the fold
@@ -29,11 +34,7 @@ Keymaps
 - `:LspInfo` to see if the current buffer has a LSP active
 - `:LspInstall` to install Lsp server 
 
-- `<space>gg`: open neogit
-
 - Configured flit (leap has no keybinding) with `t`/`T`/`f`/`F` + next_char you can go to anyplace in the document. For first match use `<space>`
-
-- In insert mode press `Contrl+e` to insert icon/emoji
 
 - Using oil, in normal mode pressing `-` will bring a buffer that ressembles a netrw
   - you can delete / create files by adding text and `:wq`
@@ -45,10 +46,8 @@ TreeSitter with tree-surfer plugin
 
 - `vn` select current node of tree sitter
 - `vx` select root node 
-
 - `K` and `J`: go to next and previous sibling
 - `H` and `L`: go deeper to one child, or go to the parent
-
 - `gf` `gp` `gii`: go to function, go to parameters, go to import
 - `gj`: go to all jumps
 - `Alt-n` `alt-p`: go to next previous
@@ -61,7 +60,7 @@ LSP Keymaps
 - `gD`: jump to declaration -- not all servers implements this
 - `gi`: list all implementation for the symbol in cursor
 - `go`: jump to the definition of the type of the symbol under cursor
-- `gr`: listeferences
+- `gr`: list references
 - `gs`: display signature
 - `F2`: rename references
 - `F3`: format current buffer
