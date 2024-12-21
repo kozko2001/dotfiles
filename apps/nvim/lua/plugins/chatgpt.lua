@@ -1,61 +1,69 @@
 return {
-	"robitx/gp.nvim",
-	event = "VeryLazy",
+	"frankroeder/parrot.nvim",
+	dependencies = { "ibhagwan/fzf-lua", "nvim-lua/plenary.nvim" },
 	config = function()
-		require("gp").setup({
-			openai_api_key = vim.fn.system("age -d -i ~/.ssh/id_rsa ~/.config/nvim/openai.age"),
+		require("parrot").setup({
+			providers = {
+				anthropic = {
+					api_key = vim.fn.system("age -d -i ~/.ssh/id_rsa ~/.config/nvim/antrophic.age"),
+				},
+			},
 			hooks = {
+				Explain = function(prt, params)
+					local template = [[
+        Your task is to take the code snippet from {{filename}} and explain it with gradually increasing complexity.
+        Break down the code's functionality, purpose, and key components.
+        The goal is to help the reader understand what the code does and how it works.
 
-				-- (configured default might be gpt-3 and sometimes you might want to use gpt-4)
-				BetterChatNew = function(gp, params)
-					local chat_model = { model = "gpt-4-1106-preview", temperature = 0.7, top_p = 1 }
-					local chat_system_prompt = "You are a general AI assistant."
-					gp.cmd.ChatNew(params, chat_model, chat_system_prompt)
+        ```{{filetype}}
+        {{selection}}
+        ```
+
+        Use the markdown format with codeblocks and inline code.
+        Explanation of the code above:
+        ]]
+					local model = prt.get_model("command")
+					prt.logger.info("Explaining selection with model: " .. model.name)
+					prt.Prompt(params, prt.ui.Target.new, model, nil, template)
 				end,
 
-				-- example of adding command which writes unit tests for the selected code
-				UnitTests = function(gp, params)
-					local template = "I have the following code from {{filename}}:\n\n"
-						.. "```{{filetype}}\n{{selection}}\n```\n\n"
-						.. "Please respond by writing table driven unit tests for the code above."
-					gp.Prompt(
-						params,
-						gp.Target.enew,
-						nil,
-						gp.config.command_model,
-						template,
-						gp.config.command_system_prompt
-					)
-				end,
+				UnitTests = function(prt, params)
+					local template = [[
+        I have the following code from {{filename}}:
 
-				-- example of adding command which explains the selected code
-				Explain = function(gp, params)
-					local template = "I have the following code from {{filename}}:\n\n"
-						.. "```{{filetype}}\n{{selection}}\n```\n\n"
-						.. "Please respond by explaining the code above."
-					gp.Prompt(
-						params,
-						gp.Target.popup,
-						nil,
-						gp.config.command_model,
-						template,
-						gp.config.chat_system_prompt
-					)
+        ```{{filetype}}
+        {{selection}}
+        ```
+
+        Please respond by writing table driven unit tests for the code above.
+        ]]
+					local model_obj = prt.get_model("command")
+					prt.logger.info("Creating unit tests for selection with model: " .. model_obj.name)
+					prt.Prompt(params, prt.ui.Target.enew, model_obj, nil, template)
+				end,
+				Complete = function(prt, params)
+					local template = [[
+        I have the following code from {{filename}}:
+
+        ```{{filetype}}
+        {{selection}}
+        ```
+
+        Please finish the code above carefully and logically.
+        Respond just with the snippet of code that should be inserted."
+        ]]
+					local model_obj = prt.get_model("command")
+					prt.Prompt(params, prt.ui.Target.append, model_obj, nil, template)
 				end,
 			},
 		})
-
-		-- `GpExplain` explain the selection
-		-- `<leader> cc` toggle chat
-		-- `<leader> co` open other chat
-		-- `<leader> cn` create a new chat
-		-- `GpImplement` implements the code, based on the visual selection and the comment in it
-		-- Create a mapping by adding the following line after your setup
-		vim.api.nvim_set_keymap("n", "<leader>cc", ":GpChatToggle<CR>", { noremap = true, silent = true })
-
-		vim.api.nvim_set_keymap("n", "<leader>co", ":GpChatFinder<CR>", { noremap = true, silent = true })
-		vim.api.nvim_set_keymap("n", "<leader>cn", ":GpChatNew vsplit<CR>", { noremap = true, silent = true })
-		vim.api.nvim_set_keymap("n", "<leader>ct", ":GpChatToggle<CR>", { noremap = true, silent = true })
-		vim.api.nvim_set_keymap("n", "<leader>cy", ":GpChatPaste<CR>", { noremap = true, silent = true })
 	end,
+
+	keys = {
+		{ "<leader>co", "<cmd>PrtChatNew<cr>", mode = { "n", "i" }, desc = "New Chat" },
+		{ "<leader>co", ":<C-u>'<,'>PrtChatNew<cr>", mode = { "v" }, desc = "Visual Chat New" },
+		{ "<leader>cc", "<cmd>PrtChatToggle<cr>", mode = { "n", "i", "v" }, desc = "Toggle Popup Chat" },
+		{ "<leader>cf", "<cmd>PrtChatFinder<cr>", mode = { "n", "i", "v" }, desc = "Chat Finder" },
+		{ "<leader>cm", "<cmd>PrtModel<cr>", mode = { "n" }, desc = "Select model" },
+	},
 }

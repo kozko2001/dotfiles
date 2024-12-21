@@ -81,13 +81,10 @@ Windows
 Chat GPT
 ========
 
-`GpExplain` explain the selection 
 `<leader> cc` toggle chat
 `<leader> co` open other chat
 `<leader> cn` create a new chat
-`GpImplement` implements the code, based on the visual selection and the comment in it
-`GpUnitTest` implements unit test of the selected code
-`GpBetterChatBetter` uses chat gpt4 
+`<leader> cm` allow to change the model
 
 Undo
 ====
