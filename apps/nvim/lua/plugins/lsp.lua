@@ -59,17 +59,52 @@ return {
 	-- 		})
 	-- 	end,
 	-- }, -- LSP
+
 	{
 		"saghen/blink.cmp",
 		dependencies = "rafamadriz/friendly-snippets",
 		version = "v0.*",
 		opts = {
 			keymap = { preset = "default" },
-			apppearance = {
+			appearance = {
 				use_nvim_cmp_as_default = true,
 				nerd_font_variant = "mono",
 			},
-			signature = { enabled = true },
+
+			signature = { enabled = true, window = { border = "rounded" } },
+			completion = {
+				list = {
+					selection = function(ctx)
+						return ctx.mode == "cmdline" and "auto_insert" or "preselect"
+					end,
+				},
+				documentation = {
+					auto_show = true,
+					auto_show_delay_ms = 250,
+					treesitter_highlighting = true,
+					window = { border = "rounded" },
+				},
+			},
+			sources = {
+				default = { "lsp", "path", "snippets", "buffer" },
+				cmdline = {}, -- Disable sources for command-line mode
+				providers = {
+					lsp = {
+						min_keyword_length = 2, -- Number of characters to trigger porvider
+						score_offset = 0, -- Boost/penalize the score of the items
+					},
+					path = {
+						min_keyword_length = 0,
+					},
+					snippets = {
+						min_keyword_length = 2,
+					},
+					buffer = {
+						min_keyword_length = 5,
+						max_items = 5,
+					},
+				},
+			},
 		},
 	},
 	{
@@ -131,7 +166,7 @@ return {
 
 			-- (Optional) Configure lua language server for neovim
 			require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
-			require("lspconfig").tsserver.setup({})
+			require("lspconfig").ts_ls.setup({})
 			require("lspconfig").svelte.setup({})
 			require("lspconfig").pyright.setup({})
 			require("lspconfig").elixirls.setup({
