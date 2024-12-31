@@ -55,6 +55,7 @@
 # (pkgs.ollama.override
 #   { acceleration = "cuda"; })
       kubectl
+      typescript-language-server
       ];
 
   programs.home-manager.enable = true;

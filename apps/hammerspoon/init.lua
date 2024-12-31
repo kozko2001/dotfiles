@@ -129,7 +129,7 @@ end
 -- Applications
 
 local apps = {
-	c = "Firefox Developer Edition",
+	c = "Zen Browser",
 	w = "Firefox",
 	-- c = 'Arc',
 	f = "Finder",

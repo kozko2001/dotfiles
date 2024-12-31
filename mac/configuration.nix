@@ -11,6 +11,7 @@
       gcc
       nixd
       alejandra
+      typescript-language-server
     ];
 
   # Use a custom configuration.nix location.
@@ -51,6 +52,8 @@
       "docker"
       "sublime-text"
       "cloudflare-warp"
+      "zen-browser"
+      "pyright"
     ];
   };
 

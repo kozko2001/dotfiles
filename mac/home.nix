@@ -22,6 +22,7 @@
     sox
     htop
     lazygit
+    typescript-language-server
   ];
 
   programs.home-manager.enable = true;
