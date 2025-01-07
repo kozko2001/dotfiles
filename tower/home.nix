@@ -56,6 +56,7 @@
       kubectl
       typescript-language-server
       feh
+      calibre
       ];
 
   programs.home-manager.enable = true;

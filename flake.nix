@@ -15,15 +15,15 @@
     };
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     waybar.url = "github:Alexays/Waybar";
-    nixos-cosmic = {
-      url = "github:lilyinstarlight/nixos-cosmic";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # nixos-cosmic = {
+    #   url = "github:lilyinstarlight/nixos-cosmic";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     raise.url = "github:knarkzel/raise";
   };
 
   # outputs = inputs@{ self, nixpkgs, home-manager, darwin, hyprland, waybar }: {
-  outputs = {nixpkgs, home-manager, darwin, nixos-cosmic, ...} @ inputs: {
+  outputs = {nixpkgs, home-manager, darwin, ...} @ inputs: {
     nixosConfigurations = {
       tower = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -42,13 +42,6 @@
         system = "x86_64-linux";
         specialArgs = { inherit inputs; }; # this is the important part
         modules = [
-          {
-            nix.settings = {
-              substituters = [ "https://cosmic.cachix.org/" ];
-              trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
-            };
-          }
-          nixos-cosmic.nixosModules.default
           ./mate/configuration.nix
           home-manager.nixosModules.home-manager
           {
