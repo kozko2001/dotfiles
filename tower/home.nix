@@ -23,7 +23,6 @@
       wofi
       waybar
       mako
-      vscodium
       jq
       ripgrep
       pre-commit
@@ -56,6 +55,7 @@
 #   { acceleration = "cuda"; })
       kubectl
       typescript-language-server
+      feh
       ];
 
   programs.home-manager.enable = true;
@@ -110,6 +110,10 @@
     enableZshIntegration = true;
   };
 
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscode.fhs;
+  };
 
   programs.zsh = {
     enable = true;
