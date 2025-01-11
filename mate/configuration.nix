@@ -211,6 +211,7 @@ options snd_soc_sof_es8336 quirk=0x20
     inputs.zen-browser.packages."${system}".default
 
     inputs.raise
+    docker-compose
   ];
   environment.gnome.excludePackages = with pkgs; [
     gedit
