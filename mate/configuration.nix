@@ -21,14 +21,12 @@
   '';
   services.upower.enable = true;
 
+  # boot.extraModprobeConfig = ''
+  #   options snd_soc_sof_es8336 quirk=0x20
+  # '';
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.extraModprobeConfig = ''
-options snd_soc_sof_es8336 quirk=0x20
-  '';
-# other quirks 0xe0 0xb0 0xa0 0x40 080 0x81 0x82
-  #  boot.blacklistedKernelModules = [ "snd_hda_intel" "snd_soc_skl" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernel.sysctl = {
     "vm.dirty_writeback_centisecs" =  1500;
@@ -113,13 +111,14 @@ options snd_soc_sof_es8336 quirk=0x20
   # Enable sound with pipewire.
   # sound.enable = true;
   # hardware.pulseaudio.enable = true;
-  # hardware.pulseaudio.package = pkgs.pulseaudioFull;
+  hardware.pulseaudio.package = pkgs.pulseaudioFull;
   hardware.enableAllFirmware = true;
+  hardware.firmware = with pkgs; [sof-firmware alsa-firmware];
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = false;
-    # alsa.support32Bit = true;
+    alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
@@ -212,6 +211,7 @@ options snd_soc_sof_es8336 quirk=0x20
 
     inputs.raise
     docker-compose
+    aider-chat
   ];
   environment.gnome.excludePackages = with pkgs; [
     gedit
@@ -297,21 +297,20 @@ options snd_soc_sof_es8336 quirk=0x20
     enable = true;
     gamescopeSession.enable = true;
   };
+  systemd.services.huawei-sound-fix = {
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+    description = "Enable sound output at startup";
+    path = [ pkgs.alsa-utils ];
+    serviceConfig = {
+      Type = "simple";
+      User = "root";
+    };
+  };
   systemd.user.services.kzkaudio= {
     description = "configure audio correctly";
     serviceConfig.PassEnvironment = "DISPLAY";
-    script = ''
-      ${pkgs.alsa-utils}/bin/amixer cset name='Headphone Switch' on
-      ${pkgs.alsa-utils}/bin/amixer cset name='Speaker Switch' on
-      ${pkgs.alsa-utils}/bin/amixer cset name='Headphone Playback Volume' 10,10
-      ${pkgs.alsa-utils}/bin/amixer cset name='Right Headphone Mixer Right DAC Switch' on
-      ${pkgs.alsa-utils}/bin/amixer cset name='Left Headphone Mixer Left DAC Switch' on
-      ${pkgs.alsa-utils}/bin/amixer cset name='DAC Playback Volume' 999,999
-      ${pkgs.alsa-utils}/bin/amixer cset name='Headphone Mixer Volume' 999,999
-
-      ${pkgs.alsa-utils}/bin/amixer sset "Dmic0" 70
-      ${pkgs.alsa-utils}/bin/amixer sset "Dmic1 2nd" 70
-    '';
+    script = builtins.readFile ../apps/audio.sh;
     wantedBy = [ "default.target" ]; # starts after login
   };
 
