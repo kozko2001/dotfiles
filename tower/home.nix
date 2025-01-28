@@ -57,6 +57,40 @@
       typescript-language-server
       feh
       calibre
+ (python3.withPackages (ps: [ 
+      ps.pip
+      ps.llm
+      ps.anthropic  # needed for claude plugin
+      (ps.buildPythonPackage rec {
+        pname = "llm-claude-3";
+        version = "0.10";
+        pyproject = true;
+
+        src = fetchFromGitHub {
+          owner = "simonw";
+          repo = "llm-claude-3";
+          rev = version;
+
+          hash = "sha256-3WQufuWlntywgVQUJeQoA3xXtCOIgbG+t4vnKRU0xPA=";
+        };
+
+        propagatedBuildInputs = [
+          ps.anthropic
+          ps.llm
+        ];
+
+        doCheck = false;
+
+        nativeBuildInputs = [
+          ps.setuptools
+          ps.wheel
+        ];
+
+        dependencies = [ ps.anthropic ];
+
+        dontCheckRuntimeDeps = true;
+      })
+    ]))
       ];
 
   programs.home-manager.enable = true;

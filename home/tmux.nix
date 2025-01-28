@@ -3,6 +3,7 @@
     lsof
     fzf
     zoxide
+    sqlite
   ];
 
   programs.tmux = {
