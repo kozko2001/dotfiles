@@ -58,12 +58,12 @@
   networking.hostName = "mate-laptop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
+  networking.networkmanager.enable = true;
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
-  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Madrid";
@@ -156,9 +156,6 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-27.3.11"
-  ];
 
   nix = {
     package = pkgs.nix;
@@ -179,7 +176,7 @@
 
   programs.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
   };
 
   # List packages installed in system profile. To search, run:
@@ -197,51 +194,21 @@
     rustup
     brightnessctl
     alsa-utils
-    gnomeExtensions.paperwm
-    gnomeExtensions.run-or-raise
-    gnomeExtensions.pop-shell 
-    adwaita-icon-theme
-    pop-launcher
-    gnome-pomodoro
-    gnome-tweaks
-    adwaita-icon-theme
     fusee-nano
 
     inputs.zen-browser.packages."${system}".default
 
-    inputs.raise
+    # inputs.raise
     docker-compose
-    aider-chat
-  ];
-  environment.gnome.excludePackages = with pkgs; [
-    gedit
-    gnome-connections
-    gnome-console
-    gnome-photos
-    gnome-tour
-    snapshot
-    atomix # puzzle game
-    cheese # webcam tool
-    epiphany # web browser
-    evince # document viewer
-    geary # email reader
-    gnome-calendar
-    gnome-characters
-    gnome-clocks
-    gnome-contacts
-    gnome-disk-utility
-    gnome-font-viewer
-    gnome-logs
-    gnome-maps
-    gnome-music
-    gnome-system-monitor
-    gnome-terminal
-    gnome-weather
-    hitori # sudoku game
-    iagno # go game
-    simple-scan
-    tali # poker game
-    yelp # help viewer
+
+    nodejs_23
+    nodePackages.pnpm
+
+    (heroic.override {
+     extraPkgs = pkgs: [
+     pkgs.gamescope
+     ];
+     })
   ];
   environment.sessionVariables = rec {
     MOZ_ENABLE_WAYLAND = "1";
@@ -310,6 +277,8 @@
     enable = true;
     gamescopeSession.enable = true;
   };
+  programs.gamescope.enable = true;
+  programs.gamemode.enable = true;
   systemd.services.huawei-sound-fix = {
     wantedBy = [ "multi-user.target" ];
     after = [ "network.target" ];
@@ -327,8 +296,4 @@
     wantedBy = [ "default.target" ]; # starts after login
   };
 
-
-  programs.kdeconnect = {
-    enable = true;
-  };
 }

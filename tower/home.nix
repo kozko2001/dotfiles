@@ -19,7 +19,6 @@
       keepassxc
       syncthing
       neovim
-      logseq
       wofi
       waybar
       mako
@@ -57,6 +56,7 @@
       typescript-language-server
       feh
       calibre
+      code-cursor
  (python3.withPackages (ps: [ 
       ps.pip
       ps.llm
@@ -187,46 +187,5 @@
 
   services.udiskie = {
     enable = true;
-  };
-  dconf.settings = {
-    "org/virt-manager/virt-manager/connections" = {
-      autoconnect = ["qemu:///system"];
-      uris = ["qemu:///system"];
-    };
-    "org/gnome/desktop/interface" = {
-      enable-hot-corners = false;
-    };
-    "org/gnome/shell/extensions/paperwm" = {
-      show-window-position-bar = false;
-      show-workspace-indicator = false;
-      gesture-workspace-fingers = 4;
-      window-gap = 10;
-      default-focus-mode = 1;
-      show-focus-mode-icon = true;
-    };
-
-    "org/gnome/shell/extensions/paperwm/keybindings" = {
-      close-window = ["<Super>q"];
-      move-down = ["<Shift><Super>j"];
-      move-left = ["<Shift><Super>h"];
-      move-right = ["<Shift><Super>l"];
-      move-up = ["<Shift><Super>k"];
-      new-window = [""];
-      switch-down = ["<Super>j"];
-      switch-left = ["<Super>h"];
-      switch-right = ["<Super>l"];
-      switch-up = ["<Super>k"];
-
-      slurp-in = [ "<Super>i" ];
-      barf-out = [ "<Super>o" ];
-        move-to-workspace-1 = ["<Shift><Super>1"];
-        move-to-workspace-2 = ["<Shift><Super>2"];
-        move-to-workspace-3 = ["<Shift><Super>3"];
-        move-to-workspace-4 = ["<Shift><Super>4"];
-        switch-to-workspace-1 = ["<Super>1"];
-        switch-to-workspace-2 = ["<Super>2"];
-        switch-to-workspace-3 = ["<Super>3"];
-        switch-to-workspace-4 = ["<Super>4"];
-    };
   };
                             }

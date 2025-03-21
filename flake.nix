@@ -13,13 +13,13 @@
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-    waybar.url = "github:Alexays/Waybar";
+    # hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    # waybar.url = "github:Alexays/Waybar";
     # nixos-cosmic = {
     #   url = "github:lilyinstarlight/nixos-cosmic";
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
-    raise.url = "github:knarkzel/raise";
+    # raise.url = "github:knarkzel/raise";
   };
 
   # outputs = inputs@{ self, nixpkgs, home-manager, darwin, hyprland, waybar }: {
