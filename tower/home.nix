@@ -57,6 +57,7 @@
       feh
       calibre
       code-cursor
+      claude-code
  (python3.withPackages (ps: [ 
       ps.pip
       ps.llm
