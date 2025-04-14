@@ -52,6 +52,20 @@
           { nixpkgs.overlays = [ (import ./home/overlays.nix) ]; }
         ];
       };
+      framework = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; }; # this is the important part
+        modules = [
+          ./framework/configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            # home-manager.users.kozko = import ./framework/home.nix;
+          }
+          { nixpkgs.overlays = [ (import ./home/overlays.nix) ]; }
+        ];
+      };
     };
     darwinConfigurations = {
       mac = darwin.lib.darwinSystem {
