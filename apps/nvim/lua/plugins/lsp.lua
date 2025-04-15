@@ -63,7 +63,7 @@ return {
 	{
 		"saghen/blink.cmp",
 		dependencies = "rafamadriz/friendly-snippets",
-		version = "v0.*",
+		version = "1.*",
 		opts = {
 			keymap = { preset = "default" },
 			appearance = {
@@ -73,11 +73,11 @@ return {
 
 			signature = { enabled = true, window = { border = "rounded" } },
 			completion = {
-				list = {
-					selection = function(ctx)
-						return ctx.mode == "cmdline" and "auto_insert" or "preselect"
-					end,
-				},
+				-- list = {
+				-- 	selection = function(ctx)
+				-- 		return ctx.mode == "cmdline" and "auto_insert" or "preselect"
+				-- 	end,
+				-- },
 				documentation = {
 					auto_show = true,
 					auto_show_delay_ms = 250,
@@ -87,7 +87,6 @@ return {
 			},
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer" },
-				cmdline = {}, -- Disable sources for command-line mode
 				providers = {
 					lsp = {
 						min_keyword_length = 2, -- Number of characters to trigger porvider

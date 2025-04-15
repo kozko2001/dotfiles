@@ -61,7 +61,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            # home-manager.users.kozko = import ./framework/home.nix;
+            home-manager.users.kozko = import ./framework/home.nix;
           }
           { nixpkgs.overlays = [ (import ./home/overlays.nix) ]; }
         ];
