@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports =
@@ -138,6 +138,10 @@
     neovim
     keepassxc
     git
+
+    inputs.zen-browser.packages."${system}".default
+    swayidle
+    docker-compose
   ];
 
   services.openssh =
@@ -162,6 +166,9 @@
   };
   programs.gamescope.enable = true;
   programs.gamemode.enable = true;
+
+  services.fwupd.enable = true;
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

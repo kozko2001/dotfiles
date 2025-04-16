@@ -31,6 +31,7 @@
     code-cursor
     gnumake
     gcc
+    heroic
   ];
 
   programs.home-manager.enable = true;
