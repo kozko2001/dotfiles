@@ -55,6 +55,7 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+  services.xserver.videoDrivers = [ "amdgpu" ];
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
@@ -68,9 +69,23 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+  hardware = {
+    pulseaudio.enable = false;
+    opengl = {
+      driSupport32Bit = true;
+    };
+    graphics = {
+        enable = true;
+        enable32Bit = true;
+    };
+
+    amdgpu.amdvlk = {
+        enable = true;
+        support32Bit.enable = true;
+    };
+  };
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -143,6 +158,7 @@
     swayidle
     docker-compose
     obsidian
+    mangohud
   ];
 
   services.openssh =
@@ -165,9 +181,21 @@
     enable = true;
     gamescopeSession.enable = true;
   };
-  programs.gamescope.enable = true;
-  programs.gamemode.enable = true;
-
+  programs.gamescope = {
+    enable = true;
+    capSysNice = true;
+  };
+  programs.gamemode = {
+      enable = true;
+      settings = {
+        general = {
+          renice = 10;
+        };
+        gpu = {
+          amd_performance = "high";
+        };
+      };
+  };
   services.fwupd.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
