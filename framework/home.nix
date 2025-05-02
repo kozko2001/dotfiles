@@ -25,13 +25,16 @@
     htop
     lazygit
     kubectl
-    typescript-language-server
-    lua-language-server
     feh
     code-cursor
     gnumake
     gcc
     heroic
+    unrar
+    stylua
+    typescript-language-server
+    lua-language-server
+    marksman
   ];
 
   programs.home-manager.enable = true;

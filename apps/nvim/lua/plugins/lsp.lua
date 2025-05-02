@@ -176,7 +176,7 @@ return {
 			})
 
 			require("lspconfig").ocamllsp.setup({})
-
+			require("lspconfig").marksman.setup({})
 			lsp.set_server_config({
 				capabilities = {
 					textDocument = {

@@ -13,16 +13,16 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  powerManagement.enable = true;
-  powerManagement.cpuFreqGovernor = "powersave";
-  systemd.sleep.extraConfig = ''
-    HibernateDelaySec=300
-  '';
-  services.logind.lidSwitch = "suspend-then-hibernate";
-  services.logind.extraConfig = ''
-    HandleLidSwitchDocked=ignore
-  '';
+  #
+  # powerManagement.enable = true;
+  # powerManagement.cpuFreqGovernor = "powersave";
+  # systemd.sleep.extraConfig = ''
+  #   HibernateDelaySec=300
+  # '';
+  # services.logind.lidSwitch = "suspend-then-hibernate";
+  # services.logind.extraConfig = ''
+  #   HandleLidSwitchDocked=ignore
+  # '';
 
   services.upower.enable = true;
   networking.hostName = "framework"; # Define your hostname.
@@ -94,7 +94,7 @@
     description = "kozko";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-    #  thunderbird
+#  thunderbird
     ];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
@@ -142,6 +142,7 @@
     inputs.zen-browser.packages."${system}".default
     swayidle
     docker-compose
+    obsidian
   ];
 
   services.openssh =
