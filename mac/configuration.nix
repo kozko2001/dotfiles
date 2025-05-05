@@ -14,12 +14,13 @@
       typescript-language-server
     ];
 
+  ids.gids.nixbld = 350;
+  security.pam.services.sudo_local.touchIdAuth = true;
   # Use a custom configuration.nix location.
   # $ darwin-rebuild switch -I darwin-config=$HOME/.config/nixpkgs/darwin/configuration.nix
   # environment.darwinConfig = "$HOME/.config/nixpkgs/darwin/configuration.nix";
 
   # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
   # nix.package = pkgs.nix;
 
   # Create /etc/zshrc that loads the nix-darwin environment.
@@ -33,25 +34,23 @@
     enable = true;
     onActivation.upgrade = false;
     onActivation.autoUpdate = false;
-    taps = [ "homebrew/cask-versions" ];
     # upates homebrew packages on activation,
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
-    brews = [ "python3" "pyenv" "docker-compose" "awscli" "pre-commit" "pyright"];
+    brews = [ "python3" "pyenv" "docker-compose" "awscli" "pre-commit" "pyright" "ollama"];
     casks = [
       "hammerspoon"
       "obsidian"
       "zoom"
       "kitty"
       "firefox"
-      "firefox-developer-edition"
+      "orbstack"
+      "cursor"
       "keepassxc"
       "dbeaver-community"
       "pgadmin4"
-      "intellij-idea"
+      "phpstorm"
       "spotify"
-      "docker"
       "sublime-text"
-      "cloudflare-warp"
       "zen-browser"
     ];
   };
@@ -59,7 +58,6 @@
   users.users.jordi.home = "/Users/jordi/";
 
   # Add ability to used TouchID for sudo authentication
-  security.pam.enableSudoTouchIdAuth = true;
 
   networking.dns = [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
 

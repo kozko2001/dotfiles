@@ -35,9 +35,7 @@
     enable = true;
     userName = "Jordi Coscolla";
     userEmail = "jordi.coscolla@spartacommodities.com";
-    aliases = {
-      "cbranch" = "!f() { branch_name=$(echo $1 | sed 's/[^a-zA-Z0-9_]/_/g'); git checkout -b $branch_name; }; f";
-    };
+    lfs.enable = true;
     includes = [
       {
         condition = "gitdir:~/tmp/";

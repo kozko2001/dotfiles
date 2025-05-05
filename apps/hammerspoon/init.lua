@@ -129,18 +129,18 @@ end
 -- Applications
 
 local apps = {
-	c = "Zen Browser",
-	w = "Firefox",
+	c = "Zen",
+	-- w = "Firefox",
 	-- c = 'Arc',
 	f = "Finder",
-	t = "alacritty",
+	t = "kitty",
 	p = "KeePassXC",
 	s = "Slack",
 	z = "Zoom.us",
 	-- x = 'Tuple',
 	n = "Obsidian",
 	-- d = 'Google Chat',
-	i = "intellij IDEA",
+	i = "PhpStorm",
 	-- v = 'Visual Studio Code',
 }
 
