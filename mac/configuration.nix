@@ -12,6 +12,7 @@
       nixd
       alejandra
       typescript-language-server
+      localsend
     ];
 
   ids.gids.nixbld = 350;
@@ -95,4 +96,7 @@
       NSNavPanelExpandedStateForSaveMode2 = true;
     };
   };
+  environment.etc."sudoers.d/timeout".text = ''
+    Defaults timestamp_timeout=90
+  '';
 }

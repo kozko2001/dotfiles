@@ -23,6 +23,8 @@
     htop
     lazygit
     typescript-language-server
+    k9s
+    kubectx
   ];
 
   programs.home-manager.enable = true;
@@ -34,7 +36,7 @@
   programs.git = {
     enable = true;
     userName = "Jordi Coscolla";
-    userEmail = "jordi.coscolla@spartacommodities.com";
+    userEmail = "jordi.coscolla@proton.ch";
     lfs.enable = true;
     includes = [
       {
@@ -99,6 +101,7 @@
         "git"
         "history-substring-search"
         "tmux"
+        "docker-compose"
       ];
     };
 
