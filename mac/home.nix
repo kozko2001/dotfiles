@@ -83,10 +83,64 @@
     enable = true;
     enableAutosuggestions = true;
     enableVteIntegration = true;
-    initExtra = ''
+    initContent = ''
       source "$HOME/.sdkman/bin/sdkman-init.sh"
+      nvm() {
+        unset -f nvm node npm npx yarn
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+        nvm "$@"
+      }
+
+      node() {
+        unset -f nvm node npm npx yarn
+        
+        # Load NVM
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+        
+        # Now call the actual node command
+        node "$@"
+      }
+
+      npm() {
+        unset -f nvm node npm npx yarn
+        
+        # Load NVM
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+        
+        # Now call the actual npm command
+        npm "$@"
+      }
+
+      npx() {
+        unset -f nvm node npm npx yarn
+        
+        # Load NVM
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+        
+        # Now call the actual npx command
+        npx "$@"
+      }
+
+      yarn() {
+        unset -f nvm node npm npx yarn
+        
+        # Load NVM
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+        
+        # Now call the actual yarn command
+        yarn "$@"
+      }
       export NVM_DIR="$HOME/.nvm"
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
       export PATH="$PATH;/Applications/IntelliJ IDEA.app/Contents/MacOS"
 
       export PYENV_ROOT="$HOME/.pyenv"

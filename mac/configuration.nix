@@ -13,6 +13,7 @@
       alejandra
       typescript-language-server
       localsend
+      aider-chat-full
     ];
 
   ids.gids.nixbld = 350;
@@ -31,6 +32,7 @@
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
   system.stateVersion = 4;
+  system.primaryUser = "jordi";
   homebrew = {
     enable = true;
     onActivation.upgrade = false;
