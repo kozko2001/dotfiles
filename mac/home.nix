@@ -62,6 +62,7 @@
       "*.swp"
       "shell.nix"
       "http-client.env.json"
+      "*.aider*"
     ];
   };
 
@@ -165,6 +166,8 @@
       ZSH_TMUX_CONFIG = "/Users/jordi/.config/tmux/tmux.conf";
 
       NIX_AUTO_RUN = "true";
+      OLLAMA_API_BASE = "http://127.0.0.1:11434";
+      OLLAMA_CONTEXT_LENGTH = "8192";
     };
 
   };
