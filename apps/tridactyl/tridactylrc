@@ -1,0 +1,4 @@
+set theme shydactyl
+set hintfiltermode vimperator-reflow
+set hintchars fdsahjklgyuiopqwertnmzxcvb
+set hintnames short

@@ -181,6 +181,11 @@
   programs.fzf.enable = true;
   programs.fzf.enableZshIntegration = true;
 
+  home.file."${config.xdg.configHome}/tridactyl" = {
+    source = ./../apps/tridactyl;
+    recursive = true;
+  };
+
 
   home.file.".config/nvim" = {
     source = ./../apps/nvim;

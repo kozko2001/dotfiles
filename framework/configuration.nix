@@ -66,6 +66,18 @@
     layout = "us";
     variant = "";
   };
+  services.udev = {
+
+  packages = with pkgs; [
+    qmk
+    qmk-udev-rules # the only relevant
+    qmk_hid
+    via
+    vial
+  ]; # packages
+
+}; # udev
+
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -127,7 +139,10 @@
   systemd.services."autovt@tty1".enable = false;
 
   # Install firefox.
-  programs.firefox.enable = true;
+  programs.firefox = {
+    enable = true;
+    nativeMessagingHosts.tridactyl = true;
+  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -159,6 +174,7 @@
     docker-compose
     obsidian
     mangohud
+    protonvpn-gui
   ];
 
   services.openssh =
@@ -226,4 +242,6 @@
   system.stateVersion = "24.11"; # Did you read the comment?
 
   services.tailscale.enable = true;
+
+  services.envfs.enable = true; # create /bin and /usr/bin symlinks to correct store location
 }

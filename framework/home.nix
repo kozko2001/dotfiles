@@ -35,6 +35,10 @@
     typescript-language-server
     lua-language-server
     marksman
+    tridactyl-native
+    calibre
+    vial
+    claude-code
   ];
 
   programs.home-manager.enable = true;
@@ -52,6 +56,11 @@
   };
 
   programs.git.difftastic.enable = true;
+
+  home.file."${config.xdg.configHome}/tridactyl" = {
+    source = ./../apps/tridactyl;
+    recursive = true;
+  };
   home.file."${config.xdg.configHome}/nvim" = {
     source = ./../apps/nvim;
     recursive = true;
