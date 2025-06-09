@@ -1,8 +1,6 @@
 return {
 	{
-
-	  "echasnovski/mini.statusline",
-    version = "*"
-
+		"echasnovski/mini.statusline",
+		version = "*",
 	},
 }
