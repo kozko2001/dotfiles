@@ -2,7 +2,11 @@
   imports = [
     ./../home/tmux.nix
     ./../home/alacritty.nix
+    ./niri-home.nix
   ];
+
+  custom.niri.enable = true;
+
   home.username = "kozko";
   home.homeDirectory = "/home/kozko";
 
@@ -39,6 +43,7 @@
     calibre
     vial
     claude-code
+    qbittorrent
   ];
 
   programs.home-manager.enable = true;
@@ -89,9 +94,10 @@
 
   programs.zsh = {
     enable = true;
-    enableAutosuggestions = true;
-    initExtra = ''
+    autosuggestion.enable = true;
+    initContent = ''
       eval "$(zoxide init zsh)"
+      alias fkill='ps -ef | sed 1d | tac | fzf -m | awk "{print \$2}" | xargs kill -9'
       '';
     oh-my-zsh = {
       enable = true;
@@ -106,6 +112,7 @@
     };
 
   };
+
 
 
 }

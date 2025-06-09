@@ -8,8 +8,11 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./niri-module.nix
     ];
 
+  custom.niri.enable = true; 
+  custom.niri.wallpaper = "https://w.wallhaven.cc/full/je/wallhaven-je8rwq.jpg";
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -58,8 +61,8 @@
   services.xserver.videoDrivers = [ "amdgpu" ];
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -81,11 +84,9 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+  services.pulseaudio.enable = false;
+  
   hardware = {
-    pulseaudio.enable = false;
-    opengl = {
-      driSupport32Bit = true;
-    };
     graphics = {
         enable = true;
         enable32Bit = true;
@@ -119,7 +120,7 @@
   users.users.kozko = {
     isNormalUser = true;
     description = "kozko";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
 #  thunderbird
     ];
@@ -131,8 +132,8 @@
   };
 
   # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "kozko";
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "kozko";
 
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
   systemd.services."getty@tty1".enable = false;
@@ -141,7 +142,7 @@
   # Install firefox.
   programs.firefox = {
     enable = true;
-    nativeMessagingHosts.tridactyl = true;
+    nativeMessagingHosts.packages = [ pkgs.tridactyl-native ];
   };
 
   # Allow unfree packages
@@ -175,6 +176,9 @@
     obsidian
     mangohud
     protonvpn-gui
+    gnomeExtensions.tiling-shell
+    gnomeExtensions.forge
+    wl-clipboard ## need for neovim
   ];
 
   services.openssh =
@@ -244,4 +248,5 @@
   services.tailscale.enable = true;
 
   services.envfs.enable = true; # create /bin and /usr/bin symlinks to correct store location
+
 }

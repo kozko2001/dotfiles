@@ -85,7 +85,7 @@
     enableAutosuggestions = true;
     enableVteIntegration = true;
     initContent = ''
-      source "$HOME/.sdkman/bin/sdkman-init.sh"
+      alias fkill='ps -ef | sed 1d | tac | fzf -m | awk "{print \$2}" | xargs kill -9'
       nvm() {
         unset -f nvm node npm npx yarn
         export NVM_DIR="$HOME/.nvm"
