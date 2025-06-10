@@ -141,7 +141,7 @@ local apps = {
 	n = "Obsidian",
 	-- d = 'Google Chat',
 	i = "PhpStorm",
-	-- v = 'Visual Studio Code',
+	v = "Cursor",
 }
 
 for key, app in pairs(apps) do
