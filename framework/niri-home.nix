@@ -73,13 +73,12 @@ in {
 
       environment {
         QT_QPA_PLATFORM "wayland"
-        DISPLAY null
+        DISPLAY ":0"
       }
-
-
       spawn-at-startup "waybar"
       spawn-at-startup "mako"
       spawn-at-startup "wpaperd"
+      spawn-at-startup "xwayland-satellite"
 
       window-rule {
         geometry-corner-radius 8.0

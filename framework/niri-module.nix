@@ -90,6 +90,7 @@ in {
       nerd-fonts.jetbrains-mono
       nerd-fonts.fira-code
       font-awesome
+      xwayland-satellite
     ];
 
     # Font configuration
