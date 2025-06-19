@@ -13,7 +13,6 @@
       alejandra
       typescript-language-server
       localsend
-      aider-chat-full
     ];
 
   ids.gids.nixbld = 350;
