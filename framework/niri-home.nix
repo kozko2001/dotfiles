@@ -75,20 +75,35 @@ in {
         QT_QPA_PLATFORM "wayland"
         DISPLAY ":0"
       }
+      spawn-at-startup "xwayland-satellite"
       spawn-at-startup "waybar"
       spawn-at-startup "mako"
       spawn-at-startup "wpaperd"
-      spawn-at-startup "xwayland-satellite"
 
       window-rule {
         geometry-corner-radius 8.0
         clip-to-geometry true
       }
 
+      window-rule {
+        match app-id="org.keepassxc.KeePassXC"
+        default-column-width { fixed 800; }
+        min-width 400
+        min-height 300
+        open-floating true
+      }
+
+      window-rule {
+          match app-id="firefox$" title="^Picture-in-Picture$"
+
+          open-floating true
+      }
+
       binds {
         "Mod+Return" { spawn "alacritty"; }
         "Mod+d" { spawn "rofi" "-show" "drun"; }
         "Mod+Shift+e" { spawn "wlogout"; }
+        "Mod+p" { spawn "keepassxc"; }
 
         "Mod+q" { close-window; }
 
