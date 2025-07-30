@@ -91,6 +91,9 @@ in {
       nerd-fonts.fira-code
       font-awesome
       xwayland-satellite
+      
+      # Cursor theme
+      libsForQt5.breeze-qt5
     ];
 
     # Font configuration

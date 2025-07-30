@@ -120,7 +120,7 @@
   users.users.kozko = {
     isNormalUser = true;
     description = "kozko";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "adbusers" "kvm"];
     packages = with pkgs; [
 #  thunderbird
     ];
@@ -179,6 +179,7 @@
     gnomeExtensions.tiling-shell
     gnomeExtensions.forge
     wl-clipboard ## need for neovim
+    devbox
   ];
 
   services.openssh =
@@ -248,5 +249,6 @@
   services.tailscale.enable = true;
 
   services.envfs.enable = true; # create /bin and /usr/bin symlinks to correct store location
+  programs.adb.enable = true;
 
 }

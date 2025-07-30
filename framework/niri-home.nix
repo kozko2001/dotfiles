@@ -38,6 +38,10 @@ in {
         mode "3440x1440@160.000"
         position x=0 y=0
       }
+      cursor {
+        xcursor-size 48
+        xcursor-theme "breeze_cursors"
+      }
 
       layout {
         gaps 10
@@ -97,6 +101,12 @@ in {
           match app-id="firefox$" title="^Picture-in-Picture$"
 
           open-floating true
+      }
+
+      window-rule {
+        match is-active=false
+
+        opacity 0.8
       }
 
       binds {
