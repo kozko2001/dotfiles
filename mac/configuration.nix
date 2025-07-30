@@ -13,6 +13,7 @@
       alejandra
       typescript-language-server
       localsend
+      devbox
     ];
 
   ids.gids.nixbld = 350;
