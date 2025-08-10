@@ -9,10 +9,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
+    zen-browser.inputs.nixpkgs.follows = "nixpkgs";
+    zen-browser.inputs.home-manager.follows = "home-manager";
     darwin = {
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     # hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     # waybar.url = "github:Alexays/Waybar";
     # nixos-cosmic = {
@@ -23,7 +26,7 @@
   };
 
   # outputs = inputs@{ self, nixpkgs, home-manager, darwin, hyprland, waybar }: {
-  outputs = {nixpkgs, home-manager, darwin, ...} @ inputs: {
+  outputs = {nixpkgs, home-manager, darwin, nixos-hardware, ...} @ inputs: {
     nixosConfigurations = {
       tower = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -64,6 +67,7 @@
             home-manager.users.kozko = import ./framework/home.nix;
           }
           { nixpkgs.overlays = [ (import ./home/overlays.nix) ]; }
+          nixos-hardware.nixosModules.framework-13-7040-amd
         ];
       };
     };

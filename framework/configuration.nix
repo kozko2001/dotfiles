@@ -9,13 +9,20 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./niri-module.nix
+      ./tidal-module.nix
     ];
 
   custom.niri.enable = true; 
   custom.niri.wallpaper = "https://w.wallhaven.cc/full/je/wallhaven-je8rwq.jpg";
+  custom.tidal.enable = true;
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  
+  # Ensure proper AMDGPU module loading
+  boot.extraModprobeConfig = ''
+    options amdgpu si_support=1 cik_support=1
+  '';
   #
   # powerManagement.enable = true;
   # powerManagement.cpuFreqGovernor = "powersave";
@@ -27,7 +34,8 @@
   #   HandleLidSwitchDocked=ignore
   # '';
 
-  services.upower.enable = true;
+  # services.upower.enable = true;
+  services.power-profiles-daemon.enable = true;
   networking.hostName = "framework"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -120,7 +128,7 @@
   users.users.kozko = {
     isNormalUser = true;
     description = "kozko";
-    extraGroups = [ "networkmanager" "wheel" "docker" "adbusers" "kvm"];
+    extraGroups = [ "networkmanager" "wheel" "docker" "adbusers" "kvm" "video" "render"];
     packages = with pkgs; [
 #  thunderbird
     ];
@@ -180,6 +188,11 @@
     gnomeExtensions.forge
     wl-clipboard ## need for neovim
     devbox
+    mesa
+    vulkan-tools
+    glxinfo
+    lact
+    proton-pass
   ];
 
   services.openssh =
@@ -250,5 +263,6 @@
 
   services.envfs.enable = true; # create /bin and /usr/bin symlinks to correct store location
   programs.adb.enable = true;
-
+  systemd.packages = with pkgs; [ lact ];
+  systemd.services.lactd.wantedBy = ["multi-user.target"];
 }
