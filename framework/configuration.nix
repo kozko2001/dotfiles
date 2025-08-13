@@ -9,12 +9,10 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./niri-module.nix
-      ./tidal-module.nix
     ];
 
   custom.niri.enable = true; 
   custom.niri.wallpaper = "https://w.wallhaven.cc/full/je/wallhaven-je8rwq.jpg";
-  custom.tidal.enable = true;
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

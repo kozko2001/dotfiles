@@ -15,6 +15,7 @@
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     # hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     # waybar.url = "github:Alexays/Waybar";
@@ -26,7 +27,7 @@
   };
 
   # outputs = inputs@{ self, nixpkgs, home-manager, darwin, hyprland, waybar }: {
-  outputs = {nixpkgs, home-manager, darwin, nixos-hardware, ...} @ inputs: {
+  outputs = {nixpkgs, home-manager, darwin, nixos-hardware, mcp-servers-nix, ...} @ inputs: {
     nixosConfigurations = {
       tower = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
