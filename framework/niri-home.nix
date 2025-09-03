@@ -113,7 +113,7 @@ in {
         "Mod+Return" { spawn "alacritty"; }
         "Mod+d" { spawn "rofi" "-show" "drun"; }
         "Mod+Shift+e" { spawn "wlogout"; }
-        "Mod+p" { spawn "keepassxc"; }
+        "Mod+p" { spawn "keepmenu -C"; }
 
         "Mod+q" { close-window; }
 

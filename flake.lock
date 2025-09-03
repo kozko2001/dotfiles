@@ -45,11 +45,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1756691810,
-        "narHash": "sha256-YIkYO+Q6cOFl3YAKkVrQbXK/+DfljBt+2eyC9iJvRYg=",
+        "lastModified": 1756913530,
+        "narHash": "sha256-sMrbTlvQ25wyiGfAhAkWeb6BSpFMa8zfPkeadQhsyj8=",
         "owner": "natsukium",
         "repo": "mcp-servers-nix",
-        "rev": "6fe67e28e3cf6d78a4bc12ad57ec2169c7117a0e",
+        "rev": "a0b663533e0cbbdf5c3c5ca638d908a4447a2a8b",
         "type": "github"
       },
       "original": {
@@ -60,11 +60,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1756750488,
-        "narHash": "sha256-e4ZAu2sjOtGpvbdS5zo+Va5FUUkAnizl4wb0/JlIL2I=",
+        "lastModified": 1756925795,
+        "narHash": "sha256-kUb5hehaikfUvoJDEc7ngiieX88TwWX/bBRX9Ar6Tac=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "47eb4856cfd01eaeaa7bb5944a0f27db8fb9b94a",
+        "rev": "ba6fab29768007e9f2657014a6e134637100c57d",
         "type": "github"
       },
       "original": {

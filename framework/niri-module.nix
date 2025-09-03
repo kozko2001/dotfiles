@@ -93,7 +93,7 @@ in {
       xwayland-satellite
       
       # Cursor theme
-      libsForQt5.breeze-qt5
+      kdePackages.breeze
     ];
 
     # Font configuration

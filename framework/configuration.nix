@@ -192,6 +192,7 @@
     lact
     proton-pass
     devenv
+    protonvpn-gui
   ];
 
   services.openssh =

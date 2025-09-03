@@ -44,6 +44,7 @@
     vial
     claude-code
     qbittorrent
+    keepmenu
   ];
 
   programs.home-manager.enable = true;
@@ -70,6 +71,19 @@
     source = ./../apps/nvim;
     recursive = true;
   };
+  
+  home.file."${config.xdg.configHome}/keepmenu/config.ini".text = ''
+    [dmenu]
+    dmenu_command = rofi -dmenu -i -p "KeePass"
+    
+    [database]
+    # Database path - you'll need to set this to your .kdbx file
+    database_1 = /home/kozko/keepass/keepass.kdbx
+    
+    [dmenu_passphrase]
+    # Optional: customize passphrase prompt
+    # dmenu_command = rofi -dmenu -password -p "Passphrase"
+  '';
   services.syncthing = {
     enable = true;
   };
