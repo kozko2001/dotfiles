@@ -24,7 +24,7 @@
     xfce.thunar
     unzip
     udiskie
-    ns-usbloader
+    # ns-usbloader  # Temporarily disabled - broken in current nixpkgs
     age
     htop
     lazygit
@@ -40,18 +40,22 @@
     lua-language-server
     marksman
     tridactyl-native
-    calibre
     vial
     claude-code
     qbittorrent
     keepmenu
+    calibre
   ];
 
   programs.home-manager.enable = true;
   programs.git = {
     enable = true;
-    userName = "Jordi Coscolla";
-    userEmail = "jordi@coscolla.net";
+    settings = {
+      user = {
+        name = "Jordi Coscolla";
+        email = "jordi@coscolla.net";
+      };
+    };
     ignores = [
       "target"
         ".vscode"
@@ -61,7 +65,10 @@
     ];
   };
 
-  programs.git.difftastic.enable = true;
+  programs.difftastic = {
+    enable = true;
+    git.enable = true;
+  };
 
   home.file."${config.xdg.configHome}/tridactyl" = {
     source = ./../apps/tridactyl;

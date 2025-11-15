@@ -1,15 +1,37 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 with lib;
 
 let
   cfg = config.custom.niri;
+  quickshellPackage = inputs.quickshell.packages.${pkgs.system}.default;
 in {
   options.custom.niri = {
     enable = mkEnableOption "Enable niri home-manager configuration";
   };
-
+  imports = [
+    inputs.dankMaterialShell.homeModules.dankMaterialShell.default
+  ];
+  
   config = mkIf cfg.enable {
+    programs.dankMaterialShell = {
+      enable = true;
+      enableCalendarEvents = false;
+      systemd.enable = true;
+      quickshell.package = quickshellPackage;
+    };
+
+    # Service used by DMS
+    services.cliphist = {
+      enable = true;
+      allowImages = true;
+    };
+
+    # Keep clipboard content even after source application closes
+    services.wl-clip-persist = {
+      enable = true;
+      clipboardType = "regular";  # Only persist regular clipboard (recommended)
+    };
     # Niri configuration via config file
     home.file."${config.xdg.configHome}/niri/config.kdl".text = ''
       input {
@@ -80,9 +102,6 @@ in {
         DISPLAY ":0"
       }
       spawn-at-startup "xwayland-satellite"
-      spawn-at-startup "waybar"
-      spawn-at-startup "mako"
-      spawn-at-startup "wpaperd"
 
       window-rule {
         geometry-corner-radius 8.0
@@ -111,6 +130,7 @@ in {
 
       binds {
         "Mod+Return" { spawn "alacritty"; }
+        "Ctrl+Shift+p" { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
         "Mod+d" { spawn "rofi" "-show" "drun"; }
         "Mod+Shift+e" { spawn "wlogout"; }
         "Mod+p" { spawn "keepmenu" "-C"; }
@@ -469,7 +489,6 @@ in {
     # Rofi configuration
     programs.rofi = {
       enable = true;
-      package = pkgs.rofi-wayland;
       extraConfig = {
         display-drun = "Applications";
         display-window = "Windows";

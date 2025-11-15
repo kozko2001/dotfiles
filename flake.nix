@@ -17,6 +17,14 @@
     };
     mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    dankMaterialShell = {
+      url = "github:AvengeMedia/DankMaterialShell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    quickshell = {
+      url = "git+https://github.com/outfoxxed/quickshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     # waybar.url = "github:Alexays/Waybar";
     # nixos-cosmic = {
@@ -66,6 +74,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.kozko = import ./framework/home.nix;
+            home-manager.extraSpecialArgs = { inherit inputs; };
           }
           { nixpkgs.overlays = [ (import ./home/overlays.nix) ]; }
           nixos-hardware.nixosModules.framework-13-7040-amd

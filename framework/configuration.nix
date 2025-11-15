@@ -97,11 +97,6 @@
         enable = true;
         enable32Bit = true;
     };
-
-    amdgpu.amdvlk = {
-        enable = true;
-        support32Bit.enable = true;
-    };
   };
 
   # Enable sound with pipewire.
@@ -181,18 +176,20 @@
     docker-compose
     obsidian
     mangohud
-    protonvpn-gui
+    # protonvpn-gui  # Temporarily disabled - broken in current nixpkgs
     gnomeExtensions.tiling-shell
     gnomeExtensions.forge
     wl-clipboard ## need for neovim
     devbox
     mesa
     vulkan-tools
-    glxinfo
+    mesa-demos  # provides glxinfo
     lact
     proton-pass
     devenv
-    protonvpn-gui
+    # protonvpn-gui  # Temporarily disabled - broken in current nixpkgs (duplicate entry)
+    codex
+    telegram-desktop
   ];
 
   services.openssh =
@@ -210,7 +207,7 @@
   virtualisation.docker.enable = true;
   services.udisks2.enable = true;
   services.blueman.enable = true;
-  programs.ns-usbloader.enable = true;
+  # programs.ns-usbloader.enable = true;  # Temporarily disabled - broken in current nixpkgs
   programs.steam = {
     enable = true;
     gamescopeSession.enable = true;

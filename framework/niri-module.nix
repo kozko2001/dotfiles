@@ -33,7 +33,7 @@ in {
       enable = true;
       settings = {
         default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd niri-session";
+          command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd niri-session";
           user = "greeter";
         };
       };
@@ -72,7 +72,7 @@ in {
       wpaperd
       
       # Utilities
-      rofi-wayland
+      rofi
       wl-clipboard
       grim
       slurp
@@ -94,6 +94,8 @@ in {
       
       # Cursor theme
       kdePackages.breeze
+
+      nautilus ## need to show dialos in portal
     ];
 
     # Font configuration
