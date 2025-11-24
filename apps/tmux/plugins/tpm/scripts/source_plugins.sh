@@ -21,7 +21,7 @@ silently_source_all_tmux_files() {
 			# unexpanded glob which obviously doesn't exist
 			[ -f "$tmux_file" ] || continue
 			# runs *.tmux file as an executable
-			$tmux_file >/dev/null 2>&1
+			$tmux_file >/dev/null 2>&1 || { tmux display "Plugin $(basename ${plugin_path}) failed" && false; }
 		done
 	fi
 }

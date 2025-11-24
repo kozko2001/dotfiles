@@ -64,6 +64,7 @@ return {
 		"saghen/blink.cmp",
 		dependencies = "rafamadriz/friendly-snippets",
 		version = "1.*",
+    build = 'cargo build --release',
 		opts = {
 			keymap = { preset = "default" },
 			appearance = {
@@ -78,6 +79,7 @@ return {
 				-- 		return ctx.mode == "cmdline" and "auto_insert" or "preselect"
 				-- 	end,
 				-- },
+        --
 				documentation = {
 					auto_show = true,
 					auto_show_delay_ms = 250,
@@ -164,19 +166,10 @@ return {
 			end)
 
 			-- (Optional) Configure lua language server for neovim
-			require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
-			require("lspconfig").ts_ls.setup({})
-			require("lspconfig").svelte.setup({})
-			require("lspconfig").pyright.setup({})
-			require("lspconfig").elixirls.setup({
-				cmd = { "elixir-ls" },
-			})
-			require("lspconfig").clojure_lsp.setup({
-				cmd = { "clojure-lsp" },
-			})
-
-			require("lspconfig").ocamllsp.setup({})
-			require("lspconfig").marksman.setup({})
+			vim.lsp.config("lua_ls", lsp.nvim_lua_ls())
+			vim.lsp.config("ts_ls", {})
+			vim.lsp.config("pyright", {})
+			vim.lsp.config("marksman", {})
 			lsp.set_server_config({
 				capabilities = {
 					textDocument = {

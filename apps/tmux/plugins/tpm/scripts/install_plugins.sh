@@ -17,10 +17,10 @@ clone() {
 	local branch="$2"
 	if [ -n "$branch" ]; then
 		cd "$(tpm_path)" &&
-			GIT_TERMINAL_PROMPT=0 git clone -b "$branch" --single-branch --recursive "$plugin" >/dev/null 2>&1
+			GIT_TERMINAL_PROMPT=0 git clone --depth 1 -b "$branch" --single-branch --recursive "$plugin" >/dev/null 2>&1
 	else
 		cd "$(tpm_path)" &&
-			GIT_TERMINAL_PROMPT=0 git clone --single-branch --recursive "$plugin" >/dev/null 2>&1
+			GIT_TERMINAL_PROMPT=0 git clone --depth 1 --single-branch --recursive "$plugin" >/dev/null 2>&1
 	fi
 }
 
@@ -54,8 +54,9 @@ install_plugins() {
 	local plugins="$(tpm_plugins_list_helper)"
 	for plugin in $plugins; do
 		IFS='#' read -ra plugin <<< "$plugin"
-		install_plugin "${plugin[0]}" "${plugin[1]}"
+		install_plugin "${plugin[0]}" "${plugin[1]}"&
 	done
+	wait
 }
 
 verify_tpm_path_permissions() {
