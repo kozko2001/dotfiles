@@ -170,6 +170,9 @@ return {
 			vim.lsp.config("ts_ls", {})
 			vim.lsp.config("pyright", {})
 			vim.lsp.config("marksman", {})
+			vim.lsp.config("kotlin_lsp", {})
+
+      vim.lsp.enable('kotlin_lsp')
 			lsp.set_server_config({
 				capabilities = {
 					textDocument = {
