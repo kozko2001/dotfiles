@@ -21,19 +21,34 @@
   boot.extraModprobeConfig = ''
     options amdgpu si_support=1 cik_support=1
   '';
-  #
-  # powerManagement.enable = true;
-  # powerManagement.cpuFreqGovernor = "powersave";
-  # systemd.sleep.extraConfig = ''
-  #   HibernateDelaySec=300
-  # '';
-  # services.logind.lidSwitch = "suspend-then-hibernate";
-  # services.logind.extraConfig = ''
-  #   HandleLidSwitchDocked=ignore
-  # '';
+  powerManagement.enable = true;
 
-  # services.upower.enable = true;
-  services.power-profiles-daemon.enable = true;
+  # auto-cpufreq: automatically switches governor based on AC/battery
+  services.auto-cpufreq = {
+    enable = true;
+    settings = {
+      battery = {
+        governor = "powersave";
+        energy_performance_preference = "power";
+        turbo = "never";
+      };
+      charger = {
+        governor = "performance";
+        energy_performance_preference = "performance";
+        turbo = "auto";
+      };
+    };
+  };
+
+  # Suspend-then-hibernate on lid close (saves power if you forget)
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=300
+  '';
+  services.logind.lidSwitch = "suspend-then-hibernate";
+  services.logind.settings.Login.HandleLidSwitchDocked = "ignore";
+
+  services.upower.enable = true;
+  services.power-profiles-daemon.enable = false;
   networking.hostName = "framework"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -204,6 +219,9 @@
     jmtpfs                 # CLI/FUSE option
     gvfs
     libmtp
+    pcsx2
+    p7zip
+    jdk
   ];
  
   services.openssh =

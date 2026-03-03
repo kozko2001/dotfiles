@@ -22,10 +22,10 @@ in {
     };
 
     # Service used by DMS
-    services.cliphist = {
-      enable = true;
-      allowImages = true;
-    };
+    # services.cliphist = {
+    #   enable = true;
+    #   allowImages = true;
+    # };
 
     # Keep clipboard content even after source application closes
     services.wl-clip-persist = {
