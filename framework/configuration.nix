@@ -89,7 +89,10 @@
 
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.hplip ];
+  };
   services.pulseaudio.enable = false;
   
   hardware = {
@@ -167,6 +170,7 @@
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
+    hplip
     neovim
     keepassxc
     git
@@ -190,8 +194,18 @@
     # protonvpn-gui  # Temporarily disabled - broken in current nixpkgs (duplicate entry)
     codex
     telegram-desktop
+    mpv
+    jellyfin-mpv-shim
+    lmstudio
+    localsend
+    duckdb
+    awscli2
+    android-file-transfer  # GUI option
+    jmtpfs                 # CLI/FUSE option
+    gvfs
+    libmtp
   ];
-
+ 
   services.openssh =
     {
       enable = true;
@@ -258,10 +272,22 @@
 
   services.tailscale.enable = true;
 
-  services.envfs.enable = true; # create /bin and /usr/bin symlinks to correct store location
-  programs.adb.enable = true;
+  # services.envfs.enable = true; # create /bin and /usr/bin symlinks to correct store location
   systemd.packages = with pkgs; [ lact ];
   systemd.services.lactd.wantedBy = ["multi-user.target"];
 
   nix.settings.trusted-users = [ "root" "kozko" ];
+  services.flatpak.enable = true;
+  programs.nix-ld = {
+    enable = true;
+    # libraries = with pkgs; [
+    #   stdenv.cc.cc
+    #   zlib
+    #   zstd
+    #   curl
+    #   bzip2
+    # ];
+  };
+  services.gvfs.enable = true;
+  programs.dconf.enable = true;
 }

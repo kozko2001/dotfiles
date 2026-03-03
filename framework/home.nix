@@ -39,12 +39,24 @@
     typescript-language-server
     lua-language-server
     marksman
+    # Python
+    uv
+    pyright
+    ruff
+    python314
+    # Node.js
+    nodejs
+    pnpm
+    vscode-langservers-extracted
+    biome
     tridactyl-native
     vial
     claude-code
+    opencode
     qbittorrent
     keepmenu
     calibre
+    joplin-desktop
   ];
 
   programs.home-manager.enable = true;
@@ -112,6 +124,33 @@
   programs.bat.enable = true;
   programs.fzf.enable = true;
   programs.fzf.enableZshIntegration = true;
+
+  programs.emacs = {
+    enable = true;
+    package = pkgs.emacs;
+    extraPackages = (epkgs: [
+      # Using with-grammars to select specific grammars and avoid broken tree-sitter-razor
+      (epkgs.treesit-grammars.with-grammars (grammars: with grammars; [
+        tree-sitter-c
+        tree-sitter-cpp
+        tree-sitter-rust
+        tree-sitter-python
+        tree-sitter-javascript
+        tree-sitter-typescript
+        tree-sitter-tsx
+        tree-sitter-json
+        tree-sitter-yaml
+        tree-sitter-toml
+        tree-sitter-markdown
+        tree-sitter-bash
+        tree-sitter-nix
+        tree-sitter-lua
+        tree-sitter-go
+        tree-sitter-html
+        tree-sitter-css
+      ]))
+    ]);
+  };
 
   programs.zsh = {
     enable = true;

@@ -12,7 +12,10 @@
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
-
+  boot.kernelParams = [ 
+    "amd_pstate=active"
+    "amdgpu.ppfeaturemask=0xffffffff"
+  ];
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/5a73add8-4982-4155-82c4-bd0fa7f38ad2";
       fsType = "ext4";
