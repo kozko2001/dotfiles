@@ -1,11 +1,13 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, inputs, ... }: {
   imports = [
     ./../home/tmux.nix
     ./../home/alacritty.nix
     ./niri-home.nix
+    ./hermes-home.nix
   ];
 
   custom.niri.enable = true;
+  custom.hermes-agent.enable = true;
 
   home.username = "kozko";
   home.homeDirectory = "/home/kozko";
@@ -57,6 +59,7 @@
     keepmenu
     calibre
     joplin-desktop
+    fluffychat
   ];
 
   programs.home-manager.enable = true;

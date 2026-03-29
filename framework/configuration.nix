@@ -41,11 +41,10 @@
   };
 
   # Suspend-then-hibernate on lid close (saves power if you forget)
-  systemd.sleep.extraConfig = ''
-    HibernateDelaySec=300
-  '';
+  systemd.sleep.settings.Sleep.HibernateDelaySec = 300;
   services.logind.lidSwitch = "suspend-then-hibernate";
   services.logind.settings.Login.HandleLidSwitchDocked = "ignore";
+  services.logind.settings.Login.HandleLidSwitchExternalPower = "ignore";
 
   services.upower.enable = true;
   services.power-profiles-daemon.enable = false;
@@ -58,6 +57,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.powersave = false;
 
   # Set your time zone.
   time.timeZone = "Europe/Madrid";
@@ -222,6 +222,8 @@
     pcsx2
     p7zip
     jdk
+    openai-whisper
+    google-chrome
   ];
  
   services.openssh =
@@ -239,7 +241,7 @@
   virtualisation.docker.enable = true;
   services.udisks2.enable = true;
   services.blueman.enable = true;
-  # programs.ns-usbloader.enable = true;  # Temporarily disabled - broken in current nixpkgs
+  programs.ns-usbloader.enable = true;  # Temporarily disabled - broken in current nixpkgs
   programs.steam = {
     enable = true;
     gamescopeSession.enable = true;
@@ -290,11 +292,22 @@
 
   services.tailscale.enable = true;
 
+
   # services.envfs.enable = true; # create /bin and /usr/bin symlinks to correct store location
   systemd.packages = with pkgs; [ lact ];
   systemd.services.lactd.wantedBy = ["multi-user.target"];
 
-  nix.settings.trusted-users = [ "root" "kozko" ];
+  nix.settings = {
+    trusted-users = [ "root" "kozko" ];
+    substituters = [
+      "https://cache.nixos.org"
+      "https://cache.numtide.com"
+    ];
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+    ];
+  };
   services.flatpak.enable = true;
   programs.nix-ld = {
     enable = true;

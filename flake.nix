@@ -21,8 +21,8 @@
       url = "github:AvengeMedia/DankMaterialShell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    quickshell = {
-      url = "git+https://github.com/outfoxxed/quickshell";
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";

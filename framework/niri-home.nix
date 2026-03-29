@@ -4,7 +4,6 @@ with lib;
 
 let
   cfg = config.custom.niri;
-  quickshellPackage = inputs.quickshell.packages.${pkgs.system}.default;
 in {
   options.custom.niri = {
     enable = mkEnableOption "Enable niri home-manager configuration";
@@ -18,7 +17,7 @@ in {
       enable = true;
       enableCalendarEvents = false;
       systemd.enable = true;
-      quickshell.package = quickshellPackage;
+      quickshell.package = pkgs.quickshell;
     };
 
     # Service used by DMS
@@ -595,9 +594,10 @@ in {
           command = "${pkgs.niri}/bin/niri msg action power-off-monitors";
           resumeCommand = "${pkgs.niri}/bin/niri msg action power-on-monitors";
         }
-        { 
-          timeout = 1200; 
-          command = "${pkgs.systemd}/bin/systemctl suspend";
+        {
+          timeout = 1200;
+          # Only suspend when on battery; skip when plugged into AC (e.g. opencode running)
+          command = "${pkgs.bash}/bin/bash -c 'cat /sys/class/power_supply/AC/online | grep -q 0 && ${pkgs.systemd}/bin/systemctl suspend'";
         }
       ];
     };
