@@ -96,8 +96,8 @@
     qmk
     qmk-udev-rules # the only relevant
     qmk_hid
-    via
-    vial
+    # via
+    # vial
   ]; # packages
 
 }; # udev
@@ -224,6 +224,10 @@
     jdk
     openai-whisper
     google-chrome
+
+    ## remove drm books
+    python313Packages.pycryptodome
+    libgourou
   ];
  
   services.openssh =
