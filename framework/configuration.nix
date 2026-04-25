@@ -16,6 +16,7 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.supportedFilesystems = [ "nfs" ];
   
   # Ensure proper AMDGPU module loading
   boot.extraModprobeConfig = ''
@@ -195,7 +196,6 @@
     docker-compose
     obsidian
     mangohud
-    # protonvpn-gui  # Temporarily disabled - broken in current nixpkgs
     gnomeExtensions.tiling-shell
     gnomeExtensions.forge
     wl-clipboard ## need for neovim
@@ -204,11 +204,10 @@
     vulkan-tools
     mesa-demos  # provides glxinfo
     lact
-    proton-pass
-    devenv
-    # protonvpn-gui  # Temporarily disabled - broken in current nixpkgs (duplicate entry)
-    codex
-    telegram-desktop
+     proton-pass
+     devenv
+     bindfs
+     telegram-desktop
     mpv
     jellyfin-mpv-shim
     lmstudio
@@ -224,10 +223,14 @@
     jdk
     openai-whisper
     google-chrome
+    claude-code
 
     ## remove drm books
     python313Packages.pycryptodome
     libgourou
+    luarocks
+    lua5_1
+    tree-sitter
   ];
  
   services.openssh =
@@ -281,7 +284,7 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 9090 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
@@ -295,6 +298,27 @@
   system.stateVersion = "24.11"; # Did you read the comment?
 
   services.tailscale.enable = true;
+
+  fileSystems."/mnt/nas" = {
+    device = "192.168.1.241:/volume1/kubernetes";
+    fsType = "nfs";
+    options = [ "vers=4.1" "nofail" "x-systemd.automount" "x-systemd.mount-timeout=10" "_netdev" ];
+  };
+
+  systemd.tmpfiles.rules = [
+    "d /mnt/nas-user 0755 kozko users -"
+  ];
+
+  systemd.services.bindfs-nas = {
+    description = "Bind mount NAS with user permissions";
+    after = [ "mnt-nas.mount" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.bindfs}/bin/bindfs -u 1000 -g 1000 /mnt/nas /mnt/nas-user";
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+  };
 
 
   # services.envfs.enable = true; # create /bin and /usr/bin symlinks to correct store location

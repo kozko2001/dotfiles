@@ -30,7 +30,6 @@
     lazygit
     kubectl
     feh
-    code-cursor
     gnumake
     gcc
     heroic
@@ -51,12 +50,10 @@
     biome
     tridactyl-native
     vial
-    claude-code
     opencode
     qbittorrent
     keepmenu
     calibre
-    joplin-desktop
     fluffychat
   ];
 
