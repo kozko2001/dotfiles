@@ -63,3 +63,11 @@ and decrypt with...
 ```
 age -d -i ~/.ssh/id_rsa apps/nvim/openai.age
 ```
+
+### remote 
+
+nixos-rebuild switch \
+  --flake .#new-moriarty \
+  --target-host kozko@192.168.1.245 \
+  --use-remote-sudo --ask-sudo-password
+

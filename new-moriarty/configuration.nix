@@ -73,6 +73,14 @@
     };
   };
 
+  # NFS client kernel modules (required for kubelet to mount NFS PVCs)
+  # rbd module required for Rook-Ceph RBD block device PVCs
+  boot.kernelModules = [ "nfs" "nfsv4" "rbd" "ceph" ];
+
+  # RPC bind daemon — required by the NFS client stack
+  services.rpcbind.enable = true;
+
+
   environment.systemPackages = with pkgs; [
     neovim
     git
@@ -81,6 +89,7 @@
     wget
     kubectl
     k9s
+    nfs-utils
   ];
 
   services.openssh = {
@@ -110,8 +119,6 @@
     serverAddr = "https://192.168.1.246:6443";
     tokenFile = "/etc/k3s-token";
   };
-
-  systemd.services.k3s.serviceConfig.RestartSec = "10s";
 
   system.stateVersion = "24.11";
 }
