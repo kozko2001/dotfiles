@@ -21,7 +21,7 @@
     ripgrep
     k9s
     killall
-    xfce.thunar
+    thunar
     unzip
     udiskie
     # ns-usbloader  # Temporarily disabled - broken in current nixpkgs
@@ -60,6 +60,7 @@
   programs.home-manager.enable = true;
   programs.git = {
     enable = true;
+    signing.format = null;
     settings = {
       user = {
         name = "Jordi Coscolla";

@@ -1,66 +1,5 @@
 return {
 	{
-		"VonHeikemen/lsp-zero.nvim",
-		branch = "v2.x",
-		lazy = true,
-		config = function()
-			-- This is where you modify the settings for lsp-zero
-			-- Note: autocompletion settings will not take effect
-
-			require("lsp-zero.settings").preset({})
-		end,
-	},
-
-	-- Autocompletion
-	-- {
-	-- 	"hrsh7th/nvim-cmp",
-	-- 	event = "InsertEnter",
-	-- 	dependencies = {
-	-- 		{
-	-- 			"L3MON4D3/LuaSnip",
-	-- 			dependencies = {
-	-- 				"rafamadriz/friendly-snippets",
-	-- 				config = function()
-	-- 					require("luasnip.loaders.from_vscode").lazy_load()
-	-- 				end,
-	-- 			},
-	-- 		},
-	-- 		{ "hrsh7th/cmp-buffer" },
-	-- 		{ "hrsh7th/cmp-path" },
-	-- 		{ "hrsh7th/cmp-nvim-lsp" },
-	-- 		{
-	-- 			"saadparwaiz1/cmp_luasnip",
-	-- 		},
-	-- 	},
-	-- 	config = function()
-	-- 		-- Here is where you configure the autocompletion settings.
-	-- 		-- The arguments for .extend() have the same shape as `manage_nvim_cmp`:
-	-- 		-- https://github.com/VonHeikemen/lsp-zero.nvim/blob/v2.x/doc/md/api-reference.md#manage_nvim_cmp
-	--
-	-- 		require("lsp-zero.cmp").extend()
-	--
-	-- 		-- And you can configure cmp even more, if you want to.
-	-- 		local cmp = require("cmp")
-	-- 		local cmp_action = require("lsp-zero.cmp").action()
-	--
-	-- 		cmp.setup({
-	-- 			completion = { completeopt = "menu,menuone,noinsert" },
-	-- 			sources = {
-	-- 				{ name = "path" },
-	-- 				{ name = "nvim_lsp" },
-	-- 				{ name = "buffer", keyword_length = 3 },
-	-- 				{ name = "luasnip", keyword_length = 1 },
-	-- 			},
-	-- 			mapping = {
-	-- 				["<C-space>"] = cmp.mapping.complete(),
-	-- 				["<C-f>"] = cmp_action.luasnip_jump_forward(),
-	-- 				["<C-b>"] = cmp_action.luasnip_jump_backward(),
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- }, -- LSP
-
-	{
 		"saghen/blink.cmp",
 		dependencies = "rafamadriz/friendly-snippets",
 		version = "1.*",
@@ -74,12 +13,6 @@ return {
 
 			signature = { enabled = true, window = { border = "rounded" } },
 			completion = {
-				-- list = {
-				-- 	selection = function(ctx)
-				-- 		return ctx.mode == "cmdline" and "auto_insert" or "preselect"
-				-- 	end,
-				-- },
-				--
 				documentation = {
 					auto_show = true,
 					auto_show_delay_ms = 250,
@@ -91,8 +24,8 @@ return {
 				default = { "lsp", "path", "snippets", "buffer" },
 				providers = {
 					lsp = {
-						min_keyword_length = 2, -- Number of characters to trigger porvider
-						score_offset = 0, -- Boost/penalize the score of the items
+						min_keyword_length = 2,
+						score_offset = 0,
 					},
 					path = {
 						min_keyword_length = 0,
@@ -113,27 +46,15 @@ return {
 		cmd = "LspInfo",
 		event = { "BufRead", "BufNewFile" },
 		dependencies = {
-			-- { "hrsh7th/cmp-nvim-lsp" },
 			{ "williamboman/mason-lspconfig.nvim", "saghen/blink.cmp" },
-			-- { Not using things should be installed using nix
-			-- 	"williamboman/mason.nvim",
-			-- 	build = function()
-			-- 		pcall(vim.cmd, "MasonUpdate")
-			-- 	end,
-			-- 	opts = {
-			-- 		ensure_installed = {
-			-- 			"stylua",
-			-- 			"shfmt",
-			-- 			"flake8",
-			-- 			"shellcheck",
-			-- 		},
-			-- 	},
-			-- },
 			{
-				"folke/neodev.nvim",
-				config = function()
-					require("neodev").setup({})
-				end,
+				"folke/lazydev.nvim",
+				ft = "lua",
+				opts = {
+					library = {
+						{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+					},
+				},
 			},
 			{
 				"kevinhwang91/nvim-ufo",
@@ -157,41 +78,48 @@ return {
 			},
 		},
 		config = function()
-			-- This is where all the LSP shenanigans will live
-			local capabilities = require("blink.cmp").get_lsp_capabilities()
-			local lsp = require("lsp-zero").preset({})
-
-			lsp.on_attach(function(_, bufnr)
-				lsp.default_keymaps({ buffer = bufnr })
-			end)
-
-			-- (Optional) Configure lua language server for neovim
-			require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
-			require("lspconfig").ts_ls.setup({})
-			require("lspconfig").svelte.setup({})
-			require("lspconfig").pyright.setup({})
-			require("lspconfig").eslint.setup({})
-			require("lspconfig").elixirls.setup({
-				cmd = { "elixir-ls" },
-			})
-			require("lspconfig").clojure_lsp.setup({
-				cmd = { "clojure-lsp" },
-			})
-
-			-- rust-analyzer is managed by rustaceanvim (lua/plugins/rust.lua)
-			require("lspconfig").ocamllsp.setup({})
-			require("lspconfig").marksman.setup({})
-			lsp.set_server_config({
-				capabilities = {
-					textDocument = {
-						foldingRange = {
-							dynamicRegistration = false,
-							lineFoldingOnly = true,
-						},
+			local capabilities = vim.tbl_deep_extend("force", require("blink.cmp").get_lsp_capabilities(), {
+				textDocument = {
+					foldingRange = {
+						dynamicRegistration = false,
+						lineFoldingOnly = true,
 					},
 				},
 			})
-			lsp.setup()
+
+			vim.lsp.config("*", { capabilities = capabilities })
+
+			vim.api.nvim_create_autocmd("LspAttach", {
+				callback = function(ev)
+					local buf = ev.buf
+					vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = buf })
+					vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = buf })
+					vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = buf })
+					vim.keymap.set("n", "go", vim.lsp.buf.type_definition, { buffer = buf })
+					vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = buf })
+					vim.keymap.set("n", "gs", vim.lsp.buf.signature_help, { buffer = buf })
+					vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, { buffer = buf })
+					vim.keymap.set("n", "<F3>", function() vim.lsp.buf.format() end, { buffer = buf })
+					vim.keymap.set("n", "<F4>", vim.lsp.buf.code_action, { buffer = buf })
+					vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end, { buffer = buf })
+					vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end, { buffer = buf })
+				end,
+			})
+
+			vim.lsp.config("elixirls", { cmd = { "elixir-ls" } })
+			vim.lsp.config("clojure_lsp", { cmd = { "clojure-lsp" } })
+
+			vim.lsp.enable({
+				"lua_ls",
+				"ts_ls",
+				"svelte",
+				"pyright",
+				"eslint",
+				"elixirls",
+				"clojure_lsp",
+				"ocamllsp",
+				"marksman",
+			})
 		end,
 	},
 }

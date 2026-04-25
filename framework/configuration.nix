@@ -43,7 +43,7 @@
 
   # Suspend-then-hibernate on lid close (saves power if you forget)
   systemd.sleep.settings.Sleep.HibernateDelaySec = 300;
-  services.logind.lidSwitch = "suspend-then-hibernate";
+  services.logind.settings.Login.HandleLidSwitch = "suspend-then-hibernate";
   services.logind.settings.Login.HandleLidSwitchDocked = "ignore";
   services.logind.settings.Login.HandleLidSwitchExternalPower = "ignore";
 
@@ -191,7 +191,7 @@
     keepassxc
     git
 
-    inputs.zen-browser.packages."${system}".default
+    inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default
     swayidle
     docker-compose
     obsidian
@@ -224,7 +224,7 @@
     openai-whisper
     google-chrome
     claude-code
-    protonvpn-gui
+    proton-vpn
 
     ## remove drm books
     python313Packages.pycryptodome
@@ -232,6 +232,8 @@
     luarocks
     lua5_1
     tree-sitter
+
+    godot
   ];
  
   services.openssh =

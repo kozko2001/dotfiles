@@ -9,11 +9,11 @@ in {
     enable = mkEnableOption "Enable niri home-manager configuration";
   };
   imports = [
-    inputs.dankMaterialShell.homeModules.dankMaterialShell.default
+    inputs.dankMaterialShell.homeModules.dank-material-shell
   ];
   
   config = mkIf cfg.enable {
-    programs.dankMaterialShell = {
+    programs.dank-material-shell = {
       enable = true;
       enableCalendarEvents = false;
       systemd.enable = true;
@@ -101,6 +101,8 @@ in {
         DISPLAY ":0"
       }
       spawn-at-startup "xwayland-satellite"
+      spawn-at-startup "blueman-applet"
+      spawn-at-startup "nm-applet" "--indicator"
 
       window-rule {
         geometry-corner-radius 8.0
@@ -579,10 +581,10 @@ in {
     # Swayidle for power management with media detection
     services.swayidle = {
       enable = true;
-      events = [
-        { event = "before-sleep"; command = "${pkgs.swaylock-effects}/bin/swaylock -f"; }
-        { event = "lock"; command = "${pkgs.swaylock-effects}/bin/swaylock -f"; }
-      ];
+      events = {
+        before-sleep = "${pkgs.swaylock-effects}/bin/swaylock -f";
+        lock = "${pkgs.swaylock-effects}/bin/swaylock -f";
+      };
       timeouts = [
         { 
           timeout = 300; 
@@ -657,43 +659,6 @@ in {
         Type = "oneshot";
         RemainAfterExit = true;
         ExecStart = "${pkgs.swaybg}/bin/swaybg -i ~/.config/wallpaper.jpg -m fill";
-      };
-      
-      Install = {
-        WantedBy = [ "graphical-session.target" ];
-      };
-    };
-
-    # Auto-start services
-    systemd.user.services.blueman-applet = {
-      Unit = {
-        Description = "Bluetooth manager applet";
-        After = [ "graphical-session-pre.target" ];
-        PartOf = [ "graphical-session.target" ];
-      };
-      
-      Service = {
-        Type = "simple";
-        ExecStart = "${pkgs.blueman}/bin/blueman-applet";
-        Restart = "on-failure";
-      };
-      
-      Install = {
-        WantedBy = [ "graphical-session.target" ];
-      };
-    };
-
-    systemd.user.services.network-manager-applet = {
-      Unit = {
-        Description = "Network manager applet";
-        After = [ "graphical-session-pre.target" ];
-        PartOf = [ "graphical-session.target" ];
-      };
-      
-      Service = {
-        Type = "simple";
-        ExecStart = "${pkgs.networkmanagerapplet}/bin/nm-applet";
-        Restart = "on-failure";
       };
       
       Install = {
