@@ -37,6 +37,19 @@
   # outputs = inputs@{ self, nixpkgs, home-manager, darwin, hyprland, waybar }: {
   outputs = {nixpkgs, home-manager, darwin, nixos-hardware, mcp-servers-nix, ...} @ inputs: {
     nixosConfigurations = {
+      new-moriarty = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./new-moriarty/configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.kozko = import ./new-moriarty/home.nix;
+          }
+          { nixpkgs.overlays = [ (import ./home/overlays.nix) ]; }
+        ];
+      };
       tower = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [

@@ -204,10 +204,10 @@
     vulkan-tools
     mesa-demos  # provides glxinfo
     lact
-     proton-pass
-     devenv
-     bindfs
-     telegram-desktop
+    proton-pass
+    devenv
+    bindfs
+    telegram-desktop
     mpv
     jellyfin-mpv-shim
     lmstudio
@@ -224,6 +224,7 @@
     openai-whisper
     google-chrome
     claude-code
+    protonvpn-gui
 
     ## remove drm books
     python313Packages.pycryptodome
