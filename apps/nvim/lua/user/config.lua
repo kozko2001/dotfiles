@@ -50,3 +50,10 @@ vim.opt.splitbelow = true
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true
+vim.api.nvim_create_autocmd("BufEnter", {
+	callback = function(opts)
+		if vim.bo[opts.buf].filetype == "markdown" then
+			vim.opt.conceallevel = 2
+		end
+	end,
+})

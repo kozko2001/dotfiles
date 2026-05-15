@@ -59,6 +59,7 @@
   # Enable networking
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.powersave = false;
+  networking.nftables.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Madrid";
@@ -205,11 +206,9 @@
     mesa-demos  # provides glxinfo
     lact
     proton-pass
-    devenv
     bindfs
     telegram-desktop
-    mpv
-    jellyfin-mpv-shim
+    # jellyfin-mpv-shim
     lmstudio
     localsend
     duckdb
@@ -234,6 +233,8 @@
     tree-sitter
 
     godot
+
+    element-desktop
   ];
  
   services.openssh =
@@ -249,6 +250,7 @@
 
   programs.zsh.enable = true;
   virtualisation.docker.enable = true;
+  virtualisation.waydroid.enable = true;
   services.udisks2.enable = true;
   services.blueman.enable = true;
   programs.ns-usbloader.enable = true;  # Temporarily disabled - broken in current nixpkgs
@@ -305,7 +307,7 @@
   fileSystems."/mnt/nas" = {
     device = "192.168.1.241:/volume1/kubernetes";
     fsType = "nfs";
-    options = [ "vers=4.1" "nofail" "x-systemd.automount" "x-systemd.mount-timeout=10" "_netdev" ];
+    options = [ "vers=4.1" "nofail" "x-systemd.mount-timeout=10" "_netdev" ];
   };
 
   systemd.tmpfiles.rules = [
@@ -315,6 +317,7 @@
   systemd.services.bindfs-nas = {
     description = "Bind mount NAS with user permissions";
     after = [ "mnt-nas.mount" ];
+    requires = [ "mnt-nas.mount" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       ExecStart = "${pkgs.bindfs}/bin/bindfs -u 1000 -g 1000 /mnt/nas /mnt/nas-user";

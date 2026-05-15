@@ -79,6 +79,7 @@ in {
       mako
       blueman
       networkmanagerapplet
+      polkit_gnome
       pavucontrol
       brightnessctl
       
