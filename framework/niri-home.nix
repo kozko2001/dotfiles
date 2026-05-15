@@ -134,7 +134,7 @@ in {
         "Ctrl+Shift+p" { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
         "Mod+d" { spawn "rofi" "-show" "drun"; }
         "Mod+Shift+e" { spawn "wlogout"; }
-        "Mod+p" { spawn "keepmenu" "-C"; }
+        "Mod+p" { spawn "keepass-kzk-menu"; }
 
         "Mod+q" { close-window; }
 

@@ -55,6 +55,7 @@
     keepmenu
     calibre
     fluffychat
+    inputs.keepass-kzk-menu.packages.${pkgs.system}.default
   ];
 
   programs.home-manager.enable = true;
@@ -90,6 +91,12 @@
     recursive = true;
   };
   
+  home.file."${config.xdg.configHome}/keepass-kzk-menu/config".text = ''
+    database_path     = /home/kozko/keepass/keepass.kdbx
+    clipboard_timeout = 30
+    max_last_used     = 10
+  '';
+
   home.file."${config.xdg.configHome}/keepmenu/config.ini".text = ''
     [dmenu]
     dmenu_command = rofi -dmenu -i -p "KeePass"

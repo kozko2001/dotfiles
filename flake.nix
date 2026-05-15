@@ -25,6 +25,10 @@
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    keepass-kzk-menu = {
+      url = "github:kozko2001/keepass-kzk-menu";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     # waybar.url = "github:Alexays/Waybar";
     # nixos-cosmic = {
