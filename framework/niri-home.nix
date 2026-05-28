@@ -7,6 +7,11 @@ let
 in {
   options.custom.niri = {
     enable = mkEnableOption "Enable niri home-manager configuration";
+    wallpaper = mkOption {
+      type = types.str;
+      default = "https://w.wallhaven.cc/full/je/wallhaven-je8rwq.jpg";
+      description = "Wallpaper URL to download on first activation";
+    };
   };
   imports = [
     inputs.dankMaterialShell.homeModules.dank-material-shell
@@ -250,9 +255,6 @@ in {
         "XF86AudioPrev" { spawn "playerctl" "previous"; }
       }
 
-      debug {
-        render-drm-device "/dev/dri/renderD128"
-      }
     '';
 
 
@@ -762,7 +764,7 @@ in {
     home.activation.setupWallpaper = lib.hm.dag.entryAfter ["writeBoundary"] ''
       $DRY_RUN_CMD mkdir -p ~/.config
       if [ ! -f ~/.config/wallpaper.jpg ]; then
-        $DRY_RUN_CMD ${pkgs.curl}/bin/curl -L "https://4kwallpapers.com/images/walls/thumbs_3t/15623.jpg" -o ~/.config/wallpaper.jpg
+        $DRY_RUN_CMD ${pkgs.curl}/bin/curl -L "${cfg.wallpaper}" -o ~/.config/wallpaper.jpg
       fi
     '';
   };

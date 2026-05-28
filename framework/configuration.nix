@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 {
   imports =
@@ -11,8 +11,7 @@
       ./niri-module.nix
     ];
 
-  custom.niri.enable = true; 
-  custom.niri.wallpaper = "https://w.wallhaven.cc/full/je/wallhaven-je8rwq.jpg";
+  custom.niri.enable = true;
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -22,7 +21,14 @@
   boot.extraModprobeConfig = ''
     options amdgpu si_support=1 cik_support=1
   '';
+
   powerManagement.enable = true;
+  hardware.bluetooth.enable = true;
+
+  # Required for suspend-then-hibernate to restore the RAM image from swap.
+  # NOTE: swap partition must be >= RAM size or hibernate will silently fail.
+  boot.resumeDevice = "/dev/disk/by-uuid/5a73add8-4982-4155-82c4-bd0fa7f38ad2";
+  boot.kernelParams = [ "resume_offset=2379776" ];
 
   # auto-cpufreq: automatically switches governor based on AC/battery
   services.auto-cpufreq = {
@@ -79,19 +85,6 @@
     LC_TIME = "es_ES.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.videoDrivers = [ "amdgpu" ];
-
-  # Enable the GNOME Desktop Environment.
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
   services.udev = {
 
   packages = with pkgs; [
@@ -152,14 +145,6 @@
 
   };
 
-  # Enable automatic login for the user.
-  services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "kozko";
-
-  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
-  systemd.services."getty@tty1".enable = false;
-  systemd.services."autovt@tty1".enable = false;
-
   # Install firefox.
   programs.firefox = {
     enable = true;
@@ -170,7 +155,6 @@
   nixpkgs.config.allowUnfree = true;
 
   nix = {
-    package = pkgs.nix;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
@@ -193,12 +177,9 @@
     git
 
     inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default
-    swayidle
     docker-compose
     obsidian
     mangohud
-    gnomeExtensions.tiling-shell
-    gnomeExtensions.forge
     wl-clipboard ## need for neovim
     devbox
     mesa
@@ -333,6 +314,7 @@
 
   nix.settings = {
     trusted-users = [ "root" "kozko" ];
+    auto-optimise-store = true;
     substituters = [
       "https://cache.nixos.org"
       "https://cache.numtide.com"

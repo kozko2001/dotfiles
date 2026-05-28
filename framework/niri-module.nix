@@ -7,24 +7,6 @@ let
 in {
   options.custom.niri = {
     enable = mkEnableOption "Enable niri scrolling window manager with custom rice";
-    
-    wallpaper = mkOption {
-      type = types.str;
-      default = "https://4kwallpapers.com/images/walls/thumbs_3t/15623.jpg";
-      description = "Wallpaper URL or path for background";
-    };
-    
-    idleTimeout = mkOption {
-      type = types.int;
-      default = 300;
-      description = "Idle timeout in seconds before screen locks";
-    };
-    
-    dpmsTimeout = mkOption {
-      type = types.int;
-      default = 600;
-      description = "DPMS timeout in seconds before screen turns off";
-    };
   };
 
   config = mkIf cfg.enable {
@@ -46,17 +28,7 @@ in {
 
     # Enable required services for niri
     programs.niri.enable = true;
-    services.pipewire.enable = true;
-    hardware.graphics.enable = true;
     security.polkit.enable = true;
-    
-    # Network and bluetooth
-    networking.networkmanager.enable = true;
-    services.blueman.enable = true;
-    hardware.bluetooth.enable = true;
-    
-    # Power management and idle
-    services.upower.enable = true;
     
     # Required packages for the rice
     environment.systemPackages = with pkgs; [
@@ -73,7 +45,6 @@ in {
       
       # Utilities
       rofi
-      wl-clipboard
       grim
       slurp
       mako

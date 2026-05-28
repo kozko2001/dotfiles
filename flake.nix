@@ -16,6 +16,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
+    mcp-servers-nix.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     dankMaterialShell = {
       url = "github:AvengeMedia/DankMaterialShell";

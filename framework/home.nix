@@ -6,6 +6,7 @@
   ];
 
   custom.niri.enable = true;
+  custom.niri.wallpaper = "https://w.wallhaven.cc/full/je/wallhaven-je8rwq.jpg";
 
   home.username = "kozko";
   home.homeDirectory = "/home/kozko";
@@ -16,7 +17,6 @@
   };
   fonts.fontconfig.enable = true;
   home.packages = with pkgs; [
-    syncthing
     jq
     ripgrep
     k9s
