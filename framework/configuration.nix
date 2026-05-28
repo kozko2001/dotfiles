@@ -17,13 +17,11 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "nfs" ];
   
-  # Ensure proper AMDGPU module loading
-  boot.extraModprobeConfig = ''
-    options amdgpu si_support=1 cik_support=1
-  '';
-
   powerManagement.enable = true;
   hardware.bluetooth.enable = true;
+
+  zramSwap.enable = true;
+  zramSwap.algorithm = "zstd";
 
   # Required for suspend-then-hibernate to restore the RAM image from swap.
   # NOTE: swap partition must be >= RAM size or hibernate will silently fail.
@@ -154,15 +152,19 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 30d --keep 5";
+    flake = "/home/kozko/tmp/dotfiles";
+  };
+
   nix = {
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
-    gc = {
-	    automatic = true;
-	    dates = "weekly";
-	    options = "--delete-older-than 7d";
-    };
+    registry.nixpkgs.flake = inputs.nixpkgs;
+    nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
   };
 
 
@@ -234,7 +236,7 @@
   virtualisation.waydroid.enable = true;
   services.udisks2.enable = true;
   services.blueman.enable = true;
-  programs.ns-usbloader.enable = true;  # Temporarily disabled - broken in current nixpkgs
+  # programs.ns-usbloader.enable = true;  # Broken in current nixpkgs
   programs.steam = {
     enable = true;
     gamescopeSession.enable = true;
@@ -270,7 +272,7 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 9090 ];
+  networking.firewall.allowedTCPPorts = [ 9090 ];  # lact GPU monitor API
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
@@ -318,10 +320,12 @@
     substituters = [
       "https://cache.nixos.org"
       "https://cache.numtide.com"
+      "https://nix-community.cachix.org"
     ];
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCUSeBc="
     ];
   };
   services.flatpak.enable = true;
