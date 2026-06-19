@@ -1,9 +1,30 @@
 ## README
 
-build with:
+### Hosts
 
-linux: `sudo nixos-rebuild --flake .#tower switch`
-mac: 
+| Host | Description |
+|------|-------------|
+| `framework` | Framework 13 AMD 7040 laptop |
+| `tower` | Desktop tower |
+| `new-moriarty` | NAS / home server |
+| `mate` | Secondary machine |
+| `mac` | macOS (nix-darwin) |
+
+### Build
+
+**Linux (framework / tower / new-moriarty / mate) — preferred:**
+```
+nh os switch        # rebuild and activate (framework has flake path pre-configured)
+nh os switch --ask  # for other hosts, or pass hostname explicitly
+```
+
+**Linux — manual:**
+```
+sudo nixos-rebuild switch --flake .#framework
+sudo nixos-rebuild switch --flake .#tower
+```
+
+**mac:**
   1. install nix `sh <(curl -L https://nixos.org/nix/install) --daemon`
   1. install homebrew (nix doesn't use it if it's not installed) `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
   2. install nix-darwin 
@@ -32,18 +53,26 @@ keepassxc-cli attachment-export ~/keepass/keepass.kdbx "digital ocean" "Oceans_i
 ```
 XDG_CONFIG_HOME=/home/kozko/tmp/dotfiles/apps  nvim .
 ```
-## update channels
-
-since we are using flake, we need to say we want to update our flake commit to the channels
+## update flake inputs
 
 ```
 nix flake update
+nh os switch
 ```
 
-then we can use the normal `nixos-rebuild` but with the `--upgrade` flag added
+**Single input** (e.g. only update nixpkgs):
+```
+nix flake update nixpkgs
+nh os switch
+```
+
+## remote rebuild
 
 ```
-sudo nixos-rebuild --flake .#tower switch --upgrade
+nixos-rebuild switch \
+  --flake .#new-moriarty \
+  --target-host kozko@192.168.1.245 \
+  --use-remote-sudo --ask-sudo-password
 ```
 
 ## Secrets
@@ -64,10 +93,4 @@ and decrypt with...
 age -d -i ~/.ssh/id_rsa apps/nvim/openai.age
 ```
 
-### remote 
-
-nixos-rebuild switch \
-  --flake .#new-moriarty \
-  --target-host kozko@192.168.1.245 \
-  --use-remote-sudo --ask-sudo-password
 
