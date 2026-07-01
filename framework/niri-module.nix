@@ -35,8 +35,6 @@ in {
       # Core niri ecosystem
       niri
       waybar
-      swaylock-effects
-      swayidle
       wlogout
       
       # Background and theming
@@ -96,7 +94,5 @@ in {
       ];
     };
 
-    # PAM configuration for swaylock
-    security.pam.services.swaylock = {};
   };
 }

@@ -6,7 +6,6 @@
   ];
 
   custom.niri.enable = true;
-  custom.niri.wallpaper = "https://w.wallhaven.cc/full/je/wallhaven-je8rwq.jpg";
 
   home.username = "kozko";
   home.homeDirectory = "/home/kozko";
@@ -47,14 +46,12 @@
     nodejs
     pnpm
     vscode-langservers-extracted
-    biome
     tridactyl-native
     vial
     opencode
     qbittorrent
     keepmenu
     calibre
-    fluffychat
     inputs.keepass-kzk-menu.packages.${pkgs.system}.default
   ];
 

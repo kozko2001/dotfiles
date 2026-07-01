@@ -40,7 +40,7 @@
   };
 
   # outputs = inputs@{ self, nixpkgs, home-manager, darwin, hyprland, waybar }: {
-  outputs = {nixpkgs, home-manager, darwin, nixos-hardware, mcp-servers-nix, ...} @ inputs: {
+  outputs = {nixpkgs, home-manager, darwin, nixos-hardware, ...} @ inputs: {
     nixosConfigurations = {
       new-moriarty = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";

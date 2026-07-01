@@ -19,6 +19,9 @@
   
   powerManagement.enable = true;
   hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+  hardware.bluetooth.settings.General.Experimental = true;
+  systemd.services.bluetooth.restartIfChanged = false;
 
   zramSwap.enable = true;
   zramSwap.algorithm = "zstd";
@@ -183,16 +186,13 @@
     obsidian
     mangohud
     wl-clipboard ## need for neovim
-    devbox
     mesa
     vulkan-tools
     mesa-demos  # provides glxinfo
-    lact
     proton-pass
     bindfs
     telegram-desktop
-    # jellyfin-mpv-shim
-    lmstudio
+    jellyfin-mpv-shim
     localsend
     duckdb
     awscli2
@@ -203,7 +203,6 @@
     pcsx2
     p7zip
     jdk
-    openai-whisper
     google-chrome
     claude-code
     proton-vpn
@@ -214,8 +213,6 @@
     luarocks
     lua5_1
     tree-sitter
-
-    godot
 
     element-desktop
   ];
@@ -313,6 +310,16 @@
   # services.envfs.enable = true; # create /bin and /usr/bin symlinks to correct store location
   systemd.packages = with pkgs; [ lact ];
   systemd.services.lactd.wantedBy = ["multi-user.target"];
+
+  systemd.services.bluetooth-restart-on-resume = {
+    description = "Restart Bluetooth adapter after system resume";
+    after = [ "post-resume.target" ];
+    wantedBy = [ "post-resume.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "/run/current-system/sw/bin/systemctl restart bluetooth.service";
+    };
+  };
 
   nix.settings = {
     trusted-users = [ "root" "kozko" ];

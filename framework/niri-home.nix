@@ -7,11 +7,6 @@ let
 in {
   options.custom.niri = {
     enable = mkEnableOption "Enable niri home-manager configuration";
-    wallpaper = mkOption {
-      type = types.str;
-      default = "https://w.wallhaven.cc/full/je/wallhaven-je8rwq.jpg";
-      description = "Wallpaper URL to download on first activation";
-    };
   };
   imports = [
     inputs.dankMaterialShell.homeModules.dank-material-shell
@@ -273,8 +268,7 @@ in {
           "pulseaudio" 
           "bluetooth"
           "network" 
-          "custom/idle-inhibit"
-          "battery" 
+          "battery"
           "tray" 
         ];
 
@@ -352,28 +346,6 @@ in {
           tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
           tooltip-format-enumerate-connected-battery = "{device_alias}\t{device_address}\t{device_battery_percentage}%";
           on-click = "blueman-manager";
-        };
-
-        "custom/idle-inhibit" = {
-          format = "{icon}";
-          format-icons = {
-            "activated" = "󰛊";
-            "deactivated" = "󰾫";
-          };
-          exec = "${pkgs.writeShellScript "waybar-idle-inhibit" ''
-            #!/bin/bash
-            while true; do
-              if [ -f /tmp/idle-inhibit-active ]; then
-                echo '{"text": "󰛊", "tooltip": "Idle inhibition active (media playing)", "class": "activated"}'
-              else
-                echo '{"text": "󰾫", "tooltip": "Idle inhibition inactive", "class": "deactivated"}'
-              fi
-              sleep 3
-            done
-          ''}";
-          return-type = "json";
-          interval = 5;
-          tooltip = true;
         };
 
         tray = {
@@ -580,56 +552,6 @@ in {
       };
     };
 
-    # Swayidle for power management with media detection
-    services.swayidle = {
-      enable = true;
-      events = {
-        before-sleep = "${pkgs.swaylock-effects}/bin/swaylock -f";
-        lock = "${pkgs.swaylock-effects}/bin/swaylock -f";
-      };
-      timeouts = [
-        { 
-          timeout = 300; 
-          command = "${pkgs.swaylock-effects}/bin/swaylock -f";
-          resumeCommand = "${pkgs.niri}/bin/niri msg action power-on-monitors";
-        }
-        { 
-          timeout = 600; 
-          command = "${pkgs.niri}/bin/niri msg action power-off-monitors";
-          resumeCommand = "${pkgs.niri}/bin/niri msg action power-on-monitors";
-        }
-        {
-          timeout = 1200;
-          # Only suspend when on battery; skip when plugged into AC (e.g. opencode running)
-          command = "${pkgs.bash}/bin/bash -c 'cat /sys/class/power_supply/AC/online | grep -q 0 && ${pkgs.systemd}/bin/systemctl suspend'";
-        }
-      ];
-    };
-
-    # Swaylock configuration
-    programs.swaylock = {
-      enable = true;
-      package = pkgs.swaylock-effects;
-      settings = {
-        color = "1e1e2e";
-        font-size = 24;
-        indicator-idle-visible = false;
-        indicator-radius = 100;
-        show-failed-attempts = true;
-        image = "~/.config/wallpaper.jpg";
-        effect-blur = "9x5";
-        effect-vignette = "0.5:0.5";
-        ring-color = "7c3aed";
-        key-hl-color = "a6e3a1";
-        line-color = "00000000";
-        inside-color = "00000088";
-        ring-ver-color = "89b4fa";
-        inside-ver-color = "00000088";
-        ring-wrong-color = "f38ba8";
-        inside-wrong-color = "00000088";
-      };
-    };
-
     # Mako notification daemon
     services.mako = {
       enable = true;
@@ -666,106 +588,5 @@ in {
       };
     };
 
-    # Wallpaper service
-    systemd.user.services.wallpaper = {
-      Unit = {
-        Description = "Set wallpaper";
-        After = [ "graphical-session-pre.target" ];
-        PartOf = [ "graphical-session.target" ];
-      };
-      
-      Service = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-        ExecStart = "${pkgs.swaybg}/bin/swaybg -i ~/.config/wallpaper.jpg -m fill";
-      };
-      
-      Install = {
-        WantedBy = [ "graphical-session.target" ];
-      };
-    };
-
-    # Media-aware idle inhibition service
-    systemd.user.services.idle-inhibit = {
-      Unit = {
-        Description = "Idle inhibition for media playback";
-        After = [ "graphical-session-pre.target" ];
-        PartOf = [ "graphical-session.target" ];
-      };
-      
-      Service = {
-        Type = "simple";
-        ExecStart = "${pkgs.writeShellScript "idle-inhibit" ''
-          #!/bin/bash
-          
-          # Function to check if audio is playing
-          is_audio_playing() {
-            # Check if any audio streams are running and not just monitoring
-            ${pkgs.wireplumber}/bin/wpctl status | grep -A 20 "Audio" | grep -q "RUNNING"
-          }
-          
-          # Function to check if video is playing via playerctl
-          is_video_playing() {
-            # Check if any media player is playing
-            ${pkgs.playerctl}/bin/playerctl status 2>/dev/null | grep -q "Playing"
-          }
-          
-          # Function to send idle inhibition signal to swayidle
-          send_inhibit_signal() {
-            ${pkgs.procps}/bin/pkill -STOP swayidle 2>/dev/null || true
-          }
-          
-          # Function to resume swayidle
-          resume_swayidle() {
-            ${pkgs.procps}/bin/pkill -CONT swayidle 2>/dev/null || true
-          }
-          
-          inhibit_active=false
-          
-          while true; do
-            should_inhibit=false
-            
-            # Check various conditions for inhibiting idle
-            if is_audio_playing || is_video_playing; then
-              should_inhibit=true
-            fi
-            
-            # Start inhibiting if we should and aren't already
-            if [ "$should_inhibit" = true ] && [ "$inhibit_active" = false ]; then
-              echo "$(date): Starting idle inhibition (media detected)"
-              send_inhibit_signal
-              inhibit_active=true
-              # Create a marker file for waybar
-              touch /tmp/idle-inhibit-active
-            fi
-            
-            # Stop inhibiting if we shouldn't and are currently
-            if [ "$should_inhibit" = false ] && [ "$inhibit_active" = true ]; then
-              echo "$(date): Stopping idle inhibition (no media detected)"
-              resume_swayidle
-              inhibit_active=false
-              # Remove marker file
-              rm -f /tmp/idle-inhibit-active
-            fi
-            
-            sleep 5
-          done
-        ''}";
-        Restart = "always";
-        RestartSec = 5;
-      };
-      
-      Install = {
-        WantedBy = [ "graphical-session.target" ];
-      };
-    };
-
-    # Download and set wallpaper
-    home.activation.setupWallpaper = lib.hm.dag.entryAfter ["writeBoundary"] ''
-      $DRY_RUN_CMD mkdir -p ~/.config
-      if [ ! -f ~/.config/wallpaper.jpg ]; then
-        $DRY_RUN_CMD ${pkgs.curl}/bin/curl -L "${cfg.wallpaper}" -o ~/.config/wallpaper.jpg
-      fi
-    '';
   };
 }
