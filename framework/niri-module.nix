@@ -29,7 +29,14 @@ in {
     # Enable required services for niri
     programs.niri.enable = true;
     security.polkit.enable = true;
-    
+
+    programs.dms-shell = {
+      enable = true;
+      enableCalendarEvents = false;
+      systemd.enable = true;
+      quickshell.package = pkgs.quickshell;
+    };
+
     # Required packages for the rice
     environment.systemPackages = with pkgs; [
       # Core niri ecosystem

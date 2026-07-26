@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, ... }:
 
 with lib;
 
@@ -8,18 +8,7 @@ in {
   options.custom.niri = {
     enable = mkEnableOption "Enable niri home-manager configuration";
   };
-  imports = [
-    inputs.dankMaterialShell.homeModules.dank-material-shell
-  ];
-  
   config = mkIf cfg.enable {
-    programs.dank-material-shell = {
-      enable = true;
-      enableCalendarEvents = false;
-      systemd.enable = true;
-      quickshell.package = pkgs.quickshell;
-    };
-
     # Service used by DMS
     # services.cliphist = {
     #   enable = true;
@@ -51,12 +40,12 @@ in {
       }
 
       output "eDP-1" {
-        mode "2880x1920@120.000"
+        mode "2880x1920@60.000"
         scale 2.0
         position x=3440 y=0
       }
       output "DP-2" {
-        mode "3440x1440@160.000"
+        mode "3440x1440@60.000"
         position x=0 y=0
       }
       cursor {

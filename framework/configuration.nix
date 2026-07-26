@@ -197,7 +197,6 @@
     duckdb
     awscli2
     android-file-transfer  # GUI option
-    jmtpfs                 # CLI/FUSE option
     gvfs
     libmtp
     pcsx2
