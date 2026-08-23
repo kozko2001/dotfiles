@@ -26,6 +26,10 @@
       url = "github:kozko2001/keepass-kzk-menu";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    kimi-code = {
+      url = "github:MoonshotAI/kimi-code";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     # waybar.url = "github:Alexays/Waybar";
     # nixos-cosmic = {

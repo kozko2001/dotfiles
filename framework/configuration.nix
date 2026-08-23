@@ -26,10 +26,12 @@
   zramSwap.enable = true;
   zramSwap.algorithm = "zstd";
 
-  # Required for suspend-then-hibernate to restore the RAM image from swap.
-  # NOTE: swap partition must be >= RAM size or hibernate will silently fail.
-  boot.resumeDevice = "/dev/disk/by-uuid/5a73add8-4982-4155-82c4-bd0fa7f38ad2";
-  boot.kernelParams = [ "resume_offset=2379776" ];
+  # Hibernation: with systemd in the initrd, systemd records the hibernation
+  # image location in the EFI HibernateLocation variable when suspending, so
+  # no static resumeDevice/resume_offset params are needed (they silently break
+  # if the swapfile is ever recreated or moved).
+  # NOTE: swap partition must still be >= RAM size or hibernate will fail.
+  boot.initrd.systemd.enable = true;
 
   # auto-cpufreq: automatically switches governor based on AC/battery
   services.auto-cpufreq = {
@@ -49,10 +51,18 @@
   };
 
   # Suspend-then-hibernate on lid close (saves power if you forget)
-  systemd.sleep.settings.Sleep.HibernateDelaySec = 300;
+  systemd.sleep.settings.Sleep = {
+    HibernateDelaySec = "30min";
+    # Framework 13 AMD only supports s2idle; state it explicitly.
+    MemorySleepMode = "s2idle";
+    SuspendState = "mem";
+  };
   services.logind.settings.Login.HandleLidSwitch = "suspend-then-hibernate";
   services.logind.settings.Login.HandleLidSwitchDocked = "ignore";
   services.logind.settings.Login.HandleLidSwitchExternalPower = "ignore";
+
+  # Apply powertop's recommended power-saving tunables (USB autosuspend etc.)
+  powerManagement.powertop.enable = true;
 
   services.upower.enable = true;
   services.power-profiles-daemon.enable = false;
@@ -86,17 +96,18 @@
     LC_TIME = "es_ES.UTF-8";
   };
 
-  services.udev = {
-
-  packages = with pkgs; [
-    qmk
-    qmk-udev-rules # the only relevant
-    qmk_hid
-    # via
-    # vial
-  ]; # packages
-
-}; # udev
+## KZK removed qmk cause I am nnot using it ... and it takes a lot of compiling each time
+#   services.udev = {
+#
+#   packages = with pkgs; [
+#     qmk
+#     qmk-udev-rules # the only relevant
+#     qmk_hid
+#     # via
+#     # vial
+#   ]; # packages
+#
+# }; # udev
 
 
   # Enable CUPS to print documents.
@@ -136,9 +147,6 @@
     isNormalUser = true;
     description = "kozko";
     extraGroups = [ "networkmanager" "wheel" "docker" "adbusers" "kvm" "video" "render"];
-    packages = with pkgs; [
-#  thunderbird
-    ];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDbP8q6UqeDNa36mnG0NfZMRks0W4N1ZxNLkDVwkw2NTJQBbwmlsEo0DZ2L13E2eiIT6dEi0f0rfDH4oYgp/z/PUg3uUp+jbS33zTcdseyxX5TapDKNxEuGL9f5rqQrsQL4snZaMAq+URy9kOIZ0oO5Br00jfdio1UWegMkIe49EAGTID5wmKgat/6ISyCzyK1fEMHETNqIEkF6Rzmw7NIB9/1hBwEP7++9X2eyILmTfUkbr5GldQJCYLH3cIT1hNqA7didwhSKeK8mLKFKuWDZG5Tw12QJsMg5mtM4ms+78WJs+kTHnZXazHlUhv1suz0ibt5bVaz1wyHw9bcjsnJoCdqvAnvrrNyKwnyH6nqfi7sGSK4sdAxZJVbwUQppAORSbrSTG7EGZVcy8Uk4qnfgm+u/uOF5oy5w5nf6Z7IBV0myVgemokvCaRn1dFlO82ZP2OpWMAWULLCN28Y8bHrWc/U1zRX3wQvHlcbHT9woFK37OkwMm6dNOvr45PNheik20Zsm0Fl1FNlUEbewrlPPJCGj+t1XQlaSUDbWzcTkUxtB6BwsKcRfy/hcRGc5oMnCUVWrkLBT/awE2zpsDX1INKaJOxt8yH+fUTdvZSkW5UaBfGcnyDBI43Jee5UTU61PgOhD8CSYYIJ1RsYU0Q0IwdVO1vXIRcZaUC6aj/gbZw== kozko@MacBook-Pro-de-Jordi.local"
@@ -163,9 +171,6 @@
   };
 
   nix = {
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
     registry.nixpkgs.flake = inputs.nixpkgs;
     nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
   };
@@ -176,7 +181,6 @@
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
-    hplip
     neovim
     keepassxc
     git
@@ -199,11 +203,12 @@
     android-file-transfer  # GUI option
     gvfs
     libmtp
-    pcsx2
+    # pcsx2 # temporarily disabled: failing to build from source, blocking switch
     p7zip
     jdk
     google-chrome
     claude-code
+    inputs.kimi-code.packages."${pkgs.stdenv.hostPlatform.system}".default
     proton-vpn
 
     ## remove drm books
@@ -214,6 +219,17 @@
     tree-sitter
 
     element-desktop
+    tor-browser
+    protonup-qt
+
+    # LSP servers for neovim (see apps/nvim/lua/lsp/init.lua)
+    lua-language-server
+    pyright
+    ruff
+    typescript-language-server
+    gopls
+    rust-analyzer
+    zls
   ];
  
   services.openssh =
@@ -268,8 +284,9 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 9090 ];  # lact GPU monitor API
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 6884 ];
+  networking.firewall.allowedTCPPortRanges = [ { from = 60000; to = 60010; } ];
+  networking.firewall.allowedUDPPortRanges = [ { from = 6880; to = 7000; } { from = 60000; to = 60010; } ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
@@ -282,6 +299,11 @@
   system.stateVersion = "24.11"; # Did you read the comment?
 
   services.tailscale.enable = true;
+
+  # Tailscale: trust the tailnet interface and allow UDP 41641 for direct connections
+  networking.firewall.trustedInterfaces = [ "tailscale0" ];
+  networking.firewall.checkReversePath = "loose";
+  networking.firewall.allowedUDPPorts = [ 41641 ];
 
   fileSystems."/mnt/nas" = {
     device = "192.168.1.241:/volume1/kubernetes";
@@ -299,9 +321,32 @@
     requires = [ "mnt-nas.mount" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
-      ExecStart = "${pkgs.bindfs}/bin/bindfs -u 1000 -g 1000 /mnt/nas /mnt/nas-user";
+      ExecStart = "${pkgs.bindfs}/bin/bindfs -u 1000 -g 1000 -o allow_other /mnt/nas /mnt/nas-user";
       Type = "oneshot";
       RemainAfterExit = true;
+    };
+  };
+
+  # WiFi can still be associating when network-online.target is reached at boot,
+  # which makes mnt-nas.mount fail immediately with ENETUNREACH (nofail keeps boot
+  # unblocked, but the mount + bindfs-nas are then left dead). Retry periodically
+  # so it self-heals once the network is actually up, without delaying anything else.
+  systemd.services.nas-mount-retry = {
+    description = "Retry NAS mount if it previously failed";
+    serviceConfig.Type = "oneshot";
+    script = ''
+      if systemctl is-failed --quiet mnt-nas.mount; then
+        systemctl restart mnt-nas.mount bindfs-nas.service
+      fi
+    '';
+  };
+
+  systemd.timers.nas-mount-retry = {
+    description = "Periodically retry NAS mount if it previously failed";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnBootSec = "1min";
+      OnUnitActiveSec = "2min";
     };
   };
 
@@ -321,6 +366,7 @@
   };
 
   nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
     trusted-users = [ "root" "kozko" ];
     auto-optimise-store = true;
     substituters = [
