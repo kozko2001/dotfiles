@@ -144,7 +144,7 @@ in {
         "Mod+t" { spawn "focus-or-spawn" "Alacritty" "alacritty"; }
         "Mod+b" { spawn "focus-or-spawn" "zen-beta" "zen-beta"; }
         "Mod+p" { spawn "focus-or-spawn" "org.keepassxc.KeePassXC" "keepassxc"; }
-        "Mod+c" { spawn "focus-or-spawn" "element" "element-desktop"; }
+        "Mod+s" { spawn "focus-or-spawn" "element" "element-desktop"; }
 
         "Mod+q" { close-window; }
 
