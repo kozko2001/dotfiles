@@ -23,6 +23,8 @@ opt.incsearch = true
 
 opt.splitright = true
 opt.splitbelow = true
+-- Don't scroll the current view when opening/closing/resizing splits.
+opt.splitkeep = "screen"
 
 opt.swapfile = false
 opt.backup = false
@@ -33,6 +35,12 @@ opt.timeoutlen = 400
 
 opt.completeopt = { "menuone", "noselect", "popup" }
 
+-- Edit past end-of-line in visual-block mode.
+opt.virtualedit = "block"
+
+-- Single global statusline (mini.statusline).
+opt.laststatus = 3
+
 opt.list = true
 opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
@@ -41,9 +49,10 @@ vim.o.winborder = "rounded"
 -- Neovim 0.10+: live preview of :s and friends in a split.
 vim.o.inccommand = "split"
 
--- Native LSP folding (Neovim 0.10+) instead of a folding plugin.
+-- Treesitter folding instead of a folding plugin: works without an LSP
+-- attached (parsers are installed in lua/treesitter.lua).
 opt.foldmethod = "expr"
-opt.foldexpr = "v:lua.vim.lsp.foldexpr()"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 opt.foldlevel = 99
 opt.foldtext = ""
 

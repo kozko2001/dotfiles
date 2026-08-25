@@ -12,15 +12,8 @@ local function update(bufnr)
     return
   end
 
-  local clients = vim.lsp.get_clients({ bufnr = bufnr, method = "textDocument/codeAction" })
-  if #clients == 0 then
-    clear(bufnr)
-    return
-  end
-
   local win = vim.api.nvim_get_current_win()
   local line = vim.api.nvim_win_get_cursor(win)[1] - 1
-  local params = vim.lsp.util.make_range_params(win, "utf-8")
 
   -- vim.diagnostic.get() returns Neovim's internal diagnostic shape
   -- (lnum/col/end_lnum/end_col); the actual LSP diagnostic object (with a
@@ -31,6 +24,23 @@ local function update(bufnr)
       lsp_diagnostics[#lsp_diagnostics + 1] = d.user_data.lsp
     end
   end
+
+  -- No diagnostics on this line: with an empty diagnostics context servers
+  -- only ever return whole-file "source.*" actions, which we deliberately
+  -- exclude below — so the bulb could never light. Skip the LSP request
+  -- entirely instead of pinging every client on each CursorHold.
+  if #lsp_diagnostics == 0 then
+    clear(bufnr)
+    return
+  end
+
+  local clients = vim.lsp.get_clients({ bufnr = bufnr, method = "textDocument/codeAction" })
+  if #clients == 0 then
+    clear(bufnr)
+    return
+  end
+
+  local params = vim.lsp.util.make_range_params(win, "utf-8")
   -- Exclude "source.*" kinds (organize imports, fix-all, etc): those are
   -- whole-file actions servers offer unconditionally at every cursor
   -- position, not something specific to this line — including them makes
@@ -66,11 +76,21 @@ local function update(bufnr)
   end)
 end
 
-vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+-- Normal mode only: CursorHoldI would fire on every typing pause in insert
+-- mode. The sign is cleared as soon as the cursor moves (it only reflects
+-- the line it was computed for) or the buffer is left.
+vim.api.nvim_create_autocmd("CursorHold", {
   desc = "Show a sign when an LSP code action is available at the cursor",
   group = vim.api.nvim_create_augroup("config-lightbulb", { clear = true }),
   callback = function(args)
     update(args.buf)
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "CursorMoved", "BufLeave" }, {
+  group = "config-lightbulb",
+  callback = function(args)
+    clear(args.buf)
   end,
 })
 

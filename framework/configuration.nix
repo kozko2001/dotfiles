@@ -230,6 +230,7 @@
     gopls
     rust-analyzer
     zls
+    marksman
   ];
  
   services.openssh =

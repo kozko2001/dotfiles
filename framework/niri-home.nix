@@ -9,6 +9,24 @@ in {
     enable = mkEnableOption "Enable niri home-manager configuration";
   };
   config = mkIf cfg.enable {
+    home.packages = with pkgs; [
+      jq
+      (writeShellScriptBin "focus-or-spawn" ''
+        APP_ID="$1"
+        shift
+
+        WINDOW_ID=$(niri msg windows | awk -v id="$APP_ID" '
+          /^Window ID [0-9]+:/ { wid=$3; sub(/:$/,"",wid) }
+          $1 == "App" && $2 == "ID:" { gsub(/"/,"",$3); if ($3 == id) print wid }
+        ' | head -1)
+
+        if [ -n "$WINDOW_ID" ]; then
+          niri msg action focus-window --id "$WINDOW_ID"
+        else
+          exec "$@"
+        fi
+      '')
+    ];
     # Service used by DMS
     # services.cliphist = {
     #   enable = true;
@@ -123,7 +141,10 @@ in {
         "Ctrl+Shift+p" { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
         "Mod+d" { spawn "rofi" "-show" "drun"; }
         "Mod+Shift+e" { spawn "wlogout"; }
-        "Mod+p" { spawn "keepass-kzk-menu"; }
+        "Mod+t" { spawn "focus-or-spawn" "Alacritty" "alacritty"; }
+        "Mod+b" { spawn "focus-or-spawn" "zen-beta" "zen-beta"; }
+        "Mod+p" { spawn "focus-or-spawn" "org.keepassxc.KeePassXC" "keepassxc"; }
+        "Mod+c" { spawn "focus-or-spawn" "element" "element-desktop"; }
 
         "Mod+q" { close-window; }
 

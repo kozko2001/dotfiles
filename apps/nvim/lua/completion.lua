@@ -7,6 +7,23 @@
 -- <C-y>          accept selected item
 -- <C-e>          abort completion
 
+-- Global <C-Space>: open the completion menu on demand. With an attached
+-- completion-capable LSP client it triggers LSP completion (omnifunc path:
+-- this build has no vim.lsp.completion.trigger()); otherwise it falls back
+-- to built-in buffer-word completion, so it works in every buffer.
+vim.keymap.set("i", "<C-Space>", function()
+  local clients = vim.lsp.get_clients({ bufnr = 0, method = "textDocument/completion" })
+  if #clients > 0 then
+    if vim.lsp.completion.trigger then
+      vim.lsp.completion.trigger()
+    else
+      vim.fn.feedkeys(vim.keycode("<C-x><C-o>"), "n")
+    end
+  else
+    vim.fn.feedkeys(vim.keycode("<C-x><C-n>"), "n")
+  end
+end, { desc = "Trigger completion (LSP or buffer words)" })
+
 vim.api.nvim_create_autocmd("LspAttach", {
   desc = "Enable native LSP completion",
   group = vim.api.nvim_create_augroup("config-lsp-completion", { clear = true }),
