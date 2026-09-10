@@ -30,6 +30,9 @@
       url = "github:MoonshotAI/kimi-code";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hermes-agent = {
+      url = "github:NousResearch/hermes-agent";
+    };
     # hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     # waybar.url = "github:Alexays/Waybar";
     # nixos-cosmic = {
@@ -93,6 +96,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.kozko = import ./framework/home.nix;
             home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.backupFileExtension = "backup";
           }
           { nixpkgs.overlays = [ (import ./home/overlays.nix) ]; }
           nixos-hardware.nixosModules.framework-13-7040-amd

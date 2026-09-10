@@ -209,6 +209,7 @@
     google-chrome
     claude-code
     inputs.kimi-code.packages."${pkgs.stdenv.hostPlatform.system}".default
+    inputs.hermes-agent.packages."${pkgs.stdenv.hostPlatform.system}".desktop
     proton-vpn
 
     ## remove drm books

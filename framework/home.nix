@@ -33,6 +33,7 @@
     gcc
     heroic
     unrar
+    supersonic
     stylua
     typescript-language-server
     lua-language-server
