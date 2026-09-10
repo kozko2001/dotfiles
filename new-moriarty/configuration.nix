@@ -116,6 +116,8 @@
   services.k3s = {
     enable = true;
     role = "agent";
+    package = pkgs.k3s_1_36; # v1.36.4+k3s1 in the pinned nixpkgs -- matches the
+    # 3 control-plane servers exactly (k8s-config repo's internals/k3s/).
     serverAddr = "https://192.168.1.246:6443";
     tokenFile = "/etc/k3s-token";
   };
