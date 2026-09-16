@@ -23,7 +23,7 @@
     thunar
     unzip
     udiskie
-    # ns-usbloader  # Temporarily disabled - broken in current nixpkgs
+    ns-usbloader
     age
     htop
     lazygit

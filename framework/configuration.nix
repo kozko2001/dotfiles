@@ -9,6 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./niri-module.nix
+      ./monitor-hotplug.nix
     ];
 
   custom.niri.enable = true;
@@ -96,19 +97,10 @@
     LC_TIME = "es_ES.UTF-8";
   };
 
-## KZK removed qmk cause I am nnot using it ... and it takes a lot of compiling each time
-#   services.udev = {
-#
-#   packages = with pkgs; [
-#     qmk
-#     qmk-udev-rules # the only relevant
-#     qmk_hid
-#     # via
-#     # vial
-#   ]; # packages
-#
-# }; # udev
-
+  services.udev.extraRules = ''
+# Nintendo Switch in RCM (NS-USBloader / Tinfoil / Awoo)
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="3000", MODE="0666"
+    '';
 
   # Enable CUPS to print documents.
   services.printing = {
@@ -211,6 +203,7 @@
     inputs.kimi-code.packages."${pkgs.stdenv.hostPlatform.system}".default
     inputs.hermes-agent.packages."${pkgs.stdenv.hostPlatform.system}".desktop
     proton-vpn
+    remmina
 
     ## remove drm books
     python313Packages.pycryptodome

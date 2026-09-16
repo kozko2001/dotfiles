@@ -245,6 +245,7 @@ in {
         "Print" { screenshot; }
         "Ctrl+Print" { screenshot-screen; }
         "Alt+Print" { screenshot-window; }
+        "Mod+Shift+4" { screenshot; }
 
         "Mod+Shift+Ctrl+t" { toggle-debug-tint; }
 
