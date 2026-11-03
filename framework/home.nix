@@ -52,8 +52,9 @@
     opencode
     qbittorrent
     keepmenu
-    calibre
-    inputs.keepass-kzk-menu.packages.${pkgs.system}.default
+    # calibre
+    godot
+    wtype
   ];
 
   programs.home-manager.enable = true;
@@ -89,20 +90,14 @@
     recursive = true;
   };
   
-  home.file."${config.xdg.configHome}/keepass-kzk-menu/config".text = ''
-    database_path     = /home/kozko/keepass/keepass.kdbx
-    clipboard_timeout = 30
-    max_last_used     = 10
-  '';
-
   home.file."${config.xdg.configHome}/keepmenu/config.ini".text = ''
     [dmenu]
     dmenu_command = rofi -dmenu -i -p "KeePass"
-    
+
     [database]
-    # Database path - you'll need to set this to your .kdbx file
     database_1 = /home/kozko/keepass/keepass.kdbx
-    
+    type_library = wtype
+
     [dmenu_passphrase]
     # Optional: customize passphrase prompt
     # dmenu_command = rofi -dmenu -password -p "Passphrase"

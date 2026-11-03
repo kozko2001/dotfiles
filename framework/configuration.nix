@@ -13,12 +13,22 @@
     ];
 
   custom.niri.enable = true;
+
+  # Use the latest kernel packaged in nixpkgs.
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  # Disable the community Framework EC kmod (framework-laptop-kmod), enabled by default on kernel >= 6.10.
+  # TODO: review and remove this line after 2026-11-06 (2 weeks from 2026-10-23).
+  hardware.framework.enableKmod = false;
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "nfs" ];
   
   powerManagement.enable = true;
+
+
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   hardware.bluetooth.settings.General.Experimental = true;
@@ -27,12 +37,12 @@
   zramSwap.enable = true;
   zramSwap.algorithm = "zstd";
 
-  # Hibernation: with systemd in the initrd, systemd records the hibernation
-  # image location in the EFI HibernateLocation variable when suspending, so
-  # no static resumeDevice/resume_offset params are needed (they silently break
-  # if the swapfile is ever recreated or moved).
+  # Hibernation: with systemd in the initrd (now the nixpkgs default; the
+  # scripted initrd was removed), systemd records the hibernation image location
+  # in the EFI HibernateLocation variable when suspending, so no static
+  # resumeDevice/resume_offset params are needed (they silently break if the
+  # swapfile is ever recreated or moved).
   # NOTE: swap partition must still be >= RAM size or hibernate will fail.
-  boot.initrd.systemd.enable = true;
 
   # auto-cpufreq: automatically switches governor based on AC/battery
   services.auto-cpufreq = {
@@ -105,7 +115,14 @@
   # Enable CUPS to print documents.
   services.printing = {
     enable = true;
-    drivers = [ pkgs.hplip ];
+    drivers = [ pkgs.brlaser ];
+  };
+
+  # Network printer discovery (mDNS / Bonjour)
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
   };
   services.pulseaudio.enable = false;
   
@@ -173,7 +190,7 @@
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
-    neovim
+    inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default
     keepassxc
     git
 
@@ -186,7 +203,6 @@
     vulkan-tools
     mesa-demos  # provides glxinfo
     proton-pass
-    bindfs
     telegram-desktop
     jellyfin-mpv-shim
     localsend
@@ -200,7 +216,6 @@
     jdk
     google-chrome
     claude-code
-    inputs.kimi-code.packages."${pkgs.stdenv.hostPlatform.system}".default
     inputs.hermes-agent.packages."${pkgs.stdenv.hostPlatform.system}".desktop
     proton-vpn
     remmina
@@ -225,6 +240,11 @@
     rust-analyzer
     zls
     marksman
+
+    kdePackages.kdenlive 
+    (retroarch.withCores (cores: with cores; [
+                          beetle-psx-hw
+    ]))
   ];
  
   services.openssh =
@@ -300,51 +320,21 @@
   networking.firewall.checkReversePath = "loose";
   networking.firewall.allowedUDPPorts = [ 41641 ];
 
-  fileSystems."/mnt/nas" = {
-    device = "192.168.1.241:/volume1/kubernetes";
-    fsType = "nfs";
-    options = [ "vers=4.1" "nofail" "x-systemd.mount-timeout=10" "_netdev" ];
-  };
-
-  systemd.tmpfiles.rules = [
-    "d /mnt/nas-user 0755 kozko users -"
-  ];
-
-  systemd.services.bindfs-nas = {
-    description = "Bind mount NAS with user permissions";
-    after = [ "mnt-nas.mount" ];
-    requires = [ "mnt-nas.mount" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.bindfs}/bin/bindfs -u 1000 -g 1000 -o allow_other /mnt/nas /mnt/nas-user";
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-  };
-
-  # WiFi can still be associating when network-online.target is reached at boot,
-  # which makes mnt-nas.mount fail immediately with ENETUNREACH (nofail keeps boot
-  # unblocked, but the mount + bindfs-nas are then left dead). Retry periodically
-  # so it self-heals once the network is actually up, without delaying anything else.
-  systemd.services.nas-mount-retry = {
-    description = "Retry NAS mount if it previously failed";
-    serviceConfig.Type = "oneshot";
-    script = ''
-      if systemctl is-failed --quiet mnt-nas.mount; then
-        systemctl restart mnt-nas.mount bindfs-nas.service
-      fi
-    '';
-  };
-
-  systemd.timers.nas-mount-retry = {
-    description = "Periodically retry NAS mount if it previously failed";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnBootSec = "1min";
-      OnUnitActiveSec = "2min";
-    };
-  };
-
+  # NOTE: keep NFS unmounted when idle! systemd daemon-reexec (nixos-rebuild
+  # switch) hangs with NFS mounted: https://github.com/NixOS/nixpkgs/issues/375376
+  # fileSystems."/mnt/nas" = {
+  #   device = "192.168.1.241:/volume1/kubernetes";
+  #   fsType = "nfs";
+  #   options = [
+  #     "vers=4.1"
+  #     "nofail"
+  #     "x-systemd.mount-timeout=10"
+  #     "_netdev"
+  #     "x-systemd.automount"
+  #     "x-systemd.idle-timeout=60"
+  #   ];
+  # };
+  #
 
   # services.envfs.enable = true; # create /bin and /usr/bin symlinks to correct store location
   systemd.packages = with pkgs; [ lact ];
@@ -358,6 +348,18 @@
       Type = "oneshot";
       ExecStart = "/run/current-system/sw/bin/systemctl restart bluetooth.service";
     };
+  };
+
+  systemd.services.touchpad-rebind-on-resume = {
+    description = "Rebind i2c-hid touchpad after system resume";
+    after = [ "post-resume.target" ];
+    wantedBy = [ "post-resume.target" ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      echo "i2c-PIXA3854:00" > /sys/bus/i2c/drivers/i2c_hid_acpi/unbind
+      sleep 2
+      echo "i2c-PIXA3854:00" > /sys/bus/i2c/drivers/i2c_hid_acpi/bind
+    '';
   };
 
   nix.settings = {

@@ -32,7 +32,6 @@ in {
 
     programs.dms-shell = {
       enable = true;
-      enableCalendarEvents = false;
       systemd.enable = true;
       quickshell.package = pkgs.quickshell;
     };

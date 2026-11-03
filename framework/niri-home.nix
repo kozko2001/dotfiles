@@ -143,7 +143,8 @@ in {
         "Mod+Shift+e" { spawn "wlogout"; }
         "Mod+t" { spawn "focus-or-spawn" "Alacritty" "alacritty"; }
         "Mod+b" { spawn "focus-or-spawn" "zen-beta" "zen-beta"; }
-        "Mod+p" { spawn "focus-or-spawn" "org.keepassxc.KeePassXC" "keepassxc"; }
+        "Mod+p" { spawn "keepmenu"; }
+        "Mod+Shift+p" { spawn "focus-or-spawn" "org.keepassxc.KeePassXC" "keepassxc"; }
         "Mod+s" { spawn "focus-or-spawn" "element" "element-desktop"; }
         "Mod+m" { spawn "focus-or-spawn" "Supersonic" "supersonic"; }
 

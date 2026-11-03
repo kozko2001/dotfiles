@@ -8,6 +8,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
     zen-browser.inputs.home-manager.follows = "home-manager";
@@ -20,14 +21,6 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    keepass-kzk-menu = {
-      url = "github:kozko2001/keepass-kzk-menu";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    kimi-code = {
-      url = "github:MoonshotAI/kimi-code";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hermes-agent = {
