@@ -17,7 +17,6 @@ statusline.setup({
 
       local clients = vim.lsp.get_clients({ bufnr = 0 })
       local lsp = clients[1] and clients[1].name or ""
-
       return statusline.combine_groups({
         { hl = "MiniStatuslineMode", strings = { mode } },
         { hl = "MiniStatuslineModeExtra", strings = { git, diagnostics } },

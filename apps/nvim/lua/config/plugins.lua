@@ -8,6 +8,12 @@ vim.pack.add({
   "https://github.com/ibhagwan/fzf-lua",
   "https://github.com/nvim-treesitter/nvim-treesitter",
   "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
+  -- Obsidian vault support (see lua/obsidian_vault.lua). Community fork, no hard deps.
+  {
+    src = "https://github.com/obsidian-nvim/obsidian.nvim",
+    version = vim.version.range("*"), -- latest release tag
+  },
+  "https://github.com/MeanderingProgrammer/render-markdown.nvim",
 })
 
 -- Colorscheme: catppuccin, flavors latte/frappe/macchiato/mocha.
