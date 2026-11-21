@@ -16,16 +16,16 @@
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
-    mcp-servers-nix.inputs.nixpkgs.follows = "nixpkgs";
+    # mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
+    # mcp-servers-nix.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    llm-agents = {
-      url = "github:numtide/llm-agents.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    hermes-agent = {
-      url = "github:NousResearch/hermes-agent";
-    };
+    # llm-agents = {
+    #   url = "github:numtide/llm-agents.nix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+    # hermes-agent = {
+    #   url = "github:NousResearch/hermes-agent";
+    # };
     # hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     # waybar.url = "github:Alexays/Waybar";
     # nixos-cosmic = {

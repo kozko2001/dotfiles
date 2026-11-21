@@ -1,4 +1,3 @@
-# Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
@@ -19,7 +18,12 @@
 
   # Disable the community Framework EC kmod (framework-laptop-kmod), enabled by default on kernel >= 6.10.
   # TODO: review and remove this line after 2026-11-06 (2 weeks from 2026-10-23).
-  hardware.framework.enableKmod = false;
+  # hardware.framework.enableKmod = false;
+
+  hardware.amdgpu = {
+    initrd.enable = true;      # amdgpu loads early; also helps s2idle stability
+    overdrive.enable = true;   # unlocks ppfeaturemask for LACT
+  };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -71,6 +75,10 @@
   services.logind.settings.Login.HandleLidSwitch = "suspend-then-hibernate";
   services.logind.settings.Login.HandleLidSwitchDocked = "ignore";
   services.logind.settings.Login.HandleLidSwitchExternalPower = "ignore";
+
+  # Sync the journal every 10s (default 5min) so the I/O error trail survives a
+  # hard power-off and can be inspected after the next boot.
+  services.journald.settings.Journal.SyncIntervalSec = "10s";
 
   # Apply powertop's recommended power-saving tunables (USB autosuspend etc.)
   powerManagement.powertop.enable = true;
@@ -164,10 +172,10 @@
   };
 
   # Install firefox.
-  programs.firefox = {
-    enable = true;
-    nativeMessagingHosts.packages = [ pkgs.tridactyl-native ];
-  };
+  # programs.firefox = {
+  #   enable = true;
+  #   nativeMessagingHosts.packages = [ pkgs.tridactyl-native ];
+  # };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -203,20 +211,19 @@
     vulkan-tools
     mesa-demos  # provides glxinfo
     proton-pass
-    telegram-desktop
+    # telegram-desktop
     jellyfin-mpv-shim
-    localsend
-    duckdb
+    # localsend
+    # duckdb
     awscli2
     android-file-transfer  # GUI option
     gvfs
     libmtp
-    # pcsx2 # temporarily disabled: failing to build from source, blocking switch
     p7zip
     jdk
-    google-chrome
+    # google-chrome
     claude-code
-    inputs.hermes-agent.packages."${pkgs.stdenv.hostPlatform.system}".desktop
+    # inputs.hermes-agent.packages."${pkgs.stdenv.hostPlatform.system}".desktop
     proton-vpn
     remmina
 
@@ -228,8 +235,6 @@
     tree-sitter
 
     element-desktop
-    tor-browser
-    protonup-qt
 
     # LSP servers for neovim (see apps/nvim/lua/lsp/init.lua)
     lua-language-server
@@ -242,9 +247,10 @@
     marksman
 
     kdePackages.kdenlive 
-    (retroarch.withCores (cores: with cores; [
-                          beetle-psx-hw
-    ]))
+    # (retroarch.withCores (cores: with cores; [
+    #                       beetle-psx-hw
+    # ]))
+    mangohud
   ];
  
   services.openssh =
@@ -263,14 +269,16 @@
   virtualisation.waydroid.enable = true;
   services.udisks2.enable = true;
   services.blueman.enable = true;
-  # programs.ns-usbloader.enable = true;  # Broken in current nixpkgs
-  programs.steam = {
-    enable = true;
-    gamescopeSession.enable = true;
-  };
+  programs.ns-usbloader.enable = true;  # Broken in current nixpkgs
+  # programs.steam = {
+  #   enable = true;
+  #   gamescopeSession = {
+  #     enable = true;
+  #   };
+  # };
   programs.gamescope = {
     enable = true;
-    capSysNice = true;
+    capSysNice = false;
   };
   programs.gamemode = {
       enable = true;
@@ -374,7 +382,7 @@
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCUSeBc="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
   };
   services.flatpak.enable = true;

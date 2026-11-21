@@ -14,6 +14,11 @@
   boot.extraModulePackages = [ ];
   boot.kernelParams = [
     "amd_pstate=active"
+    "preempt=full"
+    # WD_BLACK SN770 root disk: stop APST/ASPM deep power states that can leave
+    # the NVMe controller unresponsive after long idle (-> I/O errors, hang).
+    "nvme_core.default_ps_max_latency_us=0"
+    "pcie_aspm.policy=performance"
   ];
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/5a73add8-4982-4155-82c4-bd0fa7f38ad2";

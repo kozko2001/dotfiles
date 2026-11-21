@@ -48,13 +48,14 @@
     pnpm
     vscode-langservers-extracted
     tridactyl-native
-    vial
-    opencode
+    # opencode
     qbittorrent
     keepmenu
-    # calibre
-    godot
+    # godot
     wtype
+    # audio playback from the terminal: `mpv file.mp3` or `ffplay file.mp3`
+    mpv
+    ffmpeg
   ];
 
   programs.home-manager.enable = true;
@@ -123,33 +124,6 @@
   programs.bat.enable = true;
   programs.fzf.enable = true;
   programs.fzf.enableZshIntegration = true;
-
-  programs.emacs = {
-    enable = true;
-    package = pkgs.emacs;
-    extraPackages = (epkgs: [
-      # Using with-grammars to select specific grammars and avoid broken tree-sitter-razor
-      (epkgs.treesit-grammars.with-grammars (grammars: with grammars; [
-        tree-sitter-c
-        tree-sitter-cpp
-        tree-sitter-rust
-        tree-sitter-python
-        tree-sitter-javascript
-        tree-sitter-typescript
-        tree-sitter-tsx
-        tree-sitter-json
-        tree-sitter-yaml
-        tree-sitter-toml
-        tree-sitter-markdown
-        tree-sitter-bash
-        tree-sitter-nix
-        tree-sitter-lua
-        tree-sitter-go
-        tree-sitter-html
-        tree-sitter-css
-      ]))
-    ]);
-  };
 
   programs.zsh = {
     enable = true;
