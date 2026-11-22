@@ -251,6 +251,7 @@
     #                       beetle-psx-hw
     # ]))
     mangohud
+    ncdu
   ];
  
   services.openssh =

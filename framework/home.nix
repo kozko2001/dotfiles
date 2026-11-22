@@ -3,6 +3,7 @@
     ./../home/tmux.nix
     ./../home/alacritty.nix
     ./niri-home.nix
+    ./blender.nix
   ];
 
   custom.niri.enable = true;
