@@ -1,6 +1,7 @@
 { config, pkgs, lib, inputs, ... }: {
   imports = [
     ./../home/tmux.nix
+    ./../home/herdr.nix
     ./../home/alacritty.nix
     ./niri-home.nix
     ./blender.nix
@@ -132,17 +133,16 @@
     initContent = ''
       eval "$(zoxide init zsh)"
       alias fkill='ps -ef | sed 1d | tac | fzf -m | awk "{print \$2}" | xargs kill -9'
+
+      # Start herdr on every interactive terminal. herdr sets HERDR_ENV=1 in its
+      # panes, so the shells it spawns don't launch herdr again.
+      if [[ -o interactive && -z "$HERDR_ENV" && -z "$TMUX" ]]; then
+        exec herdr
+      fi
       '';
     oh-my-zsh = {
       enable = true;
-      plugins = [
-        "tmux"
-      ];
-    };
-    sessionVariables = {
-      ZSH_TMUX_AUTOSTART = "true";
-      ZSH_TMUX_AUTOCONNECT = "true";
-      ZSH_TMUX_CONFIG = "/home/kozko/.config/tmux/tmux.conf";
+      plugins = [ ];
     };
 
   };

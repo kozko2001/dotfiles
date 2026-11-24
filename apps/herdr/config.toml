@@ -1,0 +1,50 @@
+# herdr config, modelled on apps/tmux/tmux.conf
+# Prefix is ctrl+b, same as tmux. "prefix+x" = press ctrl+b, release, press x.
+# Validate with: herdr config check   Apply with: herdr server reload-config
+
+[keys]
+prefix = "ctrl+b"
+
+# -- panes ---------------------------------------------------------------------
+# tmux: prefix - (split top/bottom), prefix _ / prefix v (split side by side)
+split_horizontal = "prefix+minus"
+split_vertical = ["prefix+v", "prefix+shift+minus"]
+
+# tmux: prefix h/j/k/l (move between panes)
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+
+# tmux: prefix H/J/K/L (resize, repeatable). Uses alt to avoid the swap defaults on shift+hjkl.
+resize_pane_left = "prefix+alt+h"
+resize_pane_down = "prefix+alt+j"
+resize_pane_up = "prefix+alt+k"
+resize_pane_right = "prefix+alt+l"
+
+# tmux: prefix x (kill-pane), prefix z (zoom)
+close_pane = "prefix+x"
+zoom = "prefix+z"
+
+# tmux: prefix Enter (copy mode)
+copy_mode = ["prefix+[", "prefix+enter"]
+
+# -- tabs (tmux windows) -------------------------------------------------------
+# tmux: prefix c (new window)
+new_tab = "prefix+c"
+# tmux: prefix n / p, and ctrl+l / ctrl+h (next/previous window without prefix)
+next_tab = ["prefix+n", "ctrl+alt+l"]
+previous_tab = ["prefix+p", "ctrl+alt+h"]
+# tmux: prefix 1..9 (select window)
+switch_tab = "prefix+1..9"
+
+# -- sessions (tmux-session-wizard, prefix t) -----------------------------------
+# herdr calls these workspaces
+workspace_picker = ["prefix+w", "prefix+t"]
+new_workspace = "prefix+shift+n"
+
+# -- worktrees (herdr defaults: new_worktree = prefix+shift+g; open/remove unset) --
+open_worktree = "prefix+shift+o"
+remove_worktree = "prefix+alt+d"  # opens a confirmation prompt
+close_workspace = "prefix+shift+d"
+detach = "prefix+q"
