@@ -84,6 +84,9 @@
   powerManagement.powertop.enable = true;
 
   services.upower.enable = true;
+  # Critical battery used to hybrid-sleep, which hits the broken hibernate path
+  # (mt7921e Wi-Fi fails to restore: -110). Power off instead until hibernate works.
+  services.upower.criticalPowerAction = "PowerOff";
   services.power-profiles-daemon.enable = false;
   networking.hostName = "framework"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -357,6 +360,24 @@
       Type = "oneshot";
       ExecStart = "/run/current-system/sw/bin/systemctl restart bluetooth.service";
     };
+  };
+
+  # Stop USB4/Thunderbolt/USB host controllers from waking the laptop from s2idle.
+  # Logs showed suspends returning after ~1-2s with no real wake reason; these
+  # ports are the enabled wake sources in /proc/acpi/wakeup. The lid still wakes it.
+  systemd.services.disable-usb-wakeup = {
+    description = "Disable USB/Thunderbolt wake sources to stop spurious s2idle wakeups";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      for dev in 0000:c1:00.3 0000:c1:00.4 0000:c3:00.3 0000:c3:00.4 0000:c3:00.5 0000:c3:00.6; do
+        f=/sys/bus/pci/devices/$dev/power/wakeup
+        [ -w "$f" ] && echo disabled > "$f"
+      done
+    '';
   };
 
   systemd.services.touchpad-rebind-on-resume = {
