@@ -48,3 +48,12 @@ open_worktree = "prefix+shift+o"
 remove_worktree = "prefix+alt+d"  # opens a confirmation prompt
 close_workspace = "prefix+shift+d"
 detach = "prefix+q"
+
+# -- popups --------------------------------------------------------------------
+# prefix g: lazygit in a floating popup (closes when lazygit exits)
+[[keys.command]]
+key = "prefix+g"
+type = "popup"
+command = "lazygit"
+width = "80%"
+height = "80%"

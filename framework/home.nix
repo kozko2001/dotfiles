@@ -5,6 +5,7 @@
     ./../home/alacritty.nix
     ./niri-home.nix
     ./blender.nix
+    ./feishin.nix
   ];
 
   custom.niri.enable = true;
@@ -35,7 +36,6 @@
     gcc
     heroic
     unrar
-    supersonic
     stylua
     typescript-language-server
     lua-language-server

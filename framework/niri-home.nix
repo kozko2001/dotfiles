@@ -146,7 +146,6 @@ in {
         "Mod+p" { spawn "keepmenu"; }
         "Mod+Shift+p" { spawn "focus-or-spawn" "org.keepassxc.KeePassXC" "keepassxc"; }
         "Mod+s" { spawn "focus-or-spawn" "element" "element-desktop"; }
-        "Mod+m" { spawn "focus-or-spawn" "Supersonic" "supersonic"; }
 
         "Mod+q" { close-window; }
 
